@@ -7,7 +7,7 @@ import GridCardWrapper, {
   LocationArea,
   TitleArea,
   PriceArea,
-  RatingArea,
+  PriceDiscountArea,
   MetaWrapper,
   ButtonGroup,
 } from './GridCard.style';
@@ -18,7 +18,7 @@ const GridCard = ({
   location,
   title,
   price,
-  rating,
+  priceDiscount,
   editBtn,
   viewDetailsBtn,
   children,
@@ -32,7 +32,7 @@ const GridCard = ({
         {title && <TitleArea>{title}</TitleArea>}
         <MetaWrapper className="meta_wrapper">
           {price && <PriceArea className="price">{price}</PriceArea>}
-          {rating && <RatingArea className="rating">{rating}</RatingArea>}
+          {priceDiscount && <PriceDiscountArea className="price">{priceDiscount}</PriceDiscountArea>}
           {viewDetailsBtn || editBtn ? (
             <ButtonGroup className="button_group">
               {viewDetailsBtn}

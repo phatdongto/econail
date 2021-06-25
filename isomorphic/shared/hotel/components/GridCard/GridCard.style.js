@@ -34,7 +34,11 @@ const GridCardWrapper = styled.div`
     }
   }
 `;
-
+export const Combo =styled.div`
+  position: absolute;
+  top: 8px;
+  right: 16px;
+`;
 export const ImageWrapper = styled.div`
   > img {
     max-width: 100%;
@@ -283,6 +287,14 @@ export const PriceArea = styled.div`
   font-size: 13px;
   font-weight: 400;
   margin-top: 1px;
+  text-decoration: line-through;
+`;
+export const PriceDiscountArea = styled.div`
+  color: ${themeGet('text.0', '#2C2C2C')};
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 1px;
+  font-weight:bold
 `;
 
 export const RatingArea = styled.div`

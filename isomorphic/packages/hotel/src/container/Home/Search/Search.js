@@ -11,18 +11,17 @@ const HomeSearch = ({ searchTitleStyle, searchDescriptionStyle }) => {
     <BannerWrapper>
       <Container>
         <BannerContent>
-          Leave Your Worries Behind And Enjoy Your Trip !
+          Chào mừng đến với ...
         </BannerContent>
         {/* End of banner content */}
         <SearchArea>
           <Heading
             {...searchTitleStyle}
-            content="Latest reviews. Lowest prices."
+            content="Tìm kiếm nhanh sản phẩm và dịch vụ"
           />
           <Text
             {...searchDescriptionStyle}
-            content="compares prices from 200+ booking sites to help you find the lowest
-          price on the right hotel for you."
+            content="Ví dụ:chăm sóc móng, mi, tóc, nhuộm tóc, dưỡng tóc"
           />
           <HomeSearchForm />
         </SearchArea>

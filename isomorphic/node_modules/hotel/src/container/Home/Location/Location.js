@@ -51,8 +51,8 @@ const LocationGrid = () => {
     <LocationWrapper>
       <Container fluid={true}>
         <SectionTitle
-          title={<Heading content="Explore Destinations" />}
-          link={<TextLink link={LISTING_POSTS_PAGE} content="Show all" />}
+          title={<Heading content="Dịch vụ nổi bật" />}
+          link={<TextLink link={LISTING_POSTS_PAGE} content="Xem thêm" />}
         />
 
         <CarouselSection>
@@ -69,8 +69,9 @@ const LocationGrid = () => {
                     <ImageCard
                       link="listing"
                       imageSrc={post.locationImage.url}
-                      title={post.city}
-                      meta={`${post.numberOfPost} Hotels`}
+                      title={`Tên dịch vụ`}
+                      meta={`100000VND`}
+                      sextype={`Dành cho nam`}
                     />
                   </GlideSlide>
                 ))}

@@ -8,7 +8,7 @@ import ImageCardWrapper, {
   Meta,
 } from './ImageCard.style';
 
-const ImageCard = ({ className, imageSrc, title, link, meta }) => {
+const ImageCard = ({ className, imageSrc, title, link, meta,sextype }) => {
   // Add all classs to an array
   const addAllClasses = ['image_card'];
 
@@ -24,6 +24,8 @@ const ImageCard = ({ className, imageSrc, title, link, meta }) => {
         <ContentWrapper>
           {title && <Title>{title}</Title>}
           {meta && <Meta>{meta}</Meta>}
+          <br></br>
+          {sextype && <Meta>{sextype}</Meta>}
         </ContentWrapper>
       </Link>
     </ImageCardWrapper>
@@ -36,6 +38,7 @@ ImageCard.propTypes = {
   title: PropTypes.string,
   link: PropTypes.string,
   meta: PropTypes.string,
+  sextype: PropTypes.string,
 };
 
 ImageCard.defaultProps = {

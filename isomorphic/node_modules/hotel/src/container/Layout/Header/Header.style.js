@@ -161,7 +161,7 @@ export const AvatarInfo = styled.div`
 export const NavbarSearchWrapper = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
+  
 
   @media only screen and (max-width: 480px) {
     padding-right: 15px;
@@ -179,7 +179,7 @@ export const NavbarSearchWrapper = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: ${themeGet('color.1', '#ffffff')};
     height: 48px;
-    min-width: 380px;
+    min-width: 890px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

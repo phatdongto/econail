@@ -35,10 +35,9 @@ const responsive = {
 
 const PostGrid = ({
   title,
-  rating,
-  location,
+  
   price,
-  ratingCount,
+  priceDiscount,
   gallery,
   slug,
   link,
@@ -53,10 +52,11 @@ const PostGrid = ({
           }}
         />
       }
-      location={location.formattedAddress}
+      
       title={<TextLink link={`${link}/${slug}`} content={title} />}
-      price={`$${price}/Night - Free Cancellation`}
-      rating={<Rating rating={rating} ratingCount={ratingCount} type="bulk" />}
+      price={`Giá : ${price} VNĐ` }
+      priceDiscount={`Giá ưu đãi : ${price} VNĐ`}
+      
       viewDetailsBtn={
         <TextLink link={`${link}/${slug}`} content="View Details" />
       }
