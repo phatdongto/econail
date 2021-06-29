@@ -17,12 +17,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 
-import {
-  priceInit,
-  calenderItem,
-  getAmenities,
-  getPropertyType,
-} from './SearchParams';
+import { priceInit, getAmenities, getPropertyType } from './SearchParams';
 import {
   FilterArea,
   FilterElementsWrapper,
@@ -221,45 +216,12 @@ const FilterDrawer = ({ history, location }) => {
                   <IoIosArrowDown />
                 </AccordionItemButton>
               </AccordionItemHeading>
-              <AccordionItemPanel>
-                <DateRangePicker
-                  startDateId="startDate-id-mobile"
-                  endDateId="endDate-id-mobile"
-                  numberOfMonths={1}
-                  small={true}
-                  item={calenderItem}
-                  startDate={
-                    searchDate.setStartDate
-                      ? moment(searchDate.setStartDate)
-                      : null
-                  }
-                  endDate={
-                    searchDate.setEndDate ? moment(searchDate.setEndDate) : null
-                  }
-                  updateSearchData={setDateValue =>
-                    updateSearchDataFunc(setDateValue)
-                  }
-                />
-              </AccordionItemPanel>
+              <AccordionItemPanel></AccordionItemPanel>
             </AccordionItem>
             {/* End of date filter element */}
 
             {/* Start amenities filter element */}
-            <AccordionItem>
-              <AccordionItemHeading>
-                <AccordionItemButton>
-                  <Heading as="h4" content="Amenities" />
-                  <IoIosArrowDown />
-                </AccordionItemButton>
-              </AccordionItemHeading>
-              <AccordionItemPanel>
-                <Checkbox.Group
-                  options={getAmenities.options}
-                  value={amenities}
-                  onChange={onChangeAmenity}
-                />
-              </AccordionItemPanel>
-            </AccordionItem>
+
             {/* End of amenities filter element */}
 
             {/* Start property type filter element */}

@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import Sticky from 'react-stickynode';
 import Toolbar from '@iso/ui/UI/Toolbar/Toolbar';
-import Switch from '@iso/ui/Antd/Switch/Switch';
+
 import CategotySearch from '@hotel/components/Search/CategorySearch/CategotySearch';
 import { HotelPostGridLoader } from '@iso/ui/ContentLoader/ContentLoader';
 import SectionGrid from '@hotel/components/SectionGrid/SectionGrid.cra';
@@ -11,11 +11,7 @@ import useWindowSize from '@iso/lib/hooks/useWindowSize';
 import useDataApi from '@iso/lib/hooks/useDataApi';
 import { SINGLE_POST_PAGE } from '../../settings/constant';
 
-import ListingWrapper, {
-  PostsWrapper,
-  Label,
-  ShowMapSwitch,
-} from './Listing.style';
+import ListingWrapper, { PostsWrapper } from './Listing.style';
 
 export default function Listing({ location, history }) {
   let url = '/data/hotel.json';
@@ -35,9 +31,9 @@ export default function Listing({ location, history }) {
   const { width } = useWindowSize();
 
   // map toggle handler
-  const handleMapToggle = () => {
-    setShowMap(showMap => !showMap);
-  };
+  //const handleMapToggle = () => {
+  // setShowMap(showMap => !showMap);
+  //};
 
   return (
     <ListingWrapper>
@@ -49,12 +45,6 @@ export default function Listing({ location, history }) {
             ) : (
               <FilterDrawer history={history} location={location} />
             )
-          }
-          right={
-            <ShowMapSwitch>
-              <Label>Show map</Label>
-              <Switch defaultChecked={false} onChange={handleMapToggle} />
-            </ShowMapSwitch>
           }
         />
       </Sticky>
