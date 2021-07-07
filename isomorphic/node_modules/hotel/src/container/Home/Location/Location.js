@@ -9,7 +9,10 @@ import SectionTitle from '@hotel/components/SectionTitle/SectionTitle';
 import ImageCard from '@hotel/components/ImageCard/ImageCard';
 import GlideCarousel, { GlideSlide } from '@iso/ui/GlideCarousel/GlideCarousel';
 import useDataApi from '@iso/lib/hooks/useDataApi';
-import { LISTING_POSTS_PAGE } from '../../../settings/constant';
+import {
+  SERVICE_SINGLE_POST_PAGE,
+  LISTING_POSTS_PAGE,
+} from '../../../settings/constant';
 import LocationWrapper, { CarouselSection } from './Location.style';
 const carouselOptions = {
   type: 'carousel',
@@ -67,7 +70,7 @@ const LocationGrid = () => {
                 {data.map((post, index) => (
                   <GlideSlide key={index}>
                     <ImageCard
-                      link="listing"
+                      link="post-service"
                       imageSrc={post.locationImage.url}
                       title={`Tên dịch vụ`}
                       meta={`100000VND`}

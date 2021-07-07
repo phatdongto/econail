@@ -8,7 +8,7 @@ import Button from '@iso/ui/Antd/Button/Button';
 import Container from '@iso/ui/UI/Container/Container';
 import Loader from '@hotel/components/Loader/Loader';
 import useWindowSize from '@iso/lib/hooks/useWindowSize';
-import Description from './Description/Description';
+import Infomation from './Description/Description';
 import Amenities from './Amenities/Amenities';
 import Location from './Location/Location';
 import Review from './Review/Review';
@@ -19,7 +19,8 @@ import SinglePageWrapper, { PostImage } from './SinglePageView.style';
 import PostImageGallery from './ImageGallery/ImageGallery';
 import useDataApi from '@iso/lib/hooks/useDataApi';
 import isEmpty from 'lodash/isEmpty';
-
+import FormActionArea from './Reservation/Reservation.style';
+import Description1 from './Description1/Description1';
 const SinglePage = ({ match }) => {
   const { href } = useLocation();
   const [isModalShowing, setIsModalShowing] = useState(false);
@@ -47,6 +48,7 @@ const SinglePage = ({ match }) => {
 
   return (
     <SinglePageWrapper>
+      <TopBar title={title} shareURL={href} author={author} media={gallery} />
       <PostImage>
         <Button
           type="primary"
@@ -85,20 +87,16 @@ const SinglePage = ({ match }) => {
         </Modal>
       </PostImage>
 
-      <TopBar title={title} shareURL={href} author={author} media={gallery} />
-
       <Container>
         <Row gutter={30} id="reviewSection" style={{ marginTop: 30 }}>
           <Col xl={16}>
-            <Description
+            <Infomation
               content={content}
               title={title}
               location={location}
               rating={rating}
               ratingCount={ratingCount}
             />
-            <Amenities amenities={amenities} />
-            <Location location={data[0]} />
           </Col>
           <Col xl={8}>
             {width > 1200 ? (
@@ -107,9 +105,7 @@ const SinglePage = ({ match }) => {
                 activeClass="isSticky"
                 top={202}
                 bottomBoundary="#reviewSection"
-              >
-                <Reservation />
-              </Sticky>
+              ></Sticky>
             ) : (
               <BottomReservation
                 title={title}
@@ -120,17 +116,9 @@ const SinglePage = ({ match }) => {
             )}
           </Col>
         </Row>
-        <Row gutter={30}>
-          <Col xl={16}>
-            <Review
-              reviews={reviews}
-              ratingCount={ratingCount}
-              rating={rating}
-            />
-          </Col>
-          <Col xl={8} />
-        </Row>
       </Container>
+      <Description1 content={content} />
+      <Review reviews={reviews} ratingCount={ratingCount} rating={rating} />
     </SinglePageWrapper>
   );
 };

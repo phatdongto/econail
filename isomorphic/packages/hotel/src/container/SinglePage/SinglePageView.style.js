@@ -9,7 +9,20 @@ const SinglePageWrapper = styled.div`
     padding-bottom: 0;
   }
 `;
-
+export const Amount = styled.div`
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  padding: 4px 0px 0px 0px;
+`;
+export const Cost = styled.div`
+  font-weight: 700;
+  color: red;
+  margin-bottom: 10px;
+  font-size: 30px;
+`;
 export const LocationMeta = styled.div`
   color: ${themeGet('text.1', '#909090')};
   font-size: 13px;
@@ -30,7 +43,7 @@ export const RatingMeta = styled.div`
   color: ${themeGet('text.0', '#2C2C2C')};
   font-size: 13px;
   margin-top: 2px;
-  margin-bottom: 27px;
+  margin-bottom: 15px;
   @media only screen and (max-width: 767px) {
     margin-bottom: 19px;
   }
@@ -209,12 +222,15 @@ export const ButtonGroup = styled.div`
 `;
 
 export const PostImage = styled.div`
+  margin-top: 40px;
+  margin-left: 50px;
   background-image: url(${singlePostBgImg});
   background-position: center center;
   background-size: cover;
+  width: 500px;
   height: 600px;
   position: relative;
-
+  float: left;
   @media only screen and (max-width: 767px) {
     height: 406px;
   }

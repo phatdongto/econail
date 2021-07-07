@@ -51,6 +51,8 @@ const NavbarWrapper = styled.nav`
 export const LogoArea = styled.div`
   display: flex;
   align-items: center;
+  height: 120px;
+  width: 150px;
   > a {
     margin-right: 27px;
   }

@@ -6,7 +6,9 @@ export const AGENTS_PAGE = '/agents';
 // Listing Single Page Section
 export const LISTING_POSTS_PAGE = '/listing';
 export const SINGLE_POST_PAGE = '/post';
-
+export const SERVICE_SINGLE_POST_PAGE = '/post-service';
+export const SERVICE_LISTING_PAGE = '/service-listing';
+export const SERVICE_ORDER = '/service-order';
 // Agent Profile Page Section
 export const AGENT_PROFILE_PAGE = '/profile';
 export const AGENT_ACCOUNT_SETTINGS_PAGE = '/account-settings';

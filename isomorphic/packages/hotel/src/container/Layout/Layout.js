@@ -17,6 +17,7 @@ import {
   FORGET_PASSWORD_PAGE,
   AGENT_IMAGE_EDIT_PAGE,
   AGENT_PASSWORD_CHANGE_PAGE,
+  SERVICE_ORDER,
 } from '../../settings/constant';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
@@ -42,6 +43,7 @@ export default withRouter(function Layout({ children, location }) {
 
             {location.pathname === LISTING_POSTS_PAGE ||
             location.pathname === PRICING_PLAN_PAGE ||
+            location.pathname === SERVICE_ORDER ||
             location.pathname === ADD_HOTEL_PAGE ||
             location.pathname === AGENT_PROFILE_PAGE ||
             location.pathname === CHANGE_PASSWORD_PAGE ||

@@ -10,11 +10,14 @@ import {
   HOME_PAGE,
   LISTING_POSTS_PAGE,
   SINGLE_POST_PAGE,
+  SERVICE_SINGLE_POST_PAGE,
   ADD_HOTEL_PAGE,
   AGENT_PROFILE_PAGE,
   AGENT_ACCOUNT_SETTINGS_PAGE,
   PRIVACY_PAGE,
   PRICING_PLAN_PAGE,
+  SERVICE_LISTING_PAGE,
+  SERVICE_ORDER,
 } from './settings/constant';
 
 /**
@@ -76,12 +79,43 @@ const routes = [
     }),
   },
   {
+    path: `${SERVICE_SINGLE_POST_PAGE}`,
+    component: Loadable({
+      loader: () =>
+        import(
+          /* webpackChunkName: "SinglePageView" */ './container/ServiceSinglePage/ServiceSinglePage'
+        ),
+      loading: Loading,
+      modules: ['ServiceSinglePageView'],
+    }),
+  },
+  {
+    path: `${SERVICE_ORDER}`,
+    component: Loadable({
+      loader: () =>
+        import(
+          /* webpackChunkName: "SinglePageView" */ './container/ServiceOrder/ServiceOrder'
+        ),
+      loading: Loading,
+      modules: ['ServiceOrder'],
+    }),
+  },
+  {
     path: LISTING_POSTS_PAGE,
     component: Loadable({
       loader: () =>
         import(/* webpackChunkName: "Listing" */ './container/Listing/Listing'),
       loading: Loading,
       modules: ['Listing'],
+    }),
+  },
+  {
+    path: SERVICE_LISTING_PAGE,
+    component: Loadable({
+      loader: () =>
+        import(/* webpackChunkName: "Listing" */ './container/Service/Service'),
+      loading: Loading,
+      modules: ['ServiceListing'],
     }),
   },
   {

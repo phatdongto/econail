@@ -25,7 +25,7 @@ import HeaderWrapper, {
   AvatarInfo,
   LogoArea,
 } from './Header.style';
-
+import LogoImage from './logo_transparent.png';
 // Dummy images
 import DemoLogo from '@hotel/assets/images/logo-alt.svg';
 const AvatarImg = `http://s3.amazonaws.com/redqteam.com/isomorphic-reloaded-image/profilepic.png`;
@@ -56,7 +56,7 @@ export default withRouter(function Header({ location }) {
           <Navbar
             logo={
               <Link to="/">
-                <Logo src={DemoLogo} title="hotel" />
+                <Logo src={LogoImage} title="hotel" />
               </Link>
             }
             navMenu={<MainMenu />}

@@ -1,9 +1,25 @@
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 const ReservationFormWrapper = styled.form`
-  padding: 0 30px;
+  padding: 0px 0px;
+
   @media only screen and (max-width: 375px) {
     padding: 0 15px;
+  }
+  button {
+    float: left;
+    border-radius: 8px;
+    background-color: #008489; /* Green */
+    border: none;
+    color: white;
+
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
   }
 `;
 

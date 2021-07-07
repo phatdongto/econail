@@ -7,6 +7,7 @@ import {
   LISTING_POSTS_PAGE,
   AGENT_PROFILE_PAGE,
   PRICING_PLAN_PAGE,
+  SERVICE_LISTING_PAGE,
 } from '../../../settings/constant';
 
 const MainMenu = ({ className }) => {
@@ -21,7 +22,7 @@ const MainMenu = ({ className }) => {
         <NavLink to={`${LISTING_POSTS_PAGE}`}>Sản phẩm</NavLink>
       </Menu.Item>
       <Menu.Item key="2">
-        <NavLink to={`${AGENT_PROFILE_PAGE}`}>Dịch vụ</NavLink>
+        <NavLink to={`${SERVICE_LISTING_PAGE}`}>Dịch vụ</NavLink>
       </Menu.Item>
       <Menu.Item key="3">
         <NavLink to={`${PRICING_PLAN_PAGE}`}>Liên hệ</NavLink>

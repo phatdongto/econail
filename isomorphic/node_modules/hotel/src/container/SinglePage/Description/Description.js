@@ -6,8 +6,9 @@ import Heading from '@iso/ui/Heading/Heading';
 import Text from '@iso/ui/Text/Text';
 import Button from '@iso/ui/Antd/Button/Button';
 import DescriptionWrapper from './Description.style';
-import { RatingMeta, TextButton } from '../SinglePageView.style';
-
+import { RatingMeta, TextButton, Cost, Amount } from '../SinglePageView.style';
+import AmountBar from '../AmountBar/AmountBar';
+import FormActionArea from '../Reservation/Reservation.style';
 const Description = ({
   title,
   location,
@@ -22,16 +23,20 @@ const Description = ({
   return (
     <Element name="overview" className="overview">
       <DescriptionWrapper>
-        <Text content={location.formattedAddress} {...locationMetaStyle} />
         <Heading as="h2" content={title} {...titleStyle} />
         <RatingMeta>
           <Rating rating={rating} ratingCount={ratingCount} type="bulk" />
         </RatingMeta>
-        <Text content={content} {...contentStyle} />
-        <TextButton>
-          <Button>Read more about the hotel</Button>
-        </TextButton>
+        <Cost>150000đ</Cost>
+        <Amount>
+          Số lượng: <AmountBar />{' '}
+        </Amount>
       </DescriptionWrapper>
+      <FormActionArea>
+        <button htmlType="submit" type="primary">
+          Thêm vào giỏ hàng
+        </button>
+      </FormActionArea>
     </Element>
   );
 };

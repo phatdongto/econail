@@ -9,7 +9,7 @@ import SectionTitle from '@hotel/components/SectionTitle/SectionTitle';
 import ImageCard from '@hotel/components/ImageCard/ImageCard';
 import GlideCarousel, { GlideSlide } from '@iso/ui/GlideCarousel/GlideCarousel';
 import useDataApi from '@iso/lib/hooks/useDataApi';
-import { LISTING_POSTS_PAGE } from '../../../settings/constant';
+import { SERVICE_SINGLE_POST_PAGE } from '../../../settings/constant';
 import LocationWrapper, { CarouselSection } from '../Location/Location.style';
 const carouselOptions = {
   type: 'carousel',
@@ -52,7 +52,7 @@ const LuxaryHotelsGrid = () => {
       <Container fluid={true}>
         <SectionTitle
           title={<Heading content="Ưu đãi hiện có" />}
-          link={<TextLink link={LISTING_POSTS_PAGE} content="Show all" />}
+          link={<TextLink link={SERVICE_SINGLE_POST_PAGE} content="Show all" />}
         />
 
         <CarouselSection>
@@ -84,7 +84,5 @@ const LuxaryHotelsGrid = () => {
     </LocationWrapper>
   );
 };
-
-
 
 export default LuxaryHotelsGrid;
