@@ -124,13 +124,13 @@ export const Title = styled.h2`
   line-height: 54px;
   font-weight: 700;
   margin-bottom: 0;
-  margin-top: 58px;
+  margin-top: 30px;
   @media only screen and (max-width: 1600px) {
-    font-size: 38px;
+    font-size: 30px;
     line-height: 48px;
   }
   @media only screen and (max-width: 1440px) {
-    font-size: 32px;
+    font-size: 30px;
     line-height: 42px;
   }
   @media only screen and (max-width: 1200px) {

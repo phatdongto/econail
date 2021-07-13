@@ -25,7 +25,7 @@ const RenderSignUpForm = props => {
           value={values.username}
           hasFeedback
         />
-        <Field
+        {/* <Field
           component={AntInput}
           name="email"
           type="text"
@@ -35,6 +35,16 @@ const RenderSignUpForm = props => {
           value={values.email}
           hasFeedback
         />
+        <Field
+          component={AntInput}
+          name="phoneNumber"
+          type="text"
+          size="large"
+          placeholder="Phone Number"
+          submitCount={submitCount}
+          value={values.phoneNumber}
+          hasFeedback
+        /> */}
         <Field
           component={AntInput}
           name="password"

@@ -7,7 +7,9 @@ import Button from '@iso/ui/Antd/Button/Button';
 import Logo from '@iso/ui/Logo/Logo';
 import SignUpForm from './SignUpForm';
 import signUpImage from '@hotel/assets/images/login-page-bg.jpg';
-import DemoLogo from '@hotel/assets/images/logo-with-text.svg';
+// import DemoLogo from '@hotel/assets/images/logo-with-text.svg';
+import DemoLogo from '@hotel/assets/images/logo_transparent.png';
+
 import SignUpWrapper, {
   Title,
   TitleInfo,
@@ -17,6 +19,7 @@ import SignUpWrapper, {
 } from './SignUp.style';
 
 import { LOGIN_PAGE } from '../../settings/constant';
+import { reduce } from 'lodash';
 
 export default function SignUp() {
   const [state, setState] = useState({
@@ -45,10 +48,15 @@ export default function SignUp() {
   return (
     <SignUpWrapper>
       <SignUpFormWrapper>
-        <Logo withLink linkTo="/" src={DemoLogo} title="Hotel Logo" />
-        <Title>Welcome To TripFinder</Title>
+        <Row style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: '35%' }}>
+            <Logo withLink linkTo="/" src={DemoLogo} title="Hotel Logo" />
+          </div>
+        </Row>
+        <Title>Welcome To Beauty Hand</Title>
         <TitleInfo>Please Register for your account</TitleInfo>
         <SignUpForm />
+        {/* get render in isomorphic\shared\hotel\components\SignUp */}
         <Divider>Or Register Up With </Divider>
         <Row gutter={16}>
           <Col span={12}>

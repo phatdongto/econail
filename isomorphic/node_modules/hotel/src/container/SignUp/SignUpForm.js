@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/AuthProvider';
 const initialValues = {
   email: '',
   username: '',
+  phoneNumber: '',
   password: '',
   confirmPassword: '',
   termsAndConditions: false,
@@ -27,6 +28,10 @@ const getRegisterValidationSchema = () => {
       .min(6, 'Password has to be longer than 6 characters!')
       .max(20, 'Too Long!')
       .required('Password is required!'),
+    phoneNumber: Yup.string()
+      .min(10, 'Too short!')
+      .max(11, 'Too long!')
+      .required('Phone number is require!'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords are not the same!')
       .required('Password confirmation is required'),
