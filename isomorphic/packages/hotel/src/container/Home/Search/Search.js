@@ -11,7 +11,7 @@ const HomeSearch = ({ searchTitleStyle, searchDescriptionStyle }) => {
     <BannerWrapper>
       <Container>
         <BannerContent>
-          Chào mừng đến với ...
+          Chào mừng đến với Beauty Hand
         </BannerContent>
         {/* End of banner content */}
         <SearchArea>

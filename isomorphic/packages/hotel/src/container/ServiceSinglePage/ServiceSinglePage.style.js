@@ -48,12 +48,22 @@ export const CostArea = styled.div`
   padding: 10px 500px;
   display: flex;
   justify-content: space-around;
-  h4 {
+  .normalcost {
     text-align: center;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 25px;
     text-decoration: line-through;
+    font-family: 'Lato', sans-serif;
+    color:black;
+  }
+  h4 {
+    color:#fd8b7c;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 25px;
+    text-decoration: none;
     font-family: 'Lato', sans-serif;
   }
 `;

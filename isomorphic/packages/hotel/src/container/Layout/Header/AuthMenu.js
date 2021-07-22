@@ -8,10 +8,10 @@ const AuthMenu = ({ className }) => {
   return (
     <Menu className={className}>
       <Menu.Item key="0">
-        <NavLink to={LOGIN_PAGE}>Sign in</NavLink>
+        <NavLink to={LOGIN_PAGE} style={{marginRight:"5px"}}>Đăng nhập</NavLink>
       </Menu.Item>
       <Menu.Item key="1">
-        <NavLink to={REGISTRATION_PAGE}>Sign up</NavLink>
+        <NavLink to={REGISTRATION_PAGE}>Đăng kí</NavLink>
       </Menu.Item>
     </Menu>
   );

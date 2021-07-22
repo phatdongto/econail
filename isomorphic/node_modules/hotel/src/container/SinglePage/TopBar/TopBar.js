@@ -15,19 +15,19 @@ import { TobBarWrapper, ButtonGroup } from '../SinglePageView.style';
 
 const topBarMenu = [
   {
-    name: 'Overview',
+    name: 'Sản phẩm',
     target: 'overview',
   },
   {
-    name: 'Amenities',
+    name: 'Mô tả',
     target: 'amenities',
   },
   {
-    name: 'Location',
+    name: 'Đánh giá',
     target: 'location',
   },
   {
-    name: 'Reviews',
+    name: 'Đánh giá',
     target: 'reviews',
   },
 ];

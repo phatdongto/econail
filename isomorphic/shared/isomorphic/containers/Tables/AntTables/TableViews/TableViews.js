@@ -4,7 +4,8 @@ import SortView from './SortView';
 import FilterView from './FilterView';
 import GroupView from './GroupView';
 import EditView from './EditView';
-
+import CategoryService from './CategoryService';
+import ServiceView from './ServiceView';
 export {
   SimpleView,
   SortView,
@@ -12,4 +13,6 @@ export {
   FilterView,
   GroupView,
   EditView,
+  CategoryService,
+  ServiceView
 };

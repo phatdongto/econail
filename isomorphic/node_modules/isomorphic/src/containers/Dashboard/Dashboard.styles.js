@@ -248,6 +248,7 @@ html[dir='rtl'] .dz-hidden-input {
 `;
 export const DashboardContainer = styled.div`
   -webkit-overflow-scrolling: touch;
+  display:relative;
   .trigger {
     font-size: 18px;
     line-height: 64px;

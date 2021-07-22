@@ -29,6 +29,7 @@ const LoadMore = ({
 
 export default function SectionGrid({
   data = [],
+  
   totalItem,
   limit,
   columnWidth,

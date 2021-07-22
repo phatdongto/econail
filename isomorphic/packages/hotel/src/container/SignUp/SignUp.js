@@ -53,11 +53,11 @@ export default function SignUp() {
             <Logo withLink linkTo="/" src={DemoLogo} title="Hotel Logo" />
           </div>
         </Row>
-        <Title>Welcome To Beauty Hand</Title>
-        <TitleInfo>Please Register for your account</TitleInfo>
+        <Title>Chào mừng đến Beauty Hand</Title>
+        <TitleInfo>Hãy đăng kí cho mình 1 tài khoản</TitleInfo>
         <SignUpForm />
         {/* get render in isomorphic\shared\hotel\components\SignUp */}
-        <Divider>Or Register Up With </Divider>
+        <Divider>Hoặc đăng kí với </Divider>
         <Row gutter={16}>
           <Col span={12}>
             <Button
@@ -111,7 +111,7 @@ export default function SignUp() {
           </Col>
         </Row>
         <Text>
-          Already Have an Account! <Link to={LOGIN_PAGE}>Login</Link>
+          Tôi đã có tài khoản! <Link to={LOGIN_PAGE}>Đăng nhập</Link>
         </Text>
       </SignUpFormWrapper>
 

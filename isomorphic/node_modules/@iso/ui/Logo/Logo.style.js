@@ -8,6 +8,8 @@ const LogoArea = styled.div`
     font-size: 22px;
     font-weight: 700;
   }
+  width:125px
+  height:125px
 `;
 
 export default LogoArea;

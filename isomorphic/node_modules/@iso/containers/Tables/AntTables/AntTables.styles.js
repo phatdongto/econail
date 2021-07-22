@@ -1,39 +1,58 @@
 import Table from '@iso/components/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
+import { Form } from 'antd';
 import {
   transition,
   boxShadow,
   borderRadius,
 } from '@iso/lib/helpers/style_utils';
 import WithDirection from '@iso/lib/helpers/rtl';
+export const FormWrapper=styled.div`
+padding:10px;
+width: 100%;
+background-color: #ffffff;
+
+`;
+export const ViewWrapper=styled.div`
+height:100%;
+`;
 
 const TableWrapper = styled(Table)`
   overflow: hidden;
   overflow-x: auto;
   background-color: #ffffff;
-
+  
   .ant-table-body {
     overflow-x: auto;
+    
+   
+    
   }
 
   .ant-table-thead > tr > th {
     color: ${palette('secondary', 2)};
-    font-size: 13px;
+    height: 30px;
+    font-size: 14px;
+    
     background-color: ${palette('secondary', 1)};
     border-bottom: 0;
-
+    .blur{
+      filter:blur(20px);
+    }
     &.ant-table-column-sort {
       background: ${palette('secondary', 1)};
       margin: ${props =>
         props['data-rtl'] === 'rtl' ? '0 4px 0 0' : '0 0 0 4px'};
     }
   }
-
+  
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
     padding: 16px 15px;
-    white-space: nowrap;
+            
+    
+
     text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
 
     p {
@@ -42,10 +61,10 @@ const TableWrapper = styled(Table)`
   }
 
   .ant-table-tbody > tr > td {
-    font-size: 12px;
+    font-size: 14px;
     color: ${palette('text', 3)};
     border-bottom: 1px solid ${palette('border', 0)};
-
+    
     a {
       color: ${palette('primary', 0)};
       ${transition()};
@@ -60,6 +79,7 @@ const TableWrapper = styled(Table)`
   .ant-table-tbody > tr.ant-table-row-hover > td,
   .ant-table-thead > tr:hover > td,
   .ant-table-tbody > tr:hover > td {
+    
     background-color: transparent;
   }
 
@@ -140,7 +160,15 @@ const TableWrapper = styled(Table)`
       color: ${palette('text', 3)};
     }
   }
-
+  form{
+    background:#006699;
+    padding:5px;
+    display:none;
+    position:absolute;
+    top:27px;
+    width:100%;
+    height:100%;
+  }
   .ant-spin-nested-loading > div > .ant-spin {
     max-height: none;
 
@@ -418,3 +446,4 @@ const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
 export { CustomizedTableWrapper };
 export default WithDirection(TableWrapper);
+

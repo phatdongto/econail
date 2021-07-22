@@ -6,7 +6,13 @@ const SectionTitleWrapper = styled.div`
   a {
     margin: 0;
   }
-
+  .a {
+    height: 30px;
+    width: 8px;
+    margin-right: 5px;
+    background-color: yellow;
+    float: left;
+  }
   h2 {
     color: ${themeGet('text.0', '#2C2C2C')};
     font-size: 25px;
