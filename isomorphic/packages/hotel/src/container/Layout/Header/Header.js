@@ -67,7 +67,7 @@ export default withRouter(function Header({ location }) {
               <ProfileMenu avatar={<Logo src={AvatarImg} title="hotel" />} />
             }
             headerType={headerType}
-            searchComponent={<NavbarSearch />}
+            
             location={location}
             searchVisibility={searchVisibility}
           />

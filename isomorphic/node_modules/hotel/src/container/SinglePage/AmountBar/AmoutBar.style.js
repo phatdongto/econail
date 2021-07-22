@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 const AmountBar = styled.div`
   padding: 0px 0px 0px 0px;
-  margin-left:10px form {
+  display:flex;
+  margin-left:10px; 
+  form {
+    
     width: 300px;
     padding-bottom: 20px;
     text-align: center;

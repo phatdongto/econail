@@ -1,7 +1,34 @@
 const options = [
   {
+    key:'branch',
+    label:'Chi nhánh',
+    leftIcon: 'ion-home',
+
+  },
+  {
+    key: 'table',
+    label: 'Quản lý',
+    leftIcon: 'ion-android-menu',
+    children: [
+      {
+        key: 'table_ant',
+        label: 'Quản lý dịch vụ',
+      },
+      {
+        key: 'table_ant',
+        label: 'Quản lý sản phẩm',
+      },
+    ],
+  },
+  {
+    key:'employee_management',
+    label:'Quản lý Nhân viên',
+    leftIcon: 'ion-person',
+
+  },
+  {
     key: 'mailbox',
-    label: 'sidebar.email',
+    label: 'Email',
     leftIcon: 'ion-android-mail',
   },
   {

@@ -15,11 +15,7 @@ export default function({ dataList, tableInfo }) {
     }
   }
   return (
-    <TableWrapper
-      columns={tableInfo.columns}
-      onChange={onChange}
-      dataSource={state}
-      className="isoSortingTable"
-    />
+    <TableWrapper>
+      </TableWrapper>
   );
 }

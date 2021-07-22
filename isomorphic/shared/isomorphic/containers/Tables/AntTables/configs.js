@@ -31,43 +31,44 @@ const columns = [
     render: object => renderCell(object, 'ImageCell', 'avatar'),
   },
   {
-    title: <IntlMessages id="antTable.title.firstName" />,
+    title: <IntlMessages id="Tên" />,
     key: 'firstName',
     width: 100,
     render: object => renderCell(object, 'TextCell', 'firstName'),
   },
   {
-    title: <IntlMessages id="antTable.title.lastName" />,
+    title: <IntlMessages id="Giá" />,
     key: 'lastName',
     width: 100,
     render: object => renderCell(object, 'TextCell', 'lastName'),
   },
   {
-    title: <IntlMessages id="antTable.title.city" />,
+    title: <IntlMessages id="Giá ưu đãi" />,
     key: 'city',
     width: 200,
     render: object => renderCell(object, 'TextCell', 'city'),
   },
   {
-    title: <IntlMessages id="antTable.title.street" />,
-    key: 'street',
-    width: 200,
-    render: object => renderCell(object, 'TextCell', 'street'),
-  },
-  {
-    title: <IntlMessages id="antTable.title.email" />,
+    title: <IntlMessages id="Dành cho" />,
     key: 'email',
     width: 200,
     render: object => renderCell(object, 'LinkCell', 'email'),
   },
   {
-    title: <IntlMessages id="antTable.title.dob" />,
+    title: <IntlMessages id="Thời gian thực hiện" />,
+    key: 'street',
+    width: 200,
+    render: object => renderCell(object, 'TextCell', 'street'),
+  },
+
+  {
+    title: <IntlMessages id="Danh mục" />,
     key: 'date',
     width: 200,
     render: object => renderCell(object, 'DateCell', 'date'),
   },
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [columns[1], columns[2], columns[3], columns[4],columns[5],columns[6]];
 const sortColumns = [
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
@@ -93,34 +94,15 @@ const groupColumns = [
 ];
 const tableinfos = [
   {
-    title: 'Simple Table',
-    value: 'simple',
+    title: 'Dịch vụ',
+    value: 'service',
     columns: clone(smallColumns),
   },
   {
-    title: 'Sortable Table',
-    value: 'sortView',
-    columns: clone(sortColumns),
-  },
-  {
-    title: 'Search Text',
-    value: 'filterView',
+    title: 'Các loại dịch vụ',
+    value: 'category',
     columns: clone(smallColumns),
   },
-  {
-    title: 'Editable View',
-    value: 'editView',
-    columns: clone(editColumns),
-  },
-  {
-    title: 'Grouping View',
-    value: 'groupView',
-    columns: clone(groupColumns),
-  },
-  {
-    title: 'Customized View',
-    value: 'customizedView',
-    columns: clone(columns),
-  },
+  
 ];
 export { columns, tableinfos };

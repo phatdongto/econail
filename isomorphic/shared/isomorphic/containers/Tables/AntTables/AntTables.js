@@ -1,47 +1,52 @@
 import React from 'react';
-import Tabs, { TabPane } from '@iso/components/uielements/tabs';
+import  { TabPane } from '@iso/components/uielements/tabs';
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
 import TableDemoStyle from './Demo.styles';
 import fakeData from '../data';
+import services from '../services'
 import { tableinfos } from './configs';
 import * as TableViews from './TableViews/TableViews';
-
+import { Tabs } from 'antd';
+import PageHeader from '@iso/components/utility/pageHeader';
+import IntlMessages from '@iso/components/utility/intlMessages';
+import { Table } from 'antd';
 const dataList = new fakeData(10);
 
 export default function AntTable() {
+  const [value, setValue] = React.useState(0);
+  
+  
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   function renderTable(tableInfo) {
     let Component;
     switch (tableInfo.value) {
-      case 'sortView':
-        Component = TableViews.SortView;
+    
+      case 'category':
+        Component = TableViews.CategoryService;
         break;
-      case 'filterView':
-        Component = TableViews.FilterView;
+      case 'service':
+        Component = TableViews.ServiceView;
         break;
-      case 'editView':
-        Component = TableViews.EditView;
-        break;
-      case 'groupView':
-        Component = TableViews.GroupView;
-        break;
-      case 'customizedView':
-        Component = TableViews.CustomizedView;
-        break;
-      default:
-        Component = TableViews.SimpleView;
+      
     }
     return <Component tableInfo={tableInfo} dataList={dataList} />;
   }
   return (
     <LayoutContentWrapper>
+      <PageHeader>
+        {<IntlMessages id="Dịch vụ" />}
+      </PageHeader>
       <TableDemoStyle className="isoLayoutContent">
-        <Tabs className="isoTableDisplayTab">
-          {tableinfos.map(tableInfo => (
-            <TabPane tab={tableInfo.title} key={tableInfo.value}>
-              {renderTable(tableInfo)}
-            </TabPane>
-          ))}
-        </Tabs>
+      <Tabs defaultActiveKey="1">
+      {tableinfos.map(tableinfo => (
+      <TabPane tab={tableinfo.title} key={tableinfo.value}>
+      {renderTable(tableinfo)}
+      </TabPane>))}
+      </Tabs>
+      
+
       </TableDemoStyle>
     </LayoutContentWrapper>
   );

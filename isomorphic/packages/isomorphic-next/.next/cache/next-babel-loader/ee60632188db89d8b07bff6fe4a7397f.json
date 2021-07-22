@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var isServer = false;","map":{"version":3,"sources":["D:/Team6-FE/isomorphic/node_modules/@iso/lib/helpers/isServer.js"],"names":["isServer"],"mappings":"AAAA,OAAO,IAAMA,QAAQ,QAAd","sourcesContent":["export const isServer = typeof window === 'undefined';\r\n"]},"metadata":{},"sourceType":"module"}

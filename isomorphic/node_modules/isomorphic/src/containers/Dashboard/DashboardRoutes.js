@@ -27,6 +27,7 @@ const routes = [
     component: lazy(() => import('@iso/containers/ScrumBoard')),
     exact: false,
   },
+  
   {
     path: 'mailbox',
     component: lazy(() => import('@iso/containers/Mail/Mail')),
@@ -232,6 +233,16 @@ const routes = [
     component: lazy(() =>
       import('@iso/containers/UIElements/Pagination/Pagination')
     ),
+  },
+  {
+    path: 'branch',
+    component: lazy(() =>
+      import('@iso/containers/Tables/BranchTable/AntTables')
+    ),
+  },
+  {
+    path: 'employee_management',
+    component: lazy(() => import('@iso/containers/Tables/EmployeeTable/EmployeeTable')),
   },
   {
     path: 'op_popover',

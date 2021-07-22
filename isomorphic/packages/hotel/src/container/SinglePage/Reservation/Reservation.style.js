@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 const ReservationFormWrapper = styled.form`
-  padding: 0px 0px;
+  padding: 20px;
 
   @media only screen and (max-width: 375px) {
     padding: 0 15px;
+  }
+  .TimePicker{
+     width:100%;
   }
   button {
     float: left;
@@ -24,13 +27,13 @@ const ReservationFormWrapper = styled.form`
 `;
 
 export const FieldWrapper = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   @media only screen and (max-width: 375px) {
     margin-bottom: 25px;
   }
 
   label {
-    font-size: 15px;
+    font-size: 18px;
     color: ${themeGet('text.0', '#2C2C2C')};
     text-transform: capitalize;
     margin-bottom: 7px;

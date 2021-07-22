@@ -11,12 +11,13 @@ export const PUBLIC_ROUTE = {
 
 export const PRIVATE_ROUTE = {
   DASHBOARD: '/',
+  TABLE: '/table_ant',
   MAIL: '/inbox',
   SCRUM_BOARD: '/scrum-board',
   CALENDAR: '/calendar',
   GOOGLE_MAP: '/googlemap',
   LEAFLET_MAP: '/leafletmap',
-  TABLE: '/table_ant',
+  
   FORM: '/allFormComponent',
   INPUT: '/InputField',
   EDITOR: '/editor',
