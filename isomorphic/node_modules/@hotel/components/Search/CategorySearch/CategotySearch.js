@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import moment from 'moment';
 import Button from '@iso/ui/Antd/Button/Button';
 import Slider from '@iso/ui/Antd/Slider/Slider';
@@ -8,6 +8,8 @@ import InputIncDec from '@iso/ui/InputIncDec/InputIncDec';
 import DateRangePickerBox from '@iso/ui/DatePicker/ReactDates';
 import { setStateToUrl, getStateFromUrl } from '../url_handler';
 import { priceInit, getPropertyType } from '../SearchParams';
+import axios from 'axios';
+import categories from './categories';
 import CategroySearchWrapper, {
   RoomGuestWrapper,
   ItemWrapper,
@@ -67,7 +69,14 @@ const CategotySearch = ({ history, location }) => {
       search: search,
     });
   };
-
+  const options= [
+    { label: 'Mỹ phẩm nail', value: 'villa' },
+    { label: 'Phụ kiện nail', value: 'hotel' },
+    { label: 'Máy làm nail', value: 'resort' },
+    { label: 'Phụ kiện trang trí nail', value: 'cottage' },
+    { label: 'Sản phẩm nail khác', value: 'duplex' },
+    { label: 'Landscape', value: 'landscape' },
+  ];
   const handleRoomGuestCancel = () => {
     setRoom(0);
     setGuest(0);
@@ -93,9 +102,26 @@ const CategotySearch = ({ history, location }) => {
       search: search,
     });
   };
-
+  const [categories, setData] = useState([]);
+  useEffect(() => {
+     const fetchData = async () => {
+      try {
+        const response = await fetch("http://econail.localhost/g/product_category");
+        const json = await response.json();
+        setData(json.data.data)
+        console.log(json);
+		} catch (error) {
+        console.log("error", error);
+		}
+       
+       
+      
+     };
+     fetchData();
+   }, []);
   return (
     <CategroySearchWrapper>
+     
       <ViewWithPopup
         className={property.length ? 'activated' : ''}
         key={getPropertyType.id}
@@ -107,14 +133,15 @@ const CategotySearch = ({ history, location }) => {
           </Button>
         }
         popup={
+          
           <Checkbox.Group
-            options={getPropertyType.options}
+            options={options}
             defaultValue={property}
             onChange={value => onChange(value, 'property')}
           />
         }
       />
-
+      
       <ViewWithPopup
         className={
           price.min === price.defaultMin && price.max === price.defaultMax
@@ -141,11 +168,13 @@ const CategotySearch = ({ history, location }) => {
           />
         }
       />
-
+ 
       <div className="view_with__popup">
         <div className="popup_handler">
           <Button type="default" onClick={onSearchReset}>
-            Lọc
+          {categories.map((data)=>{
+        <h1 key={data.id}>Data:{data.name}</h1>
+      })}
           </Button>
         </div>
       </div>
@@ -156,6 +185,7 @@ const CategotySearch = ({ history, location }) => {
           </Button>
         </div>
       </div>
+      
     </CategroySearchWrapper>
   );
 };

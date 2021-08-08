@@ -15,13 +15,13 @@ const BarChart = {
         role: 'style',
       },
     ],
-    ['2010', 10000, 'fill-color: #48A6F2; fill-opacity: 0.4'],
-    ['2012', 21500, 'fill-color: #f64744; fill-opacity: 0.4'],
-    ['2014', 56598, 'fill-color: #ffbf00; fill-opacity: 0.4'],
-    ['2016', 85256, 'fill-color: #511E78; fill-opacity: 0.4'],
+    ['Tuần 1', 10000, 'fill-color: #48A6F2; fill-opacity: 0.4'],
+    ['Tuần 2', 21500, 'fill-color: #f64744; fill-opacity: 0.4'],
+    ['Tuần 3', 56598, 'fill-color: #ffbf00; fill-opacity: 0.4'],
+    ['Tuần 4', 85256, 'fill-color: #511E78; fill-opacity: 0.4'],
   ],
   options: {
-    title: 'Visitor statistics from 2010 to 2016',
+    title: 'Thu nhập từ dịch vụ',
     titleTextStyle: {
       color: '#788195',
     },
@@ -58,7 +58,63 @@ const BarChart = {
     },
   ],
 };
-
+const ServiceBarChart = {
+  title: 'BarChart',
+  key: 'BarChart',
+  chartType: 'BarChart',
+  width,
+  height,
+  data: [
+    [
+      'Year',
+      'Trafic',
+      {
+        role: 'style',
+      },
+    ],
+    ['Tuần 1', 10000, 'fill-color: #48A6F2; fill-opacity: 0.4'],
+    ['Tuần 2', 21500, 'fill-color: #f64744; fill-opacity: 0.4'],
+    ['Tuần 3', 56598, 'fill-color: #ffbf00; fill-opacity: 0.4'],
+    ['Tuần 4', 85256, 'fill-color: #511E78; fill-opacity: 0.4'],
+  ],
+  options: {
+    title: 'Thu nhập từ sản phẩm',
+    titleTextStyle: {
+      color: '#788195',
+    },
+    bar: {
+      groupWidth: '95%',
+    },
+    legend: {
+      position: 'none',
+    },
+    animation: {
+      duration: 1000,
+      easing: 'in',
+      startup: true,
+    },
+    hAxis: {
+      textStyle: {
+        color: '#788195',
+      },
+    },
+    vAxis: {
+      textStyle: {
+        color: '#788195',
+      },
+    },
+    tooltip: {
+      textStyle: {
+        color: '#788195',
+      },
+    },
+  },
+  chartEvents: [
+    {
+      eventName: 'onmouseover',
+    },
+  ],
+};
 /* * * * * * * * * * * * * * * * * * * *
               Line Charts
 * * * * * * * * * * * * * * * * * * * */
@@ -1169,6 +1225,7 @@ const WordTree = {
 
 export {
   BarChart,
+  ServiceBarChart,
   lineChart,
   BubbleChart,
   Histogram,

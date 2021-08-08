@@ -1,0 +1,237 @@
+import React from 'react';
+import TableWrapper from '../AntTables.styles';
+import services from '../../../Tables/services';
+
+import { FormWrapper,ViewWrapper } from '../AntTables.styles';
+import { StatusTag } from '../../../Invoice/Invoice.styles';
+import { Drawer,Descriptions,Badge ,Modal,Col,Row,Form,Input,Checkbox} from 'antd';
+import { Button } from 'antd';
+export default class SimpleView extends React.Component{
+  state = { visible: false };
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  render(){
+    const columns = [
+      {
+        title: 'Mã đơn hàng',
+        dataIndex: 'name',
+        key: 'name',
+        width: "10%"  ,
+        
+      },
+      {
+        title: 'Tổng giá',
+        dataIndex: 'price',
+        key: 'price',
+        width: "10%" ,
+        ellipsis:true
+      },
+      {
+        title: 'Tình trạng',
+        dataIndex: 'price_discount',
+        key: 'price_discount',
+        width: "10%" ,
+        render:()=>{
+          return <StatusTag className="">Đã chuyển</StatusTag>;
+        }
+        
+      },
+      {
+        title: '',
+        dataIndex: 'action',
+        width: '15%',
+        render: (_, record) => (
+          <>
+            {record.name === 'initial' && <Button icon="plus" shape="circle" />}
+            {record.name !== 'initial' && (
+              <>
+              <Button icon="search" shape="circle" style={{backgroundColor: "#008CBA" ,marginRight:"5px"}} />
+              <Button icon="delete" shape="circle" type="danger" />
+              </>
+            )}
+          </>
+        )
+      }
+      
+  
+    ];
+    const myColTitleStyle = {
+      textOverflow: 'ellipsis',
+      overflow: "hidden",
+      whiteSpace: 'nowrap',
+      
+    };
+    
+    return (
+      <>
+      <ViewWrapper >
+      <TableWrapper dataSource={services.data.data} columns={columns}   />
+      </ViewWrapper>
+      <Drawer
+            title="Create a new account"
+            width={720}
+            
+            bodyStyle={{ paddingBottom: 80 }}
+            footer={
+              <div
+                style={{
+                  textAlign: 'right',
+                }}
+              >
+                <Button  style={{ marginRight: 8 }}>
+                  Cancel
+                </Button>
+                <Button  type="primary">
+                  Submit
+                </Button>
+              </div>
+            }
+          >
+            <Form layout="vertical" hideRequiredMark>
+              <Row gutter={16}>
+                <Col span={16}>
+                  <Form.Item
+                    name="name"
+                    label="Tên"
+                    rules={[{ required: true, message: 'Please enter user name' }]}
+                  >
+                    <Input placeholder="Please enter user name" />
+                  </Form.Item>
+                </Col>
+                
+              </Row>
+              <Row gutter ={16}>
+              <Col span={12}>
+                  <Form.Item
+                    name="price"
+                    label="Giá"
+                    rules={[{ required: true, message: 'Nhập giá' }]}
+                  >
+                    <Input
+                      style={{ width: '100%' }}
+                      
+                      placeholder="Nhập giá"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="price_discount"
+                    label="Giá ưu đãi"
+                    rules={[{ required: true, message: 'Nhập giá' }]}
+                  >
+                    <Input
+                      style={{ width: '100%' }}
+                      
+                      placeholder="Nhập giá"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter ={16}>
+              <Col span={12}>
+                  <Form.Item
+                    name="image"
+                    label="Hình ảnh (link)"
+                    rules={[{ required: true, message: '' }]}
+                  >
+                    <Input
+                      style={{ width: '100%' }}
+                      
+                      placeholder="Url"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="time_estimate"
+                    label="Thời gian thực hiện"
+                    rules={[{ required: true, message: 'Nhập thời gian thực hiện' }]}
+                  >
+                    <Input
+                      style={{ width: '100%' }}
+                      
+                      placeholder="Nhập thời gian"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter ={16}>
+              <Col span={12}>
+                  <Form.Item
+                    name="book"
+                    label="Đăt online"
+                    rules={[{ required: true, message: 'Nhập giá' }]}
+                  >
+                    <Checkbox>
+                      Có
+                    </Checkbox>
+                    <Checkbox>
+                      Không
+                    </Checkbox>
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="for"
+                    label="Dành cho"
+                    rules={[{ required: true, message: 'Nhập giá' }]}
+                  >
+                    <Checkbox>
+                      Nam
+                    </Checkbox>
+                    <Checkbox>
+                      Nữ
+                    </Checkbox>
+                  </Form.Item>
+                </Col>
+              </Row>
+              
+              
+              <Row gutter={16}>
+                <Col span={24}>
+                  <Form.Item
+                    name="description"
+                    label="Mô tả"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'please enter url description',
+                      },
+                    ]}
+                  >
+                    <Input.TextArea rows={4} placeholder="Nhập mô tả của dịch vụ" />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={24}>
+                <div
+                style={{
+                  textAlign: 'right',
+                }}
+              >
+                <Button  style={{ marginRight: 8 }}>
+                  Cancel
+                </Button>
+                <Button  type="primary">
+                  Submit
+                </Button>
+              </div>
+                </Col>
+              </Row>
+              
+            </Form>
+          </Drawer>
+      </>
+    );
+  }
+}

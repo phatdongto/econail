@@ -5,6 +5,7 @@ import { AuthContext } from './context/AuthProvider';
 import Layout from './container/Layout/Layout';
 import {
   LOGIN_PAGE,
+  CART,
   REGISTRATION_PAGE,
   FORGET_PASSWORD_PAGE,
   HOME_PAGE,
@@ -136,6 +137,15 @@ const routes = [
         import(/* webpackChunkName: "privacy" */ './container/Privacy/Privacy'),
       loading: Loading,
       modules: ['Privacy'],
+    }),
+  },
+  {
+    path: CART,
+    component: Loadable({
+      loader: () =>
+        import(/* webpackChunkName: "privacy" */ './container/Cart/Cart'),
+      loading: Loading,
+      modules: ['Cart'],
     }),
   },
   {

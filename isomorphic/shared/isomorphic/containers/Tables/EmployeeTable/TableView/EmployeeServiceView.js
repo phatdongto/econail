@@ -1,18 +1,56 @@
-import React from 'react';
-import TableWrapper from '../../AntTables/AntTables.styles'
+import React,{useEffect,useState} from "react";
+import TableWrapper from "../../AntTables/AntTables.styles";
+import { Link } from "react-router-dom";
+import { Button } from "antd";
 
-import { Button } from 'antd';
-import { backgroundColor, color, marginRight } from 'styled-system';
-import { FormWrapper,ViewWrapper } from '../../AntTables/AntTables.styles';
-import { Drawer,Descriptions,Badge , Modal,Tag} from 'antd';
+import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
+import { Drawer, Descriptions, Badge, Modal, Tag ,Input} from "antd";
+import { useSelector } from "react-redux";
 
-import service_employee from '../../service_employee';
-import AddEmployeeView from './ModalView/AddEmployeeView';
-
+import AddEmployeeView from "./ModalView/AddEmployeeView";
+import service_employee from "../../service_employee";
+import axios from "axios";
+const { Search } = Input;
 export default function() {
-  
+
+  const [dataList1, setData] = useState({ data: [] });
+  useEffect(() => {
+     const fetchData = async () => {
+       const result = await axios("http://econail.localhost/api/sub_admin/staff?role=1", {
+       method: 'GET', 
+       
+    
+     });
+       res=JSON.parse(result.data)
+       setData(res.data.data)
+      
+     };
+     fetchData();
+   }, []);
+
+  const [state, setState] = React.useState({
+    dataList: service_employee.data.data,
+    searchText: '',
+    employee: {},
+  });
+  function onSearch() {
+    let { searchText } = state;
+    searchText = searchText.toUpperCase();
+    const dataList = products.data.data
+      .filter(data => data['name'].toUpperCase().includes(searchText));
+    setState({
+      dataList,
+      
+      searchText: '',
+      filtered: false,
+    });
+  }
+  function onInputChange(event) {
+    setState({ ...state, searchText: event.target.value });
+  }
+  const { initialInvoices, invoices } = useSelector((state) => state.Invoices);
   const [visibleInfo, setVisibleInfo] = React.useState(false);
-  const showDrawerInfo =()=>{
+  const showDrawerInfo = () => {
     setVisibleInfo(true);
   };
   const handleCancelDrwerInfo = () => {
@@ -24,7 +62,7 @@ export default function() {
   };
 
   const handleOkDeleteModal = () => {
-    setModalText('The modal will be closed after two seconds');
+    setModalText("The modal will be closed after two seconds");
     setConfirmLoading(true);
     setTimeout(() => {
       setVisibleDeleteModal(false);
@@ -33,21 +71,21 @@ export default function() {
   };
 
   const handleCancelDeleteModal = () => {
-    console.log('Clicked cancel button');
+    console.log("Clicked cancel button");
     setVisibleDeleteModal(false);
   };
   //
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState('Content of the modal');
+  const [modalText, setModalText] = React.useState("Content of the modal");
 
   const showModal = () => {
     setVisible(true);
   };
 
   const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
-    setConfirmLoading(true)
+    setModalText("The modal will be closed after two seconds");
+    setConfirmLoading(true);
     setTimeout(() => {
       setVisible(false);
       setConfirmLoading(false);
@@ -55,119 +93,119 @@ export default function() {
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
+    console.log("Clicked cancel button");
     setVisible(false);
   };
   const columns = [
     {
-      title: 'Tên nhân viên',
-      dataIndex: 'username',
-      key: 'name',
-      width: "20%"  ,
-      
+      title: "Tên nhân viên",
+      dataIndex: "username",
+      key: "name",
+      width: "20%",
     },
     {
-      title: 'Tài khoản nhân viên',
-      dataIndex: 'email',
-      key: 'price',
-      width: "20%" ,
-      ellipsis:true
+      title: "Tài khoản nhân viên",
+      dataIndex: "email",
+      key: "price",
+      width: "20%",
+      ellipsis: true,
     },
-    
-    {
-      title: 'Vị trí',
-      dataIndex: 'role',
-      key: 'description',
-      width: "20%" ,
-      ellipsis:true,
-      
-     
-      
-    },
-    {
-      title: 'Tình trạng',
-      
-      key: 'status',
-      width: "20%" ,
-      render:() =>{
-        return(
-          <Tag color="green" key="Đang làm">
-            Đang làm 
-            </Tag>
-        )
 
-      }
-    },
-    
     {
-      title: '',
-      dataIndex: 'action',
-      width: '10%',
+      title: "Vị trí",
+      dataIndex: "role",
+      key: "description",
+      width: "20%",
+      ellipsis: true,
+    },
+    {
+      title: "Tình trạng",
+
+      key: "status",
+      width: "20%",
+      render: () => {
+        return (
+          <Tag color="blue">Đang làm</Tag>
+        );
+      },
+    },
+
+    {
+      title: "",
+      dataIndex: "action",
+      width: "15%",
       render: (_, record) => (
         <>
-          {record.name === 'initial' && <Button icon="plus" shape="circle" />}
-          {record.name !== 'initial' && (
+          {record.name === "initial" && <Button icon="plus" shape="circle" />}
+          {record.name !== "initial" && (
             <>
-            <Button icon="search" onClick={showDrawerInfo} shape="circle" style={{backgroundColor: "#008CBA" ,marginRight:"5px"}} />
-              <Drawer
-              title="Thông tin nhân viên"
-              width={720}
-              visible={visibleInfo}
-              onClose={handleCancelDrwerInfo} 
-             
-              bodyStyle={{ paddingBottom: 80 }}
+              <Button
+              className="button-detail"
+                key={`${record.id}`}
+                onClick={() => {
+                  showDrawerInfo(record.name);
+                  state.employee = record;
+                }}
+                shape="round"
+                style={{
+                  marginRight: "10px",
+                  color: "#1BC5BD",
+                  backgroundColor: "#C9F7F5",
+                  border: "none",
+                }}
               >
-                <Descriptions title="" layout="vertical" bordered>
-                <Descriptions.Item label="Tên">{record.username}</Descriptions.Item>
-                <Descriptions.Item label="Tài khoản">{record.email} </Descriptions.Item>
-                <Descriptions.Item label="Vị trí">Nhân viên bán hàng</Descriptions.Item>
-                <Descriptions.Item label="Thời gian làm việc">18:00:00 - 21:00:00</Descriptions.Item>
-                <Descriptions.Item label="Thời gian nghỉ" span={1}>
-                  19:00:00-19:15:00
-                </Descriptions.Item>
-                <Descriptions.Item label="Tình trạng" span={3}>
-                  <Badge status="processing" text="Đang làm việc" />
-                </Descriptions.Item>
-               
-              </Descriptions>
+                Chi tiết
+              </Button>
 
-              </Drawer>
-            <Button icon="delete" onClick={showModalDelete} shape="circle" type="danger" />
-            <Modal
+              <Button
+                icon="delete"
+                onClick={showModalDelete}
+                shape="circle"
+                type="danger"
+              />
+              <Modal
                 title="Xác nhận"
-               
                 visible={visibleDeleteModal}
                 onOk={handleOkDeleteModal}
                 onCancel={handleCancelDeleteModal}
                 okText="Xác nhận"
                 cancelText="Hủy"
-                okType="danger" >
+                okType="danger"
+              >
                 Xóa nhân viên này?
-            </Modal>
+              </Modal>
             </>
           )}
         </>
-      )
-    }
-
+      ),
+    },
   ];
   const myColTitleStyle = {
-    textOverflow: 'ellipsis',
+    textOverflow: "ellipsis",
     overflow: "hidden",
-    whiteSpace: 'nowrap',
-    
+    whiteSpace: "nowrap",
   };
-  
+
   return (
     <>
-    <ViewWrapper>
-    <Button type="primary"  onClick={showModal} style={{ marginBottom: '3%' }}>
-        Thêm nhân viên mới +
-    </Button>
-    <TableWrapper dataSource={service_employee.data.data} columns={columns}   />
-    </ViewWrapper>
-    
-    <Modal
+      <ViewWrapper>
+        <div className="a">
+        <Search placeholder="Nhập tên nhân viên"  style={{ width: 200 }} />
+        <Button
+          shape="round "
+          onClick={showModal}
+          style={{ marginBottom: "3%",color:'whitesmoke',backgroundColor:"#22D3EE",border:'none',float:'right' }}
+        >
+          Thêm nhân viên mới +
+        </Button>
+        </div>
+        {state.dataList.length > 0 ?( <TableWrapper dataSource={state.dataList} columns={columns} />)
+        :
+        (<div>Không có sản phẩm</div>)}
+       
+      </ViewWrapper>
+
+      <Modal
         title="Thêm nhân viên"
         visible={visible}
         onOk={handleOk}
@@ -175,9 +213,34 @@ export default function() {
         onCancel={handleCancel}
         okText="Thêm"
         cancelText="Hủy"
-    >
-      <AddEmployeeView/>
+      >
+        <AddEmployeeView />
       </Modal>
+      <Drawer
+        closable={false}
+        title="Thông tin  Nhân viên"
+        width={720}
+        visible={visibleInfo}
+        onClose={handleCancelDrwerInfo}
+        bodyStyle={{ paddingBottom: 80 }}
+      >
+        <Descriptions title="" layout="vertical" bordered>
+          <Descriptions.Item label="Tên nhân viên" span={3}>
+            {state.employee.username}
+          </Descriptions.Item>
+          <Descriptions.Item label="Email" span={1}>
+            {state.employee.email}
+          </Descriptions.Item>
+          <Descriptions.Item label="Làm tại" span={1}></Descriptions.Item>
+          <Descriptions.Item label="Vị trí" span={1}>
+            {state.employee.role}
+          </Descriptions.Item>
+
+          <Descriptions.Item label="Tình trạng" span={3}>
+            <Badge status="processing" text="Đang làm" />
+          </Descriptions.Item>
+        </Descriptions>
+      </Drawer>
     </>
   );
 }
