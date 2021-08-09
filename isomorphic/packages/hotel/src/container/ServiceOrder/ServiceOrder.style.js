@@ -8,8 +8,8 @@ export const Component = styled.div`
   margin-top: 10px;
 
   input,
-  .chooseSalon {
-    width: 100%;
+  .chooseSalon{
+    width: 100% !important;
     padding: 12px 20px;
 
     display: inline-block;
@@ -17,12 +17,79 @@ export const Component = styled.div`
     border-radius: 4px;
     box-sizing: border-box;
   }
+  // .ant-select-selection ant-select-selection--single {
+  //   border : none!important;
+  //   padding-left : 0!important;
+  // }
+  // .ant-select-single{
+  //   padding-left : 20px!important;
+  // }
+
+  // .ant-picker{
+  //   padding : 0!important;
+  //   // border : none!important;
+  // }
+
+  // .ant-picker-input > input{
+  //   border : none!important;
+  // }
+
+  .ant-select-selection--single{
+    border : none!important;
+    padding : 0!important;
+  }
+
+  .ant-select-enabled {
+    // padding : 0px!important;
+    // border : none!important;
+  }
+
+  .ant-select-selection__rendered{
+    margin : 0!important;
+    padding : 0px!important;
+  }
+
+  // .ant-select-selection__rendered>div{
+  //   margin : 0!important;
+  // }
+
+  .ant-calendar-picker-input{
+    border : none;
+    padding : 0!important;
+  }
+
 `;
+
+export const styles = {
+  width: '100%',
+  padding: '6px 20px',
+  display: "outline-block",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+  // boxSizing: "border-box",
+}
+
+export const colourStyles = {
+  control: styles => ({ width : '100%', backgroundColor: 'white' }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    return {
+      
+      backgroundColor: isDisabled ? 'red' : 'blue',
+      color: '#FAF',
+      cursor: isDisabled ? 'not-allowed' : 'default',
+      
+    };
+  },
+
+};
+
 const ServiceOrderWrapper = styled.div`
   background-color: rgb(252, 252, 252);
-  position: fixed;
   padding: 0px 10px;
-  top: 40%;
+  position: absolute;
+  margin: auto;
+  top: 300px;
   left: 50%;
   border-radius: 10px;
   transform: translate(-50%, -50%);

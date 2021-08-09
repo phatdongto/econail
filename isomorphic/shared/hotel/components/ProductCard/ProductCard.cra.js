@@ -35,6 +35,7 @@ const responsive = {
 
 const PostGrid = ({
   title,
+  
   price,
   priceDiscount,
   gallery,
@@ -52,12 +53,12 @@ const PostGrid = ({
         />
       }
       
-      title={<TextLink link={`${link}/${title}`} content={title} />}
+      title={<TextLink link={`${link}/${slug}`} content={title} />}
       price={`Giá : ${price} VNĐ` }
-      priceDiscount={`Giá ưu đãi : 2900 VNĐ`}
+      priceDiscount={`Giá ưu đãi : ${price} VNĐ`}
       
       viewDetailsBtn={
-        <TextLink link={`${link}/${title}`} content="View Details" />
+        <TextLink link={`${link}/${slug}`} content="View Details" />
       }
     >
       <Carousel

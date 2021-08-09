@@ -11,18 +11,12 @@ import SectionTitle from '@hotel/components/SectionTitle/SectionTitle';
 //import useDataApi from '@iso/lib/hooks/useDataApi';
 import { LISTING_POSTS_PAGE } from '../../../settings/constant';
 import LocationWrapper from '../Location/Location.style';
-import products from '../Grid/products'
-import Test from './Test';
+
 //import LocationWrapper, { CarouselSection } from './Location.style';
-const hi = <h1>asdasd</h1>
-const productCom =products.data.data.map((product) => (<Heading key={product.id} content={product.name} />));
 const Combo = () => {
   return (
-
     <LocationWrapper>
-      
       <Container fluid={true}>
-         
         <SectionTitle
           title={<Heading content="Các ưu đãi hiện có" />}
           link={<TextLink link={LISTING_POSTS_PAGE} content="Xem thêm" />}

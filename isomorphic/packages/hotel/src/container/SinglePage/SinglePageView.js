@@ -15,24 +15,18 @@ import Review from './Review/Review';
 import Reservation from './Reservation/Reservation';
 import BottomReservation from './Reservation/BottomReservation';
 import TopBar from './TopBar/TopBar';
-import SinglePageWrapper, { PostImage,ProductCard } from './SinglePageView.style';
+import SinglePageWrapper, { PostImage } from './SinglePageView.style';
 import PostImageGallery from './ImageGallery/ImageGallery';
 import useDataApi from '@iso/lib/hooks/useDataApi';
 import isEmpty from 'lodash/isEmpty';
-import { HotelPostGridLoader } from '@iso/ui/ContentLoader/ContentLoader';
+import FormActionArea from './Reservation/Reservation.style';
 import Description1 from './Description1/Description1';
-import { SINGLE_POST_PAGE } from '../../settings/constant';
-import { PostsWrapper } from '../Listing/Listing.style';
-import SectionGrid from '@hotel/components/SectionGrid/SectionGrid.cra';
-import ListingMap from '../Listing/ListingMap';
 const SinglePage = ({ match }) => {
   const { href } = useLocation();
   const [isModalShowing, setIsModalShowing] = useState(false);
   // useWindowSize hook
-  
-
-  // useWindowSize hook
   const { width } = useWindowSize();
+
   let url = '/data/hotel-single.json';
   if (!match.params.slug) {
     url += match.params.slug;
@@ -51,11 +45,10 @@ const SinglePage = ({ match }) => {
     amenities,
     author,
   } = data[0];
-  
+
   return (
     <SinglePageWrapper>
       <TopBar title={title} shareURL={href} author={author} media={gallery} />
-      <ProductCard>
       <PostImage>
         <Button
           type="primary"
@@ -124,8 +117,6 @@ const SinglePage = ({ match }) => {
           </Col>
         </Row>
       </Container>
-      </ProductCard>
-      
       <Description1 content={content} />
       <Review reviews={reviews} ratingCount={ratingCount} rating={rating} />
     </SinglePageWrapper>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Heading from '@iso/ui/Heading/Heading';
 import TextLink from '@iso/ui/TextLink/TextLink';
 import Container from '@iso/ui/UI/Container/Container';
@@ -7,13 +7,10 @@ import SectionGrid from '@hotel/components/SectionGrid/SectionGrid.cra';
 import SectionTitle from '@hotel/components/SectionTitle/SectionTitle';
 import useWindowSize from '@iso/lib/hooks/useWindowSize';
 import useDataApi from '@iso/lib/hooks/useDataApi';
-import products from './products'
 import {
   LISTING_POSTS_PAGE,
   SINGLE_POST_PAGE,
 } from '../../../settings/constant';
-import { head } from 'lodash';
-
 const TopHotelsGrid = () => {
   const { data, loading } = useDataApi('/data/top-hotel.json');
   const { width } = useWindowSize();
@@ -41,20 +38,16 @@ const TopHotelsGrid = () => {
     posts = data.slice(0, 12);
     limit = 12;
   }
-  console.log(products.data.data.length)
-  const productCom =products.data.data.map((product) => (<Heading key={product.id} content={product.name} />));
+
   return (
-    
     <Container fluid={true}>
-      
       <SectionTitle
         title={<Heading content="Top sản phẩm nổi bật" />}
-        link={<TextLink link={LISTING_POSTS_PAGE} content="Xem thêm" />}
+        link={<TextLink link={LISTING_POSTS_PAGE} content="Show all" />}
       />
 
       <SectionGrid
         link={SINGLE_POST_PAGE}
-        products={products.data.data}
         columnWidth={[1 / 2, 1 / 2, 1 / 3, 1 / 4, 1 / 5, 1 / 5, 1 / 6]}
         data={posts}
         loading={loading}

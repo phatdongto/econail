@@ -4,22 +4,14 @@ import singlePostBgImg from '@hotel/assets/images/single-post-bg.jpg';
 
 const SinglePageWrapper = styled.div`
   padding-bottom: 56px;
-  padding:0px 30px 30px 30px;
+
   @media only screen and (max-width: 667px) {
     padding-bottom: 0;
   }
 `;
-export const ProductCard = styled.div` 
-     display:flex;
-     box-shadow:0 2px 20px rgba(0, 0, 0, 0.2);
-     
-     padding-bottom:40px;
-     
-`;
 export const Amount = styled.div`
   font-family: 'Lato', sans-serif;
   font-weight: bold;
-  display:flex;
   text-align: center;
   font-size: 16px;
   display: flex;
@@ -235,7 +227,7 @@ export const PostImage = styled.div`
   background-image: url(${singlePostBgImg});
   background-position: center center;
   background-size: cover;
-  width: 800px;
+  width: 500px;
   height: 600px;
   position: relative;
   float: left;

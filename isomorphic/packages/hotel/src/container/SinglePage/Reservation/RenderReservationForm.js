@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import { TimePicker } from 'antd';
-import { DatePicker} from 'antd';
-
-
-
 import Button from '@iso/ui/Antd/Button/Button';
 import HtmlLabel from '@iso/ui/HtmlLabel/HtmlLabel';
-
+import DatePickerRange from '@iso/ui/DatePicker/ReactDates';
 import ViewWithPopup from '@iso/ui/UI/ViewWithPopup/ViewWithPopup';
 import InputIncDec from '@iso/ui/InputIncDec/InputIncDec';
-
-
 import ReservationFormWrapper, {
   FormActionArea,
   FieldWrapper,
@@ -70,32 +63,32 @@ const RenderReservationForm = () => {
       `Start Date: ${formState.startDate}\nEnd Date: ${formState.endDate}\nRooms: ${formState.room}\nGuests: ${formState.guest}`
     );
   };
-  const [startDate, setStartDate] = useState(new Date());
-  const [value, onChange] = useState('10:00');
+
   return (
     <ReservationFormWrapper className="form-container" onSubmit={handleSubmit}>
       <FieldWrapper>
-      <HtmlLabel htmlFor="dates" content="Chọn ngày" />
-      <DatePicker className="TimePicker" selected={startDate} onChange={(date) => setStartDate(date)} placeholder="Chọn ngày" />
-        
-        
+        <HtmlLabel htmlFor="dates" content="Dates" />
+        <DatePickerRange
+          startDateId="checkin-Id"
+          endDateId="checkout-id"
+          startDatePlaceholderText="Check In"
+          endDatePlaceholderText="Check Out"
+          updateSearchData={value => updateSearchDataFunc(value)}
+          numberOfMonths={1}
+          small
+        />
       </FieldWrapper>
       <FieldWrapper>
-      <HtmlLabel htmlFor="dates" content="Chọn giờ" />
-      <TimePicker
-        className="TimePicker"
-      />
-      </FieldWrapper>
-      <FieldWrapper>
-        <HtmlLabel htmlFor="guests" content="Chọn địa điểm" />
+        <HtmlLabel htmlFor="guests" content="Guests" />
         <ViewWithPopup
           key={200}
           noView={true}
           className={formState.room || formState.guest ? 'activated' : ''}
           view={
             <Button type="default">
-              <span>Chọn địa điểm {formState.room > 0 && `: ${formState.room}`}</span>
-              
+              <span>Room {formState.room > 0 && `: ${formState.room}`}</span>
+              <span>-</span>
+              <span>Guest{formState.guest > 0 && `: ${formState.guest}`}</span>
             </Button>
           }
           popup={
@@ -127,7 +120,7 @@ const RenderReservationForm = () => {
       </FieldWrapper>
       <FormActionArea>
         <Button htmlType="submit" type="primary">
-          Đặt lịch
+          Save Changes
         </Button>
       </FormActionArea>
     </ReservationFormWrapper>

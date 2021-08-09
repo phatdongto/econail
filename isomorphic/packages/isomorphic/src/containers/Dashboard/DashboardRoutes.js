@@ -31,7 +31,6 @@ const routes = [
     component: lazy(() => import('@iso/containers/ScrumBoard')),
     exact: false,
   },
-  
   {
     path: 'mailbox',
     component: lazy(() => import('@iso/containers/Mail/Mail')),

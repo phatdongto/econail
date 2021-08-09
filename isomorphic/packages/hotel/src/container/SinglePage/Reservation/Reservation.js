@@ -12,7 +12,7 @@ const CardHeader = ({ priceStyle, pricePeriodStyle, linkStyle }) => {
       <Heading
         content={
           <Fragment>
-             <Text as="span" content="" {...pricePeriodStyle} />
+            $162 <Text as="span" content="/ night" {...pricePeriodStyle} />
           </Fragment>
         }
         {...priceStyle}

@@ -1,5 +1,6 @@
 const options = [
   {
+<<<<<<< HEAD
     key:'customer_management',
     label:'Khách hàng',
     leftIcon: 'ion-clipboard',
@@ -45,8 +46,10 @@ const options = [
 
   },
   {
+=======
+>>>>>>> main
     key: 'mailbox',
-    label: 'Email',
+    label: 'sidebar.email',
     leftIcon: 'ion-android-mail',
   },
   {

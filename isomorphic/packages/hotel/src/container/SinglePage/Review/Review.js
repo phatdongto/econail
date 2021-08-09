@@ -79,7 +79,7 @@ const Review = props => {
         <HeaderSection>
           <RatingStatus>
             <Heading
-              content={`${ratingCount} Comment`}
+              content={`${ratingCount} Reviews`}
               {...statusHeadingStyle}
             />
             <IoIosStar />
@@ -111,7 +111,7 @@ const Review = props => {
         </HeaderSection>
         <Row gutter={20}>
           <Col sm={12} lg={9}>
-            <Heading content="Ratings" {...filterHeadingStyle} />
+            <Heading content="Traveler Ratings" {...filterHeadingStyle} />
             <FilterElement>
               <Checkbox onChange={onChange}>
                 <Text content="Exccellent" as="span" {...ratingLabelStyle} />

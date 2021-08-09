@@ -5,7 +5,6 @@ import SectionTitleWrapper from './SectionTitle.style';
 const SectionTitle = ({ ...props }) => {
   return (
     <SectionTitleWrapper>
-      <div className="a"></div>
       <SectionTitleExtended {...props} />
     </SectionTitleWrapper>
   );

@@ -12,10 +12,10 @@ const iconStyle = {
   return (
     <Menu className={className}>
       <Menu.Item key="0">
-        <NavLink to={LOGIN_PAGE} style={{marginRight:"5px"}}>Đăng nhập</NavLink>
+        <NavLink to={LOGIN_PAGE}>Sign in</NavLink>
       </Menu.Item>
       <Menu.Item key="1">
-        <NavLink to={REGISTRATION_PAGE}>Đăng kí</NavLink>
+        <NavLink to={REGISTRATION_PAGE}>Sign up</NavLink>
       </Menu.Item>
       
       <Menu.Item key="2">

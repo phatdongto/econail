@@ -20,7 +20,7 @@ const RenderSignUpForm = props => {
           name="username"
           type="text"
           size="large"
-          placeholder="Tên đang nhập"
+          placeholder="Username"
           submitCount={submitCount}
           value={values.username}
           hasFeedback
@@ -50,7 +50,7 @@ const RenderSignUpForm = props => {
           name="password"
           type="password"
           size="large"
-          placeholder="Mật khẩu"
+          placeholder="Password"
           submitCount={submitCount}
           value={values.password}
           hasFeedback
@@ -60,7 +60,7 @@ const RenderSignUpForm = props => {
           name="confirmPassword"
           type="password"
           size="large"
-          placeholder="Nhập lại mật khẩu"
+          placeholder="Confirm Password"
           submitCount={submitCount}
           value={values.confirmPassword}
           hasFeedback
@@ -73,7 +73,7 @@ const RenderSignUpForm = props => {
               submitCount={submitCount}
               value={values.rememberMe}
             />
-            <Label>Nhớ mật khẩu</Label>
+            <Label>Remember Me</Label>
           </SwitchWrapper>
           <SwitchWrapper className="termsAndConditions">
             <Field
@@ -82,7 +82,7 @@ const RenderSignUpForm = props => {
               submitCount={submitCount}
               value={values.termsAndConditions}
             />
-            <Label>Đồng ý với điều khoản sử dụng</Label>
+            <Label>I agree with terms and condtions</Label>
           </SwitchWrapper>
         </FieldWrapper>
 
@@ -94,7 +94,7 @@ const RenderSignUpForm = props => {
           style={{ width: '100%' }}
         >
           <MdLockOpen />
-          Đăng ký
+          Register
         </Button>
       </Form>
     </FormWrapper>

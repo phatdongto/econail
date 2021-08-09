@@ -3,7 +3,8 @@ import { themeGet } from '@styled-system/theme-get';
 const ReviewWrapper = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
- 
+  margin-left: 50px;
+  margin-right: 50px;
   padding: 15px 15px 15px 15px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 
