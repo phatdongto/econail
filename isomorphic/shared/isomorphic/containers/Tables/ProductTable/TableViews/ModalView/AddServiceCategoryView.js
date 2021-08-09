@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button,Form,Input,Select,Checkbox } from 'antd';
-import { FormWrapper } from '../../../AntTables/AntTables.styles';
+import { FormWrapper } from '../../../../CustomerSinglePage/AntTables/AntTables.styles';
 
 const AddServiceCategoryView = () => {
 return (
