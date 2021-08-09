@@ -15,7 +15,7 @@ const BoxWrapper = styled(BoxComponent)`
 
 const StatusTag = styled.span`
   padding: 0 5px;
-  height: 20px;
+  
   display: inline-flex;
   align-items: center;
   justify-content: center;
