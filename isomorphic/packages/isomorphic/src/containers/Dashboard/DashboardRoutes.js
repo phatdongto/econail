@@ -56,6 +56,12 @@ const routes = [
     component: lazy(() => import('@iso/containers/Forms/Forms')),
   },
   {
+    path: 'branch',
+    component: lazy(() =>
+    import('@iso/containers/Tables/BranchTable/AntTables')
+    ),
+  },
+  {
     path: 'InputField',
     component: lazy(() => import('@iso/containers/Forms/Input/Input')),
   },
@@ -237,19 +243,14 @@ const routes = [
       import('@iso/containers/UIElements/Pagination/Pagination')
     ),
   },
-  {
-    path: 'branch',
-    component: lazy(() =>
-      import('@iso/containers/Tables/BranchTable/AntTables')
-    ),
-  },
+  
   {
     path: 'employee_management/:invoiceId',
     component: lazy(() => import('@iso/containers/EmployeeSinglePage/EmployeeSinglePage')),
   },
   {
     path: 'employee_management',
-    component: lazy(() => import('@iso/containers/Tables/EmployeeTable/EmployeeTable')),
+    component: lazy(() => import('@iso/containers/Tables/EmployeeTable/EmployeeTable1')),
   },
   {
     path: 'op_popover',

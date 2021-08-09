@@ -97,7 +97,7 @@ export default function() {
                 Chi tiết
               </Button>
 
-              <Button icon="delete" shape="circle" type="danger" />
+              <Button  shape="circle" type="danger" ><i className="ion-android-delete" /></Button>
             </>
           )}
         </>

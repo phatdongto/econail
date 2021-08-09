@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect,useState } from "react";
 import TableWrapper from "../../AntTables/AntTables.styles";
+import { SearchIcon } from "@iso/components/ScrumBoard/SearchInput/SearchInput.style";
 import services from "../../services";
 import { Table } from "antd";
 import { TabPane } from "@iso/components/uielements/tabs";
@@ -12,7 +13,7 @@ import { Form, Input, Checkbox, Modal, Select } from "antd";
 import product_employee from "../../product_employee";
 import AddEmployeeView from "./ModalView/AddEmployeeView";
 import axios from "axios";
-
+const { Search } = Input;
 export default function() {
   const [state, setState] = React.useState({
     dataList:{},
@@ -162,11 +163,11 @@ export default function() {
             </Button>
 
             <Button
-              icon="delete"
-              onClick={showModalDelete}
-              shape="circle"
-              type="danger"
-            />
+               
+                onClick={showModalDelete}
+                shape="circle"
+                type="danger"
+              > <i className="ion-android-delete" /></Button>
             <Modal
               title="Xác nhận"
               visible={visibleDeleteModal}
@@ -188,13 +189,16 @@ export default function() {
     <>
    
       <ViewWrapper>
-        <Button
-          shape="round"
-          onClick={showModal}
-          style={{ marginBottom: "3%",backgroundColor:"#22D3EE",color:"whitesmoke" }}
-        >
-          Thêm nhân viên mới +
-        </Button>
+      <div className="a">
+          <Search placeholder="Nhập tên nhân viên"  style={{ width: 200 }} />
+          <Button
+            shape="round "
+            onClick={showModal}
+            style={{ marginBottom: "3%",color:'whitesmoke',backgroundColor:"#22D3EE",border:'none',float:'right' }}
+          >
+            Thêm nhân viên mới +
+          </Button>
+          </div>
         <TableWrapper dataSource={dataList1.dataEmployee} columns={columns} />
       </ViewWrapper>
       <Modal

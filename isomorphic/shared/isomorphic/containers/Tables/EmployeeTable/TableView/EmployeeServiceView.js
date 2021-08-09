@@ -6,7 +6,7 @@ import { Button } from "antd";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Drawer, Descriptions, Badge, Modal, Tag ,Input} from "antd";
 import { useSelector } from "react-redux";
-
+import { SearchIcon } from "@iso/components/ScrumBoard/SearchInput/SearchInput.style";
 import AddEmployeeView from "./ModalView/AddEmployeeView";
 import service_employee from "../../service_employee";
 import axios from "axios";
@@ -14,19 +14,7 @@ const { Search } = Input;
 export default function() {
 
   const [dataList1, setData] = useState({ data: [] });
-  useEffect(() => {
-     const fetchData = async () => {
-       const result = await axios("http://econail.localhost/api/sub_admin/staff?role=1", {
-       method: 'GET', 
-       
-    
-     });
-       res=JSON.parse(result.data)
-       setData(res.data.data)
-      
-     };
-     fetchData();
-   }, []);
+  
 
   const [state, setState] = React.useState({
     dataList: service_employee.data.data,
@@ -158,11 +146,11 @@ export default function() {
               </Button>
 
               <Button
-                icon="delete"
+               
                 onClick={showModalDelete}
                 shape="circle"
                 type="danger"
-              />
+              > <i className="ion-android-delete" /></Button>
               <Modal
                 title="Xác nhận"
                 visible={visibleDeleteModal}
@@ -187,60 +175,60 @@ export default function() {
   };
 
   return (
-    <>
-      <ViewWrapper>
-        <div className="a">
-        <Search placeholder="Nhập tên nhân viên"  style={{ width: 200 }} />
-        <Button
-          shape="round "
-          onClick={showModal}
-          style={{ marginBottom: "3%",color:'whitesmoke',backgroundColor:"#22D3EE",border:'none',float:'right' }}
+      <>
+        <ViewWrapper>
+          <div className="a">
+          <Search placeholder="Nhập tên nhân viên"  style={{ width: 200 }} />
+          <Button
+            shape="round "
+            onClick={showModal}
+            style={{ marginBottom: "3%",color:'whitesmoke',backgroundColor:"#22D3EE",border:'none',float:'right' }}
+          >
+            Thêm nhân viên mới +
+          </Button>
+          </div>
+          {state.dataList.length > 0 ?( <TableWrapper dataSource={state.dataList} columns={columns} />)
+          :
+          (<div>Không có sản phẩm</div>)}
+        
+        </ViewWrapper>
+
+        <Modal
+          title="Thêm nhân viên"
+          visible={visible}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+          okText="Thêm"
+          cancelText="Hủy"
         >
-          Thêm nhân viên mới +
-        </Button>
-        </div>
-        {state.dataList.length > 0 ?( <TableWrapper dataSource={state.dataList} columns={columns} />)
-        :
-        (<div>Không có sản phẩm</div>)}
-       
-      </ViewWrapper>
+          <AddEmployeeView />
+        </Modal>
+        <Drawer
+          closable={false}
+          title="Thông tin  Nhân viên"
+          width={720}
+          visible={visibleInfo}
+          onClose={handleCancelDrwerInfo}
+          bodyStyle={{ paddingBottom: 80 }}
+        >
+          <Descriptions title="" layout="vertical" bordered>
+            <Descriptions.Item label="Tên nhân viên" span={3}>
+              {state.employee.username}
+            </Descriptions.Item>
+            <Descriptions.Item label="Email" span={1}>
+              {state.employee.email}
+            </Descriptions.Item>
+            <Descriptions.Item label="Làm tại" span={1}></Descriptions.Item>
+            <Descriptions.Item label="Vị trí" span={1}>
+              {state.employee.role}
+            </Descriptions.Item>
 
-      <Modal
-        title="Thêm nhân viên"
-        visible={visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        okText="Thêm"
-        cancelText="Hủy"
-      >
-        <AddEmployeeView />
-      </Modal>
-      <Drawer
-        closable={false}
-        title="Thông tin  Nhân viên"
-        width={720}
-        visible={visibleInfo}
-        onClose={handleCancelDrwerInfo}
-        bodyStyle={{ paddingBottom: 80 }}
-      >
-        <Descriptions title="" layout="vertical" bordered>
-          <Descriptions.Item label="Tên nhân viên" span={3}>
-            {state.employee.username}
-          </Descriptions.Item>
-          <Descriptions.Item label="Email" span={1}>
-            {state.employee.email}
-          </Descriptions.Item>
-          <Descriptions.Item label="Làm tại" span={1}></Descriptions.Item>
-          <Descriptions.Item label="Vị trí" span={1}>
-            {state.employee.role}
-          </Descriptions.Item>
-
-          <Descriptions.Item label="Tình trạng" span={3}>
-            <Badge status="processing" text="Đang làm" />
-          </Descriptions.Item>
-        </Descriptions>
-      </Drawer>
-    </>
+            <Descriptions.Item label="Tình trạng" span={3}>
+              <Badge status="processing" text="Đang làm" />
+            </Descriptions.Item>
+          </Descriptions>
+        </Drawer>
+      </>
   );
 }

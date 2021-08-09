@@ -6,9 +6,9 @@ import { Icon } from "antd";
 
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Drawer, Descriptions, Badge, Modal } from "antd";
-import services_1 from "../../services";
+import services_1 from "../../services"
 
-import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
+import AddServiceView from "./ModalView/AddServiceView";
 
 export default function() {
   const [state, setState] = React.useState({
@@ -172,11 +172,11 @@ export default function() {
           </Button>
 
           <Button
-            icon="delete"
+            
             onClick={showModalDelete}
             shape="circle"
             type="danger"
-          />
+          ><i className="ion-android-delete" /></Button>
           <Modal
             title="Xác nhận"
             visible={visibleDeleteModal}
@@ -249,7 +249,7 @@ export default function() {
         okText="Thêm"
         cancelText="Hủy"
       >
-        <AddEmployeeView />
+        <AddServiceView/>
       </Modal>
     </>
   );

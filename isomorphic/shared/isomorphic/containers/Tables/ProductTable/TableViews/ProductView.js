@@ -8,9 +8,9 @@ import DrawerDetailService from "./Drawer";
 import { backgroundColor, color, marginRight } from "styled-system";
 import { ViewWrapper } from "../../../CustomerSinglePage/AntTables/AntTables.styles";
 import { Drawer, Descriptions, Badge, Modal } from "antd";
-import services_1 from "../../services";
+
 import products from "../../product";
-import service_employee from "../../service_employee";
+
 
 //import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
 

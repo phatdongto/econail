@@ -2,9 +2,9 @@ import React , { useState }from 'react';
 import { Component } from 'react';
 import TableWrapper from '../AntTables.styles';
 import { Button } from 'antd';
-import categories from "../../category"
+
 import { Drawer,Descriptions,Badge , Modal} from 'antd';
-import category_product from '../../AntTables/categoryproduct';
+import category_product from '../category';
 import { backgroundColor, color, marginRight } from 'styled-system';
 import AddServiceCategoryView from './ModalView/AddServiceCategoryView';
 export default function() {

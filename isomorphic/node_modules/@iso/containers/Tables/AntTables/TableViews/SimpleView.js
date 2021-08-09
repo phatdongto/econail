@@ -1,5 +1,5 @@
 import React from 'react';
-import TableWrapper from '../AntTables.styles';
+import TableWrapper from "..//AntTables.styles"
 
 export default function(props) {
   const dataSource = props.dataSource || props.dataList.getAll();

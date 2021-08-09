@@ -176,7 +176,7 @@ export default function() {
         okText="Thêm"
         cancelText="Hủy"
     >
-      <AddEmployeeView/>
+      
       </Modal>
     </>
   );

@@ -94,15 +94,16 @@ const groupColumns = [
 ];
 const tableinfos = [
   {
-    title: 'Dịch vụ',
-    value: 'service',
+    title: 'Nhân viên dịch vụ',
+    value: 'service_employee',
     columns: clone(smallColumns),
   },
   {
-    title: 'Các loại dịch vụ',
-    value: 'category',
+    title: 'Nhân viên bán hàng',
+    value: 'product_employee',
     columns: clone(smallColumns),
   },
+  
   
 ];
 export { columns, tableinfos };

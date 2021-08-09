@@ -94,13 +94,8 @@ const groupColumns = [
 ];
 const tableinfos = [
   {
-    title: 'Dịch vụ',
-    value: 'service',
-    columns: clone(smallColumns),
-  },
-  {
-    title: 'Các loại dịch vụ',
-    value: 'category',
+    title: 'Chi nhánh',
+    value: 'branch',
     columns: clone(smallColumns),
   },
   

@@ -10,7 +10,7 @@ import Scrollbars from '@iso/components/utility/customScrollBar';
 import Button from '@iso/components/uielements/button';
 import invoiceActions from '@iso/redux/invoice/actions';
 import CardWrapper, { Box, StatusTag } from '../../Invoice/Invoice.styles';
-
+import TableWrapper from "../AntTables/AntTables.styles"
 const { initData, deleteInvoice } = invoiceActions;
 export default function Invoices() {
   const [selected, setSelected] = React.useState([]);
