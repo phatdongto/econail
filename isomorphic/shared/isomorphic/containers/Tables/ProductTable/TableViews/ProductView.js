@@ -1,18 +1,18 @@
 import React from "react";
-import TableWrapper from "../../AntTables/AntTables.styles";
+import TableWrapper from "../AntTables.styles";
 
 import { Icon } from 'antd';
 import { FilterDropdown } from '@iso/components/Tables/HelperCells';
 import { Button } from "antd";
 import DrawerDetailService from "./Drawer";
 import { backgroundColor, color, marginRight } from "styled-system";
-import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
+import { ViewWrapper } from "../../../CustomerSinglePage/AntTables/AntTables.styles";
 import { Drawer, Descriptions, Badge, Modal } from "antd";
 import services_1 from "../../services";
 import products from "../../product";
 import service_employee from "../../service_employee";
 
-import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
+//import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
 
 export default function(props) {
   const [state, setState] = React.useState({
@@ -211,7 +211,7 @@ export default function(props) {
         okText="Thêm"
         cancelText="Hủy"
       >
-        <AddEmployeeView />
+        
       </Modal>
       <Drawer  
         closable={false}
