@@ -9,6 +9,10 @@ const routes = [
     exact: true,
   },
   {
+    path: 'product_management',
+    component: lazy(() => import('@iso/containers/Tables/ProductTable/ProductTable')),
+  },
+  {
     path: 'inbox',
     component: lazy(() => import('@iso/containers/Mail/Mail')),
   },
@@ -234,6 +238,20 @@ const routes = [
     ),
   },
   {
+    path: 'branch',
+    component: lazy(() =>
+      import('@iso/containers/Tables/BranchTable/AntTables')
+    ),
+  },
+  {
+    path: 'employee_management/:invoiceId',
+    component: lazy(() => import('@iso/containers/EmployeeSinglePage/EmployeeSinglePage')),
+  },
+  {
+    path: 'employee_management',
+    component: lazy(() => import('@iso/containers/Tables/EmployeeTable/EmployeeTable')),
+  },
+  {
     path: 'op_popover',
     component: lazy(() => import('@iso/containers/UIElements/Popover/Popover')),
   },
@@ -311,6 +329,7 @@ const routes = [
       import('@iso/containers/Charts/FrappeChart/FrappeChart')
     ),
   },
+  
   {
     path: 'invoice/:invoiceId',
     component: lazy(() => import('@iso/containers/Invoice/SingleInvoice')),
@@ -319,6 +338,40 @@ const routes = [
     path: 'invoice',
     component: lazy(() => import('@iso/containers/Invoice/Invoices')),
   },
+  {
+    path: 'delivery_management/confirm/:invoiceId',
+    component: lazy(() => import('@iso/containers/ConfirmDelivery/ConfirmDelivery')),
+  },
+  {
+    path: 'booking_management/confirm/:invoiceId',
+    component: lazy(() => import('@iso/containers/ConfirmBooking/BookingSinglePage')),
+  },
+  {
+    path: 'booking_management/:invoiceId',
+    component: lazy(() => import('@iso/containers/BookingSinglePage/BookingSinglePage')),
+  },
+  {
+    path: 'booking_management',
+    component: lazy(() => import('@iso/containers/BookingManagement/BookingManagement')),
+  },
+  {
+    path: 'customer_management/:invoiceId',
+    component: lazy(() => import('@iso/containers/CustomerSinglePage/CustomerSinglePage')),
+  },
+  
+  {
+    path: 'customer_management',
+    component: lazy(() => import('@iso/containers/Tables/CustomerTable/CustomerTable')),
+  },
+  {
+    path: 'delivery_management/:invoiceId',
+    component: lazy(() => import('@iso/containers/DeliverySinglePage/DeliverySinglePage')),
+  },
+  {
+    path: 'delivery_management',
+    component: lazy(() => import('@iso/containers/DeliveryManagement/DeliveryManagement')),
+  },
+  
   {
     path: 'chat',
     component: lazy(() => import('@iso/containers/Chat/Chat')),

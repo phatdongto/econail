@@ -1,4 +1,5 @@
 // default data for filter elements
+import categories from "./CategorySearch/categories";
 export const priceInit = {
   0: '0VND',
   100: '10000000VND',
@@ -16,4 +17,5 @@ export const getPropertyType = {
     { label: 'Duplex', value: 'duplex' },
     { label: 'Landscape', value: 'landscape' },
   ],
+  
 };

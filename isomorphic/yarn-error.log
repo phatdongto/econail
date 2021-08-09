@@ -77,12 +77,10 @@ npm manifest:
       "serve": "^11.2.0"
     },
     "dependencies": {
-  <<<<<<< HEAD
+
       "antd": "^4.16.9",
       "react-bootstrap": "^1.6.1"
-  =======
-      "@syncfusion/ej2-react-calendars": "^19.2.46"
-  >>>>>>> d744fe19fc9b55af600749fef0ded11c1e22aca3
+
     }
   }
 
