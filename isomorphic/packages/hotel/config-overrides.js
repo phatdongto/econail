@@ -20,6 +20,14 @@ module.exports = function(config, env) {
         fs.realpathSync('../../node_modules/@hotel/assets'),
         fs.realpathSync('../../node_modules/@iso/lib'),
         fs.realpathSync('../../node_modules/@iso/ui'),
+
+        fs.realpathSync('../../node_modules/@iso/components'),
+        fs.realpathSync('../../node_modules/@iso/lib'),
+        fs.realpathSync('../../node_modules/@iso/ui'),
+        fs.realpathSync('../../node_modules/@iso/redux'),
+        fs.realpathSync('../../node_modules/@iso/containers'),
+        fs.realpathSync('../../node_modules/@iso/config'),
+        fs.realpathSync('../../node_modules/@iso/assets'),
       ]),
       fixBabelImports('import', {
         libraryName: 'antd',

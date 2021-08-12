@@ -1,36 +1,33 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 import "./Cart.css";
-import CartTable from './CartTable';
-import { CartLayout,CartWrapper } from './CartTable.styles';
-import { InputNumber } from 'antd';
+import CartTable from "./CartTable";
+import { CartLayout, CartWrapper } from "./CartTable.styles";
+import { InputNumber } from "antd";
+import { CHECKOUT_PAGE } from "../../settings/constant";
 function formatCurrency(value) {
   return Number(value).toLocaleString("en-US", {
     style: "currency",
-    currency: "USD"
+    currency: "USD",
   });
 }
 function Header({ itemCount }) {
   return (
     <header className="container">
       <span className="count">{itemCount} trong giỏ hàng</span>
-      
+
       <ul className="breadcrumb">
-        
         <div className="row">
-        <div className="col left">
-        <li className="title-thumbnail">Hình ảnh</li>
-        <li className="title-detail">Tên sản phẩm</li>
-        
-        </div>
-        <div className="col right1">
-        <li className="title-quantity">Số lượng</li>
-        <li className="title-total">Tổng</li>
-        
-        </div>
+          <div className="col left">
+            <li className="title-thumbnail">Hình ảnh</li>
+            <li className="title-detail">Tên sản phẩm</li>
+          </div>
+          <div className="col right1">
+            <li className="title-quantity">Số lượng</li>
+            <li className="title-total">Tổng</li>
+          </div>
         </div>
       </ul>
-
-      
     </header>
   );
 }
@@ -38,7 +35,6 @@ function Header({ itemCount }) {
 function ProductList({ products, onChangeProductQuantity, onRemoveProduct }) {
   return (
     <section className="container">
-
       <ul className="products">
         {products.map((product, index) => {
           return (
@@ -60,17 +56,15 @@ function ProductList({ products, onChangeProductQuantity, onRemoveProduct }) {
 
               <div className="col right">
                 <div className="quantity">
-                <InputNumber
-          min={1}
-          max={1000}
-          value={product.quantity}
-          step={1}
-          onChange={(event) => onChangeProductQuantity(index, event)}
-        />
-                  
+                  <InputNumber
+                    min={1}
+                    max={1000}
+                    value={product.quantity}
+                    step={1}
+                    onChange={(event) => onChangeProductQuantity(index, event)}
+                  />
                 </div>
                 <div className="total1">10$</div>
-                
 
                 <div className="remove">
                   <svg
@@ -99,7 +93,7 @@ function Summary({
   discount,
   tax,
   onEnterPromoCode,
-  checkPromoCode
+  checkPromoCode,
 }) {
   const total = subTotal - discount + tax;
 
@@ -108,7 +102,9 @@ function Summary({
       <div className="promotion">
         <label htmlFor="promo-code">Có mã khuyến mãi không</label>
         <input type="text" onChange={onEnterPromoCode} />
-        <button type="button" onClick={checkPromoCode} >Xác nhận</button>
+        <button type="button" onClick={checkPromoCode}>
+          Xác nhận
+        </button>
       </div>
 
       <div className="summary">
@@ -131,7 +127,9 @@ function Summary({
       </div>
 
       <div className="checkout">
-        <button type="button">Thanh Toán</button>
+        <Link to={CHECKOUT_PAGE}>
+          <button type="button">Thanh Toán</button>
+        </Link>
       </div>
     </section>
   );
@@ -143,29 +141,29 @@ const PRODUCTS = [
     name: "PRODUCT ITEM NUMBER 1",
     description: "Description for product item number 1",
     price: 5.99,
-    quantity: 2
+    quantity: 2,
   },
   {
     image: "https://via.placeholder.com/200x150",
     name: "PRODUCT ITEM NUMBER 2",
     description: "Description for product item number 1",
     price: 9.99,
-    quantity: 1
-  }
+    quantity: 1,
+  },
 ];
 const PROMOTIONS = [
   {
     code: "SUMMER",
-    discount: "50%"
+    discount: "50%",
   },
   {
     code: "AUTUMN",
-    discount: "40%"
+    discount: "40%",
   },
   {
     code: "WINTER",
-    discount: "30%"
-  }
+    discount: "30%",
+  },
 ];
 const TAX = 5;
 
@@ -225,32 +223,31 @@ export default function Page() {
   return (
     <CartWrapper>
       <CartLayout>
-      <Header itemCount={itemCount} />
+        <Header itemCount={itemCount} />
 
-      {products.length > 0 ? (
-        <div>
-          <ProductList
-            products={products}
-            onChangeProductQuantity={onChangeProductQuantity}
-            onRemoveProduct={onRemoveProduct}
-          />
+        {products.length > 0 ? (
+          <div>
+            <ProductList
+              products={products}
+              onChangeProductQuantity={onChangeProductQuantity}
+              onRemoveProduct={onRemoveProduct}
+            />
 
-          <Summary
-            subTotal={subTotal}
-            discount={discount}
-            tax={TAX}
-            onEnterPromoCode={onEnterPromoCode}
-            checkPromoCode={checkPromoCode}
-          />
-        </div>
-      ) : (
-        <div className="empty-product">
-          <h3>There are no products in your cart.</h3>
-          <button onClick={() => setProducts(PRODUCTS)}>Shopping now</button>
-        </div>
-      )}
-    </CartLayout>
+            <Summary
+              subTotal={subTotal}
+              discount={discount}
+              tax={TAX}
+              onEnterPromoCode={onEnterPromoCode}
+              checkPromoCode={checkPromoCode}
+            />
+          </div>
+        ) : (
+          <div className="empty-product">
+            <h3>There are no products in your cart.</h3>
+            <button onClick={() => setProducts(PRODUCTS)}>Shopping now</button>
+          </div>
+        )}
+      </CartLayout>
     </CartWrapper>
   );
 }
- 
