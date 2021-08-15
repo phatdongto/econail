@@ -17,7 +17,9 @@ const { clearMenu } = appActions;
 export default function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const submitLogin=()=>{
+    
+  }
   const handleLogin = (token = false) => {
     console.log(token, 'handlelogin');
     if (token) {
