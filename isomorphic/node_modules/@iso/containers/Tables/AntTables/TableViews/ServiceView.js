@@ -3,14 +3,40 @@ import TableWrapper from "../../AntTables/AntTables.styles";
 import { FilterDropdown } from "@iso/components/Tables/HelperCells";
 import { Button } from "antd";
 import { Icon } from "antd";
-
+import { useState,useEffect } from "react";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Drawer, Descriptions, Badge, Modal } from "antd";
 import services_1 from "../../services"
 
 import AddServiceView from "./ModalView/AddServiceView";
 
+import axios from "axios";
 export default function() {
+  const [data, setData] = useState([]);
+  const USER_TOKEN=localStorage.getItem('token');
+  const AuthStr = 'Bearer '.concat(USER_TOKEN); 
+  function getService(){
+    axios.get('http://econail.localhost/api/admin/service',{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(response=>{
+      const service=response.data.data.data
+      setData(service)
+    })
+  }
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   let result = await axios.get(
+    //     'http://econail.localhost/api/g/service'
+        
+    //   );
+    //   let a = result.data;
+    //   data.hits=a.data.data;
+      
+    // };
+    
+    // fetchData();
+    getService();
+    
+  }, []);
   const [state, setState] = React.useState({
     dataList: services_1.data.data,
     filterDropdownVisible: false,
@@ -200,7 +226,11 @@ export default function() {
 
   return (
     <>
+    
       <ViewWrapper>
+     
+      
+    
         <Button
          shape="round"
          onClick={showModal}
@@ -208,7 +238,7 @@ export default function() {
         >
           Thêm dịch vụ mới +
         </Button>
-        <TableWrapper dataSource={state.dataList} columns={columns} />
+        <TableWrapper dataSource={data} columns={columns} />
       </ViewWrapper>
       <Drawer
         closable={false}
@@ -254,3 +284,4 @@ export default function() {
     </>
   );
 }
+

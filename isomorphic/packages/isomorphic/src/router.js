@@ -7,11 +7,12 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { useState } from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import { PUBLIC_ROUTE } from './route.constants';
 import Loader from '@iso/components/utility/loader';
-
+import SignIn from '@iso/containers/Pages/SignIn/SignIn';
+import useToken from './useToken';
 const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'));
 
 const publicRoutes = [
@@ -57,19 +58,29 @@ const publicRoutes = [
 ];
 
 function PrivateRoute({ children, ...rest }) {
+ 
   let location = useLocation();
   const isLoggedIn = useSelector(state => state.Auth.idToken);
-  if (isLoggedIn) return <Route {...rest}>{children}</Route>;
-  return (
-    <Redirect
-      to={{
-        pathname: '/signin',
-        state: { from: location },
-      }}
-    />
-  );
+  const token = localStorage.getItem('token');
+
+  //  if(isLoggedIn) return <Route {...rest}>{children}</Route>;
+  
+  
+  // return <Redirect
+  //     to={{
+  //        pathname: '/signin',
+  //       state: { from: location },
+  //      }}
+  //    />
+   if (token) return <Route {...rest}>{children}</Route>;
+   return (
+    <SignIn/>
+   );
 }
 export default function Routes() {
+  
+  
+  
   return (
     <ErrorBoundary>
       <Suspense fallback={<Loader />}>
@@ -80,6 +91,7 @@ export default function Routes() {
                 <route.component />
               </Route>
             ))}
+           
             <PrivateRoute path="/dashboard">
               <Dashboard />
             </PrivateRoute>
