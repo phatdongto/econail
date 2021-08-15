@@ -22,8 +22,9 @@ import SignInStyleWrapper from './SignIn.styles';
 
 const { login } = authAction;
 const { clearMenu } = appAction;
-async function loginUser() {
-    return axios.get('http://econail.localhost/api/login?username=admin&password=admin')
+async function loginUser(username,password) {
+    const url='http://econail.localhost/api/login?username='+username+'&password='+password
+    return axios.get(url)
     .then(res => res.data.data.access_token
     )
  }
@@ -32,7 +33,8 @@ export default function SignIn({setToken}) {
   let location = useLocation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.Auth.idToken);
- 
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false);
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -42,7 +44,7 @@ export default function SignIn({setToken}) {
   
    const handleSubmit = async e => {
     e.preventDefault();
-    const token = await loginUser();
+    const token = await loginUser(username,password);
     console.log(token);
     
     localStorage.setItem('token', token);
@@ -79,6 +81,7 @@ export default function SignIn({setToken}) {
                   size="large"
                   placeholder="Username"
                   autoComplete="true"
+                  onChange={e => setUserName(e.target.value)}
                 />
               </div>
 
@@ -88,6 +91,7 @@ export default function SignIn({setToken}) {
                   type="password"
                   placeholder="Password"
                   autoComplete="false"
+                  onChange={e => setPassword(e.target.value)}
                 />
               </div>
 
