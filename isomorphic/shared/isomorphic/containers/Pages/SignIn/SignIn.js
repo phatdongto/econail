@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Input from '@iso/components/uielements/input';
@@ -9,6 +11,7 @@ import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm';
 import authAction from '@iso/redux/auth/actions';
 import appAction from '@iso/redux/app/actions';
 import Auth0 from '../../Authentication/Auth0/Auth0';
+import useToken from '../../../../../packages/isomorphic/src/useToken';
 import {
   signInWithGoogle,
   signInWithFacebook,
@@ -19,20 +22,34 @@ import SignInStyleWrapper from './SignIn.styles';
 
 const { login } = authAction;
 const { clearMenu } = appAction;
-
-export default function SignIn() {
+async function loginUser(username,password) {
+    const url='http://econail.localhost/api/login?username='+username+'&password='+password
+    return axios.get(url)
+    .then(res => res.data.data.access_token
+    )
+ }
+export default function SignIn({setToken}) {
   let history = useHistory();
   let location = useLocation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.Auth.idToken);
-
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false);
   React.useEffect(() => {
     if (isLoggedIn) {
       setRedirectToReferrer(true);
     }
   }, [isLoggedIn]);
-
+  
+   const handleSubmit = async e => {
+    e.preventDefault();
+    const token = await loginUser(username,password);
+    console.log(token);
+    
+    localStorage.setItem('token', token);
+    history.push('/dashboard');
+  }
   function handleLogin(e, token = false) {
     e.preventDefault();
     if (token) {
@@ -64,6 +81,7 @@ export default function SignIn() {
                   size="large"
                   placeholder="Username"
                   autoComplete="true"
+                  onChange={e => setUserName(e.target.value)}
                 />
               </div>
 
@@ -73,6 +91,7 @@ export default function SignIn() {
                   type="password"
                   placeholder="Password"
                   autoComplete="false"
+                  onChange={e => setPassword(e.target.value)}
                 />
               </div>
 
@@ -80,7 +99,7 @@ export default function SignIn() {
                 <Checkbox>
                   <IntlMessages id="page.signInRememberMe" />
                 </Checkbox>
-                <Button type="primary" onClick={handleLogin}>
+                <Button type="primary" onClick={handleSubmit}>
                   <IntlMessages id="page.signInButton" />
                 </Button>
               </div>
@@ -134,3 +153,6 @@ export default function SignIn() {
     </SignInStyleWrapper>
   );
 }
+SignIn.propTypes = {
+  setToken: PropTypes.func.isRequired
+};
