@@ -5,7 +5,7 @@ import TableWrapper from "../../AntTables/AntTables.styles";
 import { FilterDropdown } from "@iso/components/Tables/HelperCells";
 
 import { Icon } from "antd";
-
+import DrawerService from "../DrawerService/DrawerService";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Drawer, Descriptions, Modal, Radio,Form,Input,Button,Popconfirm } from "antd";
 import services_1 from "../../services";
@@ -312,6 +312,7 @@ export default function() {
         </Button>
         <TableWrapper dataSource={data} columns={columns} />
       </ViewWrapper>
+      
       <Drawer
         closable={false}
         title="Thông tin  dịch vụ"
@@ -320,7 +321,8 @@ export default function() {
         onClose={handleCancelDrwerInfo}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <Descriptions title="" layout="vertical" bordered>
+        <DrawerService service={state.service} />
+        {/* <Descriptions title="" layout="vertical" bordered>
           <Descriptions.Item label="Tên dịch vụ" span={12}>
             {state.service.name}
           </Descriptions.Item>
@@ -340,7 +342,7 @@ export default function() {
           <Descriptions.Item label="Mô tả">
             {state.service.description}
           </Descriptions.Item>
-        </Descriptions>
+        </Descriptions> */}
       </Drawer>
        <Modal
             title="Xác nhận"
