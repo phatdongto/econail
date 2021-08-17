@@ -1,45 +1,60 @@
-import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
-import { FaHome, FaRegCalendarAlt } from 'react-icons/fa';
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosArrowForward } from 'react-icons/io';
-import Loader from '@hotel/components/Loader/Loader';
-import { DatePicker, Select } from 'antd';
-import 'antd/dist/antd.css';
-import { Form } from "react-bootstrap";
+import React, { Fragment, useState } from "react";
+// import PropTypes from "prop-types";
+// import { FaHome, FaRegCalendarAlt } from "react-icons/fa";
+// import { IoIosArrowBack } from "react-icons/io";
+// import { IoIosArrowForward } from "react-icons/io";
+// import Loader from "@hotel/components/Loader/Loader";
+import { Select, DatePicker } from "antd";
 
+import "antd/dist/antd.css";
+import { Form } from "react-bootstrap";
 
 import ServiceOrderWrapper, {
   Title,
   SubTitle,
   Component,
   styles,
-  colourStyles
-} from './ServiceOrder.style';
+  colourStyles,
+} from "./ServiceOrder.style";
 
-const options = [
-  {label : "Lucy", value : 'Lucy'},
-  {label : "Jake", value : 'Jack'},
-  {label : "Vance", value : 'Vance'},
-];
+// const options = [
+//   { label: "Lucy", value: "Lucy" },
+//   { label: "Jake", value: "Jack" },
+//   { label: "Vance", value: "Vance" },
+// ];
 
 // const Option = {Select}
+const { Option } = Select;
 
 const ServiceListing = () => {
+  const [options, setOptions] = useState([
+    { label: "Lucy", value: "Lucy" },
+    { label: "Jake", value: "Jack" },
+    { label: "Vance", value: "Vance" },
+  ]);
+
   return (
-    <div style = {{position:"relative", top:"0", left:"0", width: '100%', height: '100vh'}}>
+    <div
+      style={{
+        position: "relative",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
       <ServiceOrderWrapper>
         <Title>THÔNG TIN ĐẶT LỊCH</Title>
         <Component>
           <SubTitle>Chọn Salon</SubTitle>
           {/* <Form.Item > */}
-          <Select 
-            options = {options}
-            style={styles}
-            placeholder="Chọn Salon"
-          />  
+          <Select options={options} style={styles} placeholder="Chọn Salon">
+            {options.map((option) => (
+              <Option value={option.value}>{option.value}</Option>
+            ))}
+          </Select>
           {/* </Form.Item> */}
-            {/* <Option value = 'Kim'> Kim </Option>
+          {/* <Option value = 'Kim'> Kim </Option>
           </Select> */}
 
           <SubTitle>Dịch vụ</SubTitle>
