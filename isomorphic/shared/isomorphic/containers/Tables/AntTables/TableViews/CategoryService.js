@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Component } from "react";
 import TableWrapper from "../AntTables.styles";
 import { Button } from "antd";
@@ -8,6 +9,21 @@ import { Drawer, Descriptions, Badge, Modal } from "antd";
 import { backgroundColor, color, marginRight } from "styled-system";
 import AddServiceCategoryView from "./ModalView/AddServiceCategoryView";
 export default function() {
+  const [data, setData] = useState([]);
+  const USER_TOKEN=localStorage.getItem('token');
+  const AuthStr = 'Bearer '.concat(USER_TOKEN); 
+  function getCategoryService(){
+    axios.get('http://econail.localhost/api/admin/service_category',{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(response=>{
+      const category_service=response.data.data.data
+      setData(category_service)
+    })
+  }
+  useEffect(() => {
+    
+    getCategoryService();
+    
+  }, []);
   const [state, setState] = React.useState({
     dataList: categories.data.data,
 
@@ -116,7 +132,7 @@ export default function() {
           style={{ marginBottom: "3%" ,backgroundColor:"#22D3EE",color:'whitesmoke'  }}>
         Thêm thể loại mới +
       </Button>
-      <TableWrapper dataSource={categories.data.data} columns={columns} />
+      <TableWrapper dataSource={data} columns={columns} />
       <Modal
         title="Thêm thể loại"
         visible={visible}
