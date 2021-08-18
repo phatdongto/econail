@@ -356,7 +356,7 @@ export default function() {
             Xóa dịch vụ {state.service_name}?
           </Modal>
       <Modal
-        title="Thêm nhân viên"
+        title="Thêm sản phẩm"
         visible={visible}
         onOk={handleSubmit}
         confirmLoading={confirmLoading}
@@ -367,7 +367,7 @@ export default function() {
         <FormWrapper>
           <Form name="basic" layout="vertical" hideRequiredMark>
             <Form.Item
-              label="Tên dịch vụ"
+              label="Tên sản phẩm"
               name="name"
               
             >
