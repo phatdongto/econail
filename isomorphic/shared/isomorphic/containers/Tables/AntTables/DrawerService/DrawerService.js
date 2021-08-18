@@ -26,11 +26,11 @@ const DrawerService=(props)=>{
   const [timeEstimate,setTimeEstimate]=useState();
   const [book_online, setBookOnline] = React.useState(true);
   const [value, setValue] = React.useState(1);
-  function getOneService() {
+  function getOneService(id_number) {
   
     //const id =  id_number.toString();
      axios
-      .get(`http://econail.localhost/api/admin/service/${id_string}`, {
+      .get(`http://econail.localhost/api/admin/service/${id_number}`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -44,11 +44,11 @@ const DrawerService=(props)=>{
   }
   useEffect(()=> {
     const fetchData = async () => {
-          const a = await getOneService();
+          const a = await getOneService(id_string);
     
         };
         fetchData()
-  }, []);
+  }, [id_string]);
   async function UpdateService(serviceID) {  
     return axios.post(`http://econail.localhost/api/admin/service/${serviceID}/update`,
     {
@@ -84,24 +84,24 @@ const DrawerService=(props)=>{
         <Descriptions title="" layout="vertical" bordered>
             
           <Descriptions.Item label="Tên dịch vụ" span={12}>
-            {props.service.id}
+          {props.service.name}
           </Descriptions.Item>
           <Descriptions.Item label="Giá" span={1}>
             {data.price}
           </Descriptions.Item>
           <Descriptions.Item label="Giá ưu đãi" span={1}>
-            {props.service.price_discount}
+            {data.price_discount}
           </Descriptions.Item>
           <Descriptions.Item label="Dành cho" span={1}>
-            {props.service.sex_type}
+            {data.sex_type}
           </Descriptions.Item>
           <Descriptions.Item label="Đặt online" span={1}>
-          {props.service.can_book_online}
+          {data.can_book_online}
           </Descriptions.Item>
-          <Descriptions.Item label="Số lượng" span={1}>{props.service.stock}</Descriptions.Item>
-          <Descriptions.Item label="Thời gian" span={1}>{props.service.time_estimate}</Descriptions.Item>
+          <Descriptions.Item label="Số lượng" span={1}>{data.stock}</Descriptions.Item>
+          <Descriptions.Item label="Thời gian" span={1}>{data.time_estimate}</Descriptions.Item>
           <Descriptions.Item label="Mô tả">
-            {props.service.description}
+            {data.description}
           </Descriptions.Item>
         </Descriptions></>):(
             <>
@@ -119,18 +119,18 @@ const DrawerService=(props)=>{
           <Input defaultValue={data.price} onChange={(e) => setPrice(e.target.value)} />
           </Descriptions.Item>
           <Descriptions.Item label="Giá ưu đãi" span={1}>
-          <Input defaultValue={props.service.price_discount} onChange={(e) => setPriceDiscount(e.target.value)} />
+          <Input defaultValue={data.price_discount} onChange={(e) => setPriceDiscount(e.target.value)} />
           </Descriptions.Item>
           <Descriptions.Item label="Dành cho" span={1}>
-          <Input defaultValue={props.service.sex_type} onChange={(e) => set(e.target.value)} />
+          <Input defaultValue={data.sex_type} onChange={(e) => set(e.target.value)} />
           </Descriptions.Item>
           <Descriptions.Item label="Đặt online" span={1}>
-          <Input defaultValue={props.service.can_book_online} />
+          <Input defaultValue={data.can_book_online} />
           </Descriptions.Item>
-          <Descriptions.Item label="Số lượng" span={1}> <Input defaultValue={props.service.stock} onChange={(e) => setStock(e.target.value)} /></Descriptions.Item>
-          <Descriptions.Item label="Thời gian" span={1}><Input defaultValue={props.service.timeEstimate} onChange={(e) => setTimeEstimate(e.target.value)}/></Descriptions.Item>
+          <Descriptions.Item label="Số lượng" span={1}> <Input defaultValue={data.stock} onChange={(e) => setStock(e.target.value)} /></Descriptions.Item>
+          <Descriptions.Item label="Thời gian" span={1}><Input defaultValue={data.timeEstimate} onChange={(e) => setTimeEstimate(e.target.value)}/></Descriptions.Item>
           <Descriptions.Item label="Mô tả">
-          <Input defaultValue={props.service.description} onChange={(e) => setDescription(e.target.value)} ></Input>
+          <Input defaultValue={data.description} onChange={(e) => setDescription(e.target.value)} ></Input>
           </Descriptions.Item>
         </Descriptions></>)}
      </>
