@@ -1,26 +1,43 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { useState,useEffect } from "react";
 import TableWrapper from "../AntTables.styles";
-
+import { FormWrapper } from "../../AntTables/AntTables.styles";
 import { Icon } from 'antd';
 import { FilterDropdown } from '@iso/components/Tables/HelperCells';
 import { Button } from "antd";
 import DrawerDetailService from "./Drawer";
 import { backgroundColor, color, marginRight } from "styled-system";
 import { ViewWrapper } from "../../../CustomerSinglePage/AntTables/AntTables.styles";
-import { Drawer, Descriptions, Badge, Modal } from "antd";
-
+import { Drawer, Descriptions, Badge, Modal,Form,Input,Radio} from "antd";
+import DrawerProduct from "../DrawerDetailProduct/DrawerDetailProduct";
 import products from "../../product";
 
 
 //import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
-
+const { TextArea } = Input;
 export default function(props) {
+  let history = useHistory();
+  const USER_TOKEN = localStorage.getItem("token");
+  const AuthStr = "Bearer ".concat(USER_TOKEN);
+  const [name, setName] = useState();
+  const [price , setPrice] = useState();
+  const [price_discount,setPriceDiscount]=useState();
+  const [description,setDescription]=useState();
+  const [picture,setPicture]=useState();
+  const [stock,setStock]=useState();
+  
+  const [amount,setAmount]=useState();
+ 
+  const [unit, setUnit] = React.useState();
   const [state, setState] = React.useState({
     dataList: products.data.data,
     filterDropdownVisible: false,
     searchText: '',
     filtered: false,
     product:{},
+    product_id:null,
+    product_name:null,
   });
 
   function onSearch() {
@@ -62,14 +79,6 @@ export default function(props) {
     setVisibleDeleteModal(true);
   };
 
-  const handleOkDeleteModal = () => {
-    setModalText("The modal will be closed after two seconds");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisibleDeleteModal(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
 
   const handleCancelDeleteModal = () => {
     console.log("Clicked cancel button");
@@ -162,12 +171,14 @@ export default function(props) {
             style={{marginRight: "10px",border:'none'}}
           >Chi tiết</Button>
         
-          <Button
-            icon="delete"
-            onClick={showModalDelete}
-            shape="circle"
-            type="danger"
-          />
+        <Button onClick={() => {
+              showModalDelete();
+              state.product_id = record.id;
+              state.product_name = record.name;
+            }} shape="circle" type="danger">
+            <i className="ion-android-delete" />
+          </Button>
+        
           
         </>
       ),
@@ -178,7 +189,77 @@ export default function(props) {
     overflow: "hidden",
     whiteSpace: "nowrap",
   };
+  const [data,setData] = useState([]);
+  function getProduct() {
+    axios
+      .get("http://econail.localhost/api/admin/product", {
+        headers: {
+          Authorization: AuthStr,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => {
+        const product = response.data.data.data;
+        setData(product);
+      });
+  }
+  useEffect(()=>{
+    getProduct();
+  },[]);
+  // Delete Product
+  async function DeleteProduct(productID) {  
+    return axios.get(`http://econail.localhost/api/admin/product/${productID}/delete`,
+    { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(res=>res.data.status);
 
+  }
+  const handleOkDeleteModal = async () => {
+    setModalText("The modal will be closed after two seconds");
+    setConfirmLoading(true);
+    const statusDelete = await DeleteProduct(state.product_id);
+    if(statusDelete==true){
+    setTimeout(() => {
+      
+      setVisibleDeleteModal(false);
+      setConfirmLoading(false);
+      getProduct();
+      
+      
+      
+    }, 2000);
+  }
+  };
+  async function AddProduct(){
+    return axios.post('http://econail.localhost/api/admin/product',
+    {
+      "name" : name,
+      "price" : parseInt(`${price}`),  
+      "price_discount" : parseInt(`${price_discount}`),
+      "description" : `${description}`, 
+      "picture" : null,
+      "stock" :parseInt(`${stock}`),
+      "amount": parseInt(`${amount}`),
+      "unit" : "gam",
+      "products_categories_id" :1
+  },{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }}  
+    ).then(res=>res.data.status);
+    
+  }
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const statusAdd =  await AddProduct();
+    console.log(statusAdd);
+    if(statusAdd == true){
+    setVisible(false);
+    history.push('/dashboard/product_management');
+    
+    }
+    else{
+      history.push('/dashboard');
+    }
+
+  }
   return (
     <>
       <ViewWrapper>
@@ -189,7 +270,7 @@ export default function(props) {
         >
           Thêm sản phẩm mới +
         </Button>
-        <TableWrapper  rowKey={record => record.id} dataSource={state.dataList} columns={columns} />
+        <TableWrapper dataSource={data} columns={columns} />
       </ViewWrapper>
       <Modal
             title="Xác nhận"
@@ -200,7 +281,7 @@ export default function(props) {
             cancelText="Hủy"
             okType="danger"
           >
-            Xóa sản phẩm này?
+            Xóa sản phẩm {state.product_name}?
           </Modal>
       <Modal
         title="Thêm nhân viên"
@@ -221,23 +302,88 @@ export default function(props) {
         onClose={handleCancelDrwerInfo}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <img width="100px" height="100px" src="https://source.unsplash.com/random" style={{marginBottom:"20px",marginLeft:"auto",marginRight:"auto",display:"block"}}></img>
-        <Descriptions title="" layout="vertical" bordered>
-          
-          <Descriptions.Item label="Tên sản phẩm" span={12}>{state.product.name}</Descriptions.Item>
-          <Descriptions.Item label="Giá" span={1}>{state.product.price}</Descriptions.Item>
-          <Descriptions.Item label="Giá ưu đãi" span={1}>{state.product.price_discount}</Descriptions.Item>
-          <Descriptions.Item label="Đơn vị" span={1}>{state.product.unit}</Descriptions.Item>
-          <Descriptions.Item label="Số lượng" span={1}>{state.product.amount}</Descriptions.Item>
-          <Descriptions.Item label="Hình ảnh" span={1}>
-          {state.product.picture}
-          </Descriptions.Item>
-          <Descriptions.Item label="Stock" span={1}>
-          {state.product.stock}
-          </Descriptions.Item>
-          <Descriptions.Item label="Mô tả" span="3">{state.product.description}</Descriptions.Item>
-        </Descriptions>
+        <DrawerProduct service={state.product}/>
+        
       </Drawer>
+      <Modal
+        title="Thêm sản phẩm"
+        visible={visible}
+        onOk={handleSubmit}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        okText="Thêm"
+        cancelText="Hủy"
+      >
+        <FormWrapper>
+          <Form name="basic" layout="vertical" hideRequiredMark>
+            <Form.Item
+              label="Tên dịch vụ"
+              name="name"
+              
+            >
+              <Input onChange={(e) => {setName(e.target.value)}} />
+            </Form.Item>
+            <Form.Item
+              label="Giá"
+              name="price"
+              
+            >
+              <Input onChange={(e) => setPrice(e.target.value)} />
+            </Form.Item>
+            <Form.Item
+              label="Giá ưu đãi"
+              name="price_discount"
+              
+            >
+              <Input onChange={(e) => setPriceDiscount(e.target.value)}/>
+            </Form.Item>
+            <Form.Item
+              label="Mô tả"
+              name="description"
+              
+            >
+              <TextArea
+                rows={4}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Hình ảnh"
+              name="picture"
+              
+              
+            >
+              <Input onChange={(e) => setPicture(e.target.value)}/>
+            </Form.Item>
+            <Form.Item
+              label="Stock"
+              name="stock"
+              
+            >
+              <Input onChange={(e) => setStock(e.target.value)}/>
+            </Form.Item>
+            <Form.Item
+              label="Số lượng"
+              name="amount"
+              
+            >
+              <Input onChange={(e) => setAmount(e.target.value)}/>
+            </Form.Item>
+            
+            
+            <Form.Item
+              label="Đơn vị"
+              name="unit"
+              
+              
+            >
+              <Input onChange={(e) => setUnit(e.target.value)} />
+            </Form.Item>
+            
+            
+          </Form>
+        </FormWrapper>
+      </Modal>
     </>
   );
 }
