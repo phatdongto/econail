@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import Cookies from 'js-cookie';
+import React, { useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
 export const AuthContext = React.createContext();
 
 const fakeUserData = {
   id: 1,
-  name: 'Jhon Doe',
-  avatar: '',
-  roles: ['USER', 'ADMIN'],
+  name: "Jhon Doe",
+  avatar: "",
+  roles: ["USER", "ADMIN"],
 };
 
 /**
@@ -16,9 +17,9 @@ const fakeUserData = {
  */
 
 const fakeToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoidGFyZXEgam9iYXllcmUiLCJyb2xlcyI6ImFkbWluIn0.k74_B-zeWket405dIAt018mnQFMh_6_BTFpjB77HtRQ';
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoidGFyZXEgam9iYXllcmUiLCJyb2xlcyI6ImFkbWluIn0.k74_B-zeWket405dIAt018mnQFMh_6_BTFpjB77HtRQ";
 
-const addItem = (key, value = '') => {
+const addItem = (key, value = "") => {
   /**
    *  Using the local storage code....
    */
@@ -30,7 +31,7 @@ const addItem = (key, value = '') => {
   if (key) Cookies.set(key, value, { expires: 7 });
 };
 
-const clearItem = key => {
+const clearItem = (key) => {
   /**
    *  Using the local storage code....
    */
@@ -51,35 +52,62 @@ const isValidToken = () => {
   /**
    *  Using the Cookies code...
    */
-  const token = Cookies.get('token');
+  const token = Cookies.get("token");
   // JWT decode & check token validity & expiration.
   if (token) return true;
   return false;
 };
 
-const AuthProvider = props => {
+const AuthProvider = (props) => {
   const [loggedIn, setLoggedIn] = useState(isValidToken());
   // const [loggedOut, setLoggedOut] = useState(true);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  const signIn = params => {
+  //Api call here
+  const [API, setAPI] = useState(null);
+
+  const apiUrl = "http://econail.localhost/api";
+
+  const signIn = (params) => {
     /**
      * Make post request here to authenticate with fetch
      * if returns true then change the state
      */
-    console.log(params, 'sign in form Props');
-    setUser(fakeUserData);
-    setToken(fakeToken);
-    addItem('token', fakeToken);
-    setLoggedIn(true);
+    axios
+      .get(
+        `${apiUrl}/login?username=${params.username}&password=${params.password}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === true) {
+          // setAPI((prevState) => {
+          //   return { ...prevState, ...res };
+          // });
+          // console.log(res.data.status);
+          if (res.data.status === true) {
+            console.log(res.data.status);
+            setUser(res.data.data.user_record);
+            setToken(res.data.data.access_token);
+            addItem("token", res.data.data.access_token);
+            setLoggedIn(true);
+          } else setLoggedIn(false);
+        } else setLoggedIn(false);
+      });
+    //********************** */
+    // console.log(params, "sign in form Props");
+
+    // setUser(fakeUserData);
+    //   setToken(fakeToken);
+    //   addItem("token", fakeToken);
+    //   setLoggedIn(false);
   };
-  const signUp = params => {
-    console.log(params, 'sign up form Props');
+  const signUp = (params) => {
+    console.log(params, "sign up form Props");
     setUser(fakeUserData);
     setToken(fakeToken);
-    addItem('token', fakeToken);
-    setLoggedIn(true);
+    addItem("token", fakeToken);
+    setLoggedIn(false);
   };
 
   /**
@@ -89,21 +117,21 @@ const AuthProvider = props => {
   const tokenAuth = (token, user = {}) => {
     setUser(user);
     setToken(token);
-    addItem('token', token);
+    addItem("token", token);
     setLoggedIn(true);
   };
 
-  const forgetPass = params => {
-    console.log(params, 'forget password form Props');
+  const forgetPass = (params) => {
+    console.log(params, "forget password form Props");
   };
-  const changePass = params => {
-    console.log(params, 'change password form Props');
+  const changePass = (params) => {
+    console.log(params, "change password form Props");
   };
 
   const logOut = () => {
     setUser(null);
     setToken(null);
-    clearItem('token');
+    clearItem("token");
     setLoggedIn(false);
   };
 
