@@ -33,10 +33,16 @@ const responsive = {
   },
 };
 
-const PostGrid = ({
-  title,
+const handleClick = (id) => {
+  localStorage.setItem("current_product_id", id);
+};
 
+const PostGrid = ({
+  name,
+  picture,
+  // title,
   price,
+  id,
   priceDiscount,
   gallery,
   slug,
@@ -52,16 +58,21 @@ const PostGrid = ({
           }}
         />
       }
-      title={<TextLink link={`${link}/${slug}`} content={`${title}~Hi`} />}
+      title={<TextLink link={`${link}/${slug}`} content={`${name}~Hi`} />}
       price={`Giá : ${price} VNĐ`}
       priceDiscount={`Giá ưu đãi <product card> : ${price} VNĐ`}
       viewDetailsBtn={
-        <TextLink link={`${link}/${slug}`} content="View Details" />
+        <TextLink
+          onClick={() => handleClick(id)}
+          link={`${link}/${id}`}
+          content="View Details"
+        />
       }
     >
       <img
         className="container"
-        src={"https://source.unsplash.com/random"}
+        // src={"https://source.unsplash.com/random"}
+        src={picture}
         alt={"hello"}
         draggable={false}
         style={{

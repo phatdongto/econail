@@ -47,11 +47,8 @@ export const ProcessArea = styled.div`
 export const CostArea = styled.div`
   padding: 10px 500px;
   display: flex;
-  flex: collumn;
   justify-content: space-around;
-  border: 1px solid black;
   h4 {
-    border: 1px solid black;
     text-align: center;
     font-weight: 700;
     text-transform: uppercase;
@@ -282,9 +279,9 @@ export const ButtonGroup = styled.div`
     }
   }
 `;
+// background-image: url(${singlePostBgImg});
 
 export const PostImage = styled.div`
-  background-image: url(${singlePostBgImg});
   background-position: center center;
   background-size: cover;
   height: 600px;

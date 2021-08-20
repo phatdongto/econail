@@ -80,8 +80,10 @@ const ServiceSinglePage = ({ match }) => {
 
   return (
     <SinglePageServiceWrapper>
-      {console.log(service)}
-      <PostImage>
+      {/* {console.log(service)} */}
+      <PostImage style={{ backgroundImage: `url(${service.picture})` }}>
+        {/* <img src={service.picture} alt="error" /> */}
+
         <Button type="primary" className="image_gallery_button">
           {/* View Photos */}
         </Button>

@@ -1,33 +1,33 @@
-import React, { Fragment, useState } from 'react';
-import { useLocation } from '@iso/lib/hooks/useLocation';
-import Sticky from 'react-stickynode';
-import Row from '@iso/ui/Antd/Grid/Row';
-import Col from '@iso/ui/Antd/Grid/Col';
-import Modal from '@iso/ui/Antd/Modal/Modal';
-import Button from '@iso/ui/Antd/Button/Button';
-import Container from '@iso/ui/UI/Container/Container';
-import Loader from '@hotel/components/Loader/Loader';
-import useWindowSize from '@iso/lib/hooks/useWindowSize';
-import Infomation from './Description/Description';
-import Amenities from './Amenities/Amenities';
-import Location from './Location/Location';
-import Review from './Review/Review';
-import Reservation from './Reservation/Reservation';
-import BottomReservation from './Reservation/BottomReservation';
-import TopBar from './TopBar/TopBar';
-import SinglePageWrapper, { PostImage } from './SinglePageView.style';
-import PostImageGallery from './ImageGallery/ImageGallery';
-import useDataApi from '@iso/lib/hooks/useDataApi';
-import isEmpty from 'lodash/isEmpty';
-import FormActionArea from './Reservation/Reservation.style';
-import Description1 from './Description1/Description1';
+import React, { Fragment, useState } from "react";
+import { useLocation } from "@iso/lib/hooks/useLocation";
+import Sticky from "react-stickynode";
+import Row from "@iso/ui/Antd/Grid/Row";
+import Col from "@iso/ui/Antd/Grid/Col";
+import Modal from "@iso/ui/Antd/Modal/Modal";
+import Button from "@iso/ui/Antd/Button/Button";
+import Container from "@iso/ui/UI/Container/Container";
+import Loader from "@hotel/components/Loader/Loader";
+import useWindowSize from "@iso/lib/hooks/useWindowSize";
+import Infomation from "./Description/Description";
+import Amenities from "./Amenities/Amenities";
+import Location from "./Location/Location";
+import Review from "./Review/Review";
+import Reservation from "./Reservation/Reservation";
+import BottomReservation from "./Reservation/BottomReservation";
+import TopBar from "./TopBar/TopBar";
+import SinglePageWrapper, { PostImage } from "./SinglePageView.style";
+import PostImageGallery from "./ImageGallery/ImageGallery";
+import useDataApi from "@iso/lib/hooks/useDataApi";
+import isEmpty from "lodash/isEmpty";
+import FormActionArea from "./Reservation/Reservation.style";
+import Description1 from "./Description1/Description1";
 const SinglePage = ({ match }) => {
   const { href } = useLocation();
   const [isModalShowing, setIsModalShowing] = useState(false);
   // useWindowSize hook
   const { width } = useWindowSize();
 
-  let url = '/data/hotel-single.json';
+  let url = "/data/hotel-single.json";
   if (!match.params.slug) {
     url += match.params.slug;
   }
@@ -48,7 +48,12 @@ const SinglePage = ({ match }) => {
 
   return (
     <SinglePageWrapper>
-      <TopBar title={title} shareURL={href} author={author} media={gallery} />
+      <TopBar
+        title={`${title}`}
+        shareURL={href}
+        author={author}
+        media={gallery}
+      />
       <PostImage>
         <Button
           type="primary"
@@ -63,7 +68,7 @@ const SinglePage = ({ match }) => {
           footer={null}
           width="100%"
           maskStyle={{
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
           }}
           wrapClassName="image_gallery_modal"
           closable={false}
@@ -90,9 +95,11 @@ const SinglePage = ({ match }) => {
       <Container>
         <Row gutter={30} id="reviewSection" style={{ marginTop: 30 }}>
           <Col xl={16}>
+            {/* product info */}
             <Infomation
               content={content}
-              title={title}
+              // content={"hello"}
+              title={`${title}`}
               location={location}
               rating={rating}
               ratingCount={ratingCount}
