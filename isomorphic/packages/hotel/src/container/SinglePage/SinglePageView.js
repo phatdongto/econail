@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useLocation } from "@iso/lib/hooks/useLocation";
 import Sticky from "react-stickynode";
 import Row from "@iso/ui/Antd/Grid/Row";
@@ -21,7 +21,21 @@ import useDataApi from "@iso/lib/hooks/useDataApi";
 import isEmpty from "lodash/isEmpty";
 import FormActionArea from "./Reservation/Reservation.style";
 import Description1 from "./Description1/Description1";
+import axios from "axios";
+
 const SinglePage = ({ match }) => {
+  const [product, setProduct] = useState([]);
+
+  const apiUrl = "http://econail.localhost/api";
+  useEffect(() => {
+    let id = localStorage.getItem("current_product_id");
+    axios.get(`${apiUrl}/g/product/${id}`).then((res) => {
+      if (res.status) {
+        setProduct(res.data.data);
+      }
+    });
+  }, []);
+
   const { href } = useLocation();
   const [isModalShowing, setIsModalShowing] = useState(false);
   // useWindowSize hook
@@ -46,10 +60,12 @@ const SinglePage = ({ match }) => {
     author,
   } = data[0];
 
+  // console.log(data[0]);
+
   return (
     <SinglePageWrapper>
       <TopBar
-        title={`${title}`}
+        title={product.name}
         shareURL={href}
         author={author}
         media={gallery}
@@ -97,12 +113,12 @@ const SinglePage = ({ match }) => {
           <Col xl={16}>
             {/* product info */}
             <Infomation
-              content={content}
-              // content={"hello"}
-              title={`${title}`}
+              content={product.description}
+              title={product.name}
               location={location}
               rating={rating}
               ratingCount={ratingCount}
+              productPrice={product.price}
             />
           </Col>
           <Col xl={8}>
@@ -115,8 +131,8 @@ const SinglePage = ({ match }) => {
               ></Sticky>
             ) : (
               <BottomReservation
-                title={title}
-                price={price}
+                title={product.name}
+                price={product.price}
                 rating={rating}
                 ratingCount={ratingCount}
               />
@@ -124,7 +140,8 @@ const SinglePage = ({ match }) => {
           </Col>
         </Row>
       </Container>
-      <Description1 content={content} />
+      {/* products description */}
+      <Description1 content={product.description} />
       <Review reviews={reviews} ratingCount={ratingCount} rating={rating} />
     </SinglePageWrapper>
   );
