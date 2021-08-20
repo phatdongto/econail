@@ -1,18 +1,61 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Component } from "react";
 import TableWrapper from "../AntTables.styles";
 import { Button } from "antd";
 import categories from "../../category";
-import { Drawer, Descriptions, Badge, Modal } from "antd";
-
-import { backgroundColor, color, marginRight } from "styled-system";
-import AddServiceCategoryView from "./ModalView/AddServiceCategoryView";
+import { Drawer, Descriptions, Badge, Modal,Form,Input } from "antd";
+import { FormWrapper } from "../AntTables.styles";
+import DrawerCategoryService from "./DrawerCategoryService";
+const {TextArea} = Input
 export default function() {
   const [state, setState] = React.useState({
-    dataList: categories.data.data,
-
     category_service: {},
   });
+  const [data, setData] = useState([]);
+  const USER_TOKEN=localStorage.getItem('token');
+  const AuthStr = 'Bearer '.concat(USER_TOKEN); 
+  const [name,setName] = useState();
+  const [description,setDescription] = useState();
+  function getCategoryService(){
+    axios.get('http://econail.localhost/api/admin/service_category',{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(response=>{
+      const category_service=response.data.data.data
+      setData(category_service)
+    })
+  }
+  useEffect(() => {
+    
+    getCategoryService();
+    
+  }, []);
+  
+    async function AddCategory(){
+      return axios.post('http://econail.localhost/api/admin/service_category',
+      {
+        "name" : name,
+        "note" : description
+    },{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }}  
+      ).then(res=>res.data.status);
+      
+    }
+    const handleSubmit = async e => {
+      e.preventDefault();
+      const statusAdd =  await AddCategory();
+      console.log(statusAdd);
+      if(statusAdd == true){
+      
+      getCategoryService()
+      setVisible(false);
+      setConfirmLoading(false);
+      
+      }
+      else{
+        setVisible(false);
+      }
+  
+    }
+  
   const [visibleInfo, setVisibleInfo] = React.useState(false);
   const showDrawerInfo = () => {
     setVisibleInfo(true);
@@ -48,14 +91,6 @@ export default function() {
     setVisible(true);
   };
 
-  const handleOk = () => {
-    setModalText("The modal will be closed after two seconds");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
   const handleCancel = () => {
     console.log("Clicked cancel button");
     setVisible(false);
@@ -116,34 +151,47 @@ export default function() {
           style={{ marginBottom: "3%" ,backgroundColor:"#22D3EE",color:'whitesmoke'  }}>
         Thêm thể loại mới +
       </Button>
-      <TableWrapper dataSource={categories.data.data} columns={columns} />
+      <TableWrapper dataSource={data} columns={columns} />
       <Modal
         title="Thêm thể loại"
         visible={visible}
         confirmLoading={confirmLoading}
-        onOk={handleOk}
+        onOk={handleSubmit}
         onCancel={handleCancel}
         okText="Thêm"
         cancelText="Hủy"
       >
-        <AddServiceCategoryView />
+        <FormWrapper>
+          <Form name="basic" layout="vertical" hideRequiredMark>
+            <Form.Item
+              label="Tên sản phẩm"
+              name="name"
+              
+            >
+              <Input onChange={(e) => {setName(e.target.value)}} />
+            </Form.Item>
+            <Form.Item
+              label="Mô tả"
+              name="price"
+              
+            >
+              <TextArea onChange={(e) => setDescription(e.target.value)} />
+            </Form.Item>
+            
+            
+          </Form>
+        </FormWrapper>
       </Modal>
       <Drawer
         closable={false}
         title="Thông tin  dịch vụ"
         width={720}
         visible={visibleInfo}
+        
         onClose={handleCancelDrwerInfo}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <Descriptions title="" layout="vertical" bordered>
-          <Descriptions.Item label="Tên dịch vụ" span={12}>
-            {state.category_service.name}
-          </Descriptions.Item>
-          <Descriptions.Item label="Ghi chú" span={12}>
-            {state.category_service.name}
-          </Descriptions.Item>
-        </Descriptions>
+        <DrawerCategoryService category = {state.category_service}/>
       </Drawer>
     </>
   );

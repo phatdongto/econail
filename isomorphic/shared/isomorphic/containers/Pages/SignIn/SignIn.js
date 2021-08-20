@@ -36,11 +36,11 @@ export default function SignIn({setToken}) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false);
-  React.useEffect(() => {
-    if (isLoggedIn) {
-      setRedirectToReferrer(true);
-    }
-  }, [isLoggedIn]);
+  // React.useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setRedirectToReferrer(true);
+  //   }
+  // }, [isLoggedIn]);
   
    const handleSubmit = async e => {
     e.preventDefault();

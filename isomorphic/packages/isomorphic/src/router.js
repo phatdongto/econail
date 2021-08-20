@@ -63,19 +63,19 @@ function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector(state => state.Auth.idToken);
   const token = localStorage.getItem('token');
 
-  //  if(isLoggedIn) return <Route {...rest}>{children}</Route>;
+   if(token != null) return <Route {...rest}>{children}</Route>;
   
   
-  // return <Redirect
-  //     to={{
-  //        pathname: '/signin',
-  //       state: { from: location },
-  //      }}
-  //    />
-   if (token) return <Route {...rest}>{children}</Route>;
-   return (
-    <SignIn/>
-   );
+  return <Redirect
+      to={{
+         pathname: '/signin',
+        state: { from: location },
+       }}
+     />
+  //  if (token == null) return <SignIn />;
+  //  return (
+  //   <Route {...rest}>{children}</Route>
+  //  );
 }
 export default function Routes() {
   
