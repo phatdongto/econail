@@ -340,7 +340,7 @@ const routes = [
     component: lazy(() => import('@iso/containers/Invoice/Invoices')),
   },
   {
-    path: 'delivery_management/confirm/:invoiceId',
+    path: 'delivery_management/confirm/:id',
     component: lazy(() => import('@iso/containers/ConfirmDelivery/ConfirmDelivery')),
   },
   {

@@ -74,9 +74,9 @@ const DrawerProduct = (props) => {
       });
   }
   useEffect(() => {
-    const fetchData = async () => {
-      const b = await getCategory(id_category);
-      const a = await getOneProduct(id_string);
+    const fetchData = () => {
+      const b = getCategory(id_category);
+      const a = getOneProduct(id_string);
     };
     fetchData();
   }, [id_string,url]);
