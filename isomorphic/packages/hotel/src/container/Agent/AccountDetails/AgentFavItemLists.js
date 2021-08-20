@@ -1,11 +1,11 @@
-import React from 'react';
-import SectionGrid from '@hotel/components/SectionGrid/SectionGrid.cra';
-import { HotelPostGridLoader } from '@iso/ui/ContentLoader/ContentLoader';
-import useDataApi from '@iso/lib/hooks/useDataApi';
-import { SINGLE_POST_PAGE } from '../../../settings/constant';
+import React from "react";
+import SectionGrid from "@hotel/components/SectionGrid/SectionGrid.cra";
+import { HotelPostGridLoader } from "@iso/ui/ContentLoader/ContentLoader";
+import useDataApi from "@iso/lib/hooks/useDataApi";
+import { SINGLE_POST_PAGE } from "../../../settings/constant";
 
 const AgentFavItemLists = () => {
-  const { data, loadMoreData, loading } = useDataApi('/data/agent.json');
+  const { data, loadMoreData, loading } = useDataApi("/data/agent.json");
   const favourite_post =
     data[0] && data[0].favourite_post ? data[0].favourite_post : [];
 

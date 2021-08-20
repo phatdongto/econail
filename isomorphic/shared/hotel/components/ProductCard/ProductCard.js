@@ -1,11 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import Rating from '@iso/ui/Rating/Rating';
-import Favourite from '@iso/ui/Favorite/Favorite';
+import React from "react";
+import Link from "next/link";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import Rating from "@iso/ui/Rating/Rating";
+import Favourite from "@iso/ui/Favorite/Favorite";
 
-import GridCard from '../GridCard/GridCard';
+import GridCard from "../GridCard/GridCard";
 
 const responsive = {
   desktop: {
@@ -48,7 +48,7 @@ export default function ProductCard({
     <GridCard
       favorite={
         <Favourite
-          onClick={event => {
+          onClick={(event) => {
             console.log(event);
           }}
         />
@@ -88,10 +88,10 @@ export default function ProductCard({
             key={index}
             draggable={false}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'relative',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "relative",
             }}
           />
         ))}

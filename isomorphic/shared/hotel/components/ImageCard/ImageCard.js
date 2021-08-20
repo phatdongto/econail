@@ -1,16 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import ImageCardWrapper, {
   ContentWrapper,
   Title,
   Meta,
-} from './ImageCard.style';
+} from "./ImageCard.style";
 
-const ImageCard = ({ className, imageSrc, title, link, meta,sextype }) => {
+const handleServiceClick = (id) => {
+  console.log(id, "************************");
+  localStorage.setItem("current_service_id", JSON.stringify(id));
+};
+
+const ImageCard = ({
+  className,
+  imageSrc,
+  title,
+  link,
+  meta,
+  sextype,
+  serviceID,
+}) => {
   // Add all classs to an array
-  const addAllClasses = ['image_card'];
+  const addAllClasses = ["image_card"];
 
   // className prop checking
   if (className) {
@@ -18,8 +31,8 @@ const ImageCard = ({ className, imageSrc, title, link, meta,sextype }) => {
   }
 
   return (
-    <ImageCardWrapper className={addAllClasses.join(' ')}>
-      <Link to={link}>
+    <ImageCardWrapper className={addAllClasses.join(" ")}>
+      <Link onClick={() => handleServiceClick(serviceID)} to={link}>
         <img src={imageSrc} alt={title} />
         <ContentWrapper>
           {title && <Title>{title}</Title>}
@@ -42,7 +55,7 @@ ImageCard.propTypes = {
 };
 
 ImageCard.defaultProps = {
-  link: '#',
+  link: "#",
 };
 
 export default ImageCard;

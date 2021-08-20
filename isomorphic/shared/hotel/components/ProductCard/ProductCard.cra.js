@@ -1,10 +1,10 @@
-import React from 'react';
-import TextLink from '@iso/ui/TextLink/TextLink';
-import Rating from '@iso/ui/Rating/Rating';
-import Favourite from '@iso/ui/Favorite/Favorite';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import GridCard from '../GridCard/GridCard';
+import React from "react";
+import TextLink from "@iso/ui/TextLink/TextLink";
+import Rating from "@iso/ui/Rating/Rating";
+import Favourite from "@iso/ui/Favorite/Favorite";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import GridCard from "../GridCard/GridCard";
 
 const responsive = {
   desktop: {
@@ -35,7 +35,7 @@ const responsive = {
 
 const PostGrid = ({
   title,
-  
+
   price,
   priceDiscount,
   gallery,
@@ -47,21 +47,31 @@ const PostGrid = ({
       isCarousel={true}
       favorite={
         <Favourite
-          onClick={event => {
+          onClick={(event) => {
             console.log(event);
           }}
         />
       }
-      
-      title={<TextLink link={`${link}/${slug}`} content={title} />}
-      price={`Giá : ${price} VNĐ` }
-      priceDiscount={`Giá ưu đãi : ${price} VNĐ`}
-      
+      title={<TextLink link={`${link}/${slug}`} content={`${title}~Hi`} />}
+      price={`Giá : ${price} VNĐ`}
+      priceDiscount={`Giá ưu đãi <product card> : ${price} VNĐ`}
       viewDetailsBtn={
         <TextLink link={`${link}/${slug}`} content="View Details" />
       }
     >
-      <Carousel
+      <img
+        className="container"
+        src={"https://source.unsplash.com/random"}
+        alt={"hello"}
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "150px",
+          objectFit: "cover",
+          position: "relative",
+        }}
+      />
+      {/* <Carousel
         additionalTransfrom={0}
         arrows
         autoPlaySpeed={3000}
@@ -84,14 +94,14 @@ const PostGrid = ({
             key={index}
             draggable={false}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'relative',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "relative",
             }}
           />
         ))}
-      </Carousel>
+      </Carousel> */}
     </GridCard>
   );
 };

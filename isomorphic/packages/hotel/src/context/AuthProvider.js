@@ -67,13 +67,13 @@ const AuthProvider = (props) => {
   //Api call here
   const [API, setAPI] = useState(null);
 
-  const apiUrl = "http://econail.localhost/api";
-
   const signIn = (params) => {
     /**
      * Make post request here to authenticate with fetch
      * if returns true then change the state
      */
+
+    const apiUrl = "http://econail.localhost/api";
     axios
       .get(
         `${apiUrl}/login?username=${params.username}&password=${params.password}`
@@ -86,10 +86,15 @@ const AuthProvider = (props) => {
           // });
           // console.log(res.data.status);
           if (res.data.status === true) {
-            console.log(res.data.status);
+            // console.log(res.data.status);
             setUser(res.data.data.user_record);
             setToken(res.data.data.access_token);
             addItem("token", res.data.data.access_token);
+
+            // console.log(res.data.data);
+            // console.log(JSON.stringify(res.data.data));
+            localStorage.setItem("loginedUser", JSON.stringify(res.data.data));
+
             setLoggedIn(true);
           } else setLoggedIn(false);
         } else setLoggedIn(false);

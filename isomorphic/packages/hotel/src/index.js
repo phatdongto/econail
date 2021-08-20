@@ -6,6 +6,7 @@ import Routes from "./router";
 import theme from "./themes/default.theme";
 import GlobalStyles from "@hotel/assets/style/Global.style";
 import AuthProvider from "./context/AuthProvider";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import Payment from "./container/Payment/Payment";
 import SignIn from "./container/SignIn/SignIn";
