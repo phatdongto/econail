@@ -34,7 +34,7 @@ const loginButtonStyle = {
 
 const SignInForm = () => {
   const { signIn, loggedIn } = useContext(AuthContext);
-  // if (loggedIn) return <Redirect to={{ pathname: "/" }} />;
+  if (loggedIn) return <Redirect to={{ pathname: "/" }} />;
 
   return (
     <Formik
@@ -45,7 +45,6 @@ const SignInForm = () => {
         signIn(values);
         localStorage.setItem("data", JSON.stringify(values));
         setTimeout(() => {
-          // console.log("Logging in", values);
           setSubmitting(false);
         }, 500);
       }}
