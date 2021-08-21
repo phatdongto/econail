@@ -65,7 +65,7 @@ export default function(props) {
     />
   );
   const [visibleInfo, setVisibleInfo] = React.useState(false);
-  let name1;
+ 
   const showDrawerInfo = (name) => {
     name1=name;
     setVisibleInfo(true);
@@ -200,8 +200,27 @@ export default function(props) {
         },
       })
       .then((response) => {
-        const product = response.data.data.data;
-        setData(product);
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/product?page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        //const product = response.data.data.data;
+        //setData(product);
       });
   }
   useEffect(()=>{
@@ -251,8 +270,10 @@ export default function(props) {
     const statusAdd =  await AddProduct();
     console.log(statusAdd);
     if(statusAdd == true){
+    setData([]);
+    getProduct();
     setVisible(false);
-    history.push('/dashboard/product_management');
+    
     
     }
     else{
@@ -317,7 +338,7 @@ export default function(props) {
         <FormWrapper>
           <Form name="basic" layout="vertical" hideRequiredMark>
             <Form.Item
-              label="Tên dịch vụ"
+              label="Tên sản phẩm"
               name="name"
               
             >

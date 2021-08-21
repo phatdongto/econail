@@ -7,7 +7,16 @@ import { FilterDropdown } from "@iso/components/Tables/HelperCells";
 import { Icon } from "antd";
 import DrawerService from "../DrawerService/DrawerService";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
-import { Drawer, Descriptions, Modal, Radio,Form,Input,Button,Popconfirm } from "antd";
+import {
+  Drawer,
+  Descriptions,
+  Modal,
+  Radio,
+  Form,
+  Input,
+  Button,
+  Popconfirm,
+} from "antd";
 import services_1 from "../../services";
 
 import AddServiceView from "./ModalView/AddServiceView";
@@ -20,44 +29,57 @@ export default function() {
   const USER_TOKEN = localStorage.getItem("token");
   const AuthStr = "Bearer ".concat(USER_TOKEN);
   const [name, setName] = useState();
-  const [price , setPrice] = useState();
-  const [price_discount,setPriceDiscount]=useState();
-  const [description,setDescription]=useState();
-  const [stock,setStock]=useState();
-  const [picture,setPicture]=useState();
-  const [timeEstimate,setTimeEstimate]=useState();
+  const [price, setPrice] = useState();
+  const [price_discount, setPriceDiscount] = useState();
+  const [description, setDescription] = useState();
+  const [stock, setStock] = useState();
+  const [picture, setPicture] = useState();
+  const [timeEstimate, setTimeEstimate] = useState();
   const [book_online, setBookOnline] = React.useState(true);
   const [value, setValue] = React.useState(1);
-  
-  
-  async function DeleleService(serviceID) {  
-    return axios.get(`http://econail.localhost/api/admin/service/${serviceID}/delete`,
-    { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
-    .then(res=>res.data.status);
-
-  }
-  async function AddService(){
-    return axios.post('http://econail.localhost/api/admin/service',
-    {
-      "name" : name,
-      "price" : parseInt(`${price}`),  
-      "price_discount" : parseInt(`${price_discount}`),
-      "description" : `${description}`, 
-      "stock" :parseInt(`${stock}`), 
-      "picture" : null,
-      "time_estimate": parseInt(`${timeEstimate}`),
-      "can_book_online" : book_online,
-      "sex_type" : value,
-      "services_categories_id" : 1
-  },{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }}  
-    ).then(res=>res.data.status);
-    
-  }
   const [data, setData] = useState([]);
+  const service =[];
+  async function DeleleService(serviceID) {
+    return axios
+      .get(`http://econail.localhost/api/admin/service/${serviceID}/delete`, {
+        headers: {
+          Authorization: AuthStr,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res) => res.data.status);
+  }
+  async function AddService() {
+    return axios
+      .post(
+        "http://econail.localhost/api/admin/service",
+        {
+          name: name,
+          price: parseInt(`${price}`),
+          price_discount: parseInt(`${price_discount}`),
+          description: `${description}`,
+          stock: parseInt(`${stock}`),
+          picture: null,
+          time_estimate: parseInt(`${timeEstimate}`),
+          can_book_online: book_online,
+          sex_type: value,
+          services_categories_id: 1,
+        },
+        {
+          headers: {
+            Authorization: AuthStr,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => res.data.status);
+  }
+  
   
   function getService() {
-    axios
-      .get("http://econail.localhost/api/admin/service", {
+    axios.get("http://econail.localhost/api/admin/service", {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -65,23 +87,30 @@ export default function() {
         },
       })
       .then((response) => {
-        const service = response.data.data.data;
-        setData(service);
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/service?page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        
       });
   }
   useEffect(() => {
-    // const fetchData = async () => {
-    //   let result = await axios.get(
-    //     'http://econail.localhost/api/g/service'
-
-    //   );
-    //   let a = result.data;
-    //   data.hits=a.data.data;
-
-    // };
-
-    // fetchData();
-    getService();
+     getService();
   }, []);
   const [state, setState] = React.useState({
     dataList: services_1.data.data,
@@ -89,10 +118,8 @@ export default function() {
     searchText: "",
     filtered: false,
     service: {},
-    service_id:null,
-    service_name:null
-
-    
+    service_id: null,
+    service_name: null,
   });
 
   function onSearch() {
@@ -137,17 +164,13 @@ export default function() {
     setModalText("The modal will be closed after two seconds");
     setConfirmLoading(true);
     const statusDelete = await DeleleService(state.service_id);
-    if(statusDelete==true){
-    setTimeout(() => {
-      
-      setVisibleDeleteModal(false);
-      setConfirmLoading(false);
-      getService();
-      
-      
-      
-    }, 2000);
-  }
+    if (statusDelete == true) {
+      setTimeout(() => {
+        setVisibleDeleteModal(false);
+        setConfirmLoading(false);
+        getService();
+      }, 2000);
+    }
   };
 
   const handleCancelDeleteModal = () => {
@@ -176,9 +199,11 @@ export default function() {
     console.log("Clicked cancel button");
     setVisible(false);
   };
-   const handleDeleteService = () => {
+  const handleDeleteService = () => {
     const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    this.setState({
+      dataSource: dataSource.filter((item) => item.key !== key),
+    });
   };
   const columns = [
     {
@@ -258,46 +283,48 @@ export default function() {
           >
             Chi tiết
           </Button>
-        
-          <Button onClick={() => {
+
+          <Button
+            onClick={() => {
               showModalDelete();
               state.service_id = record.id;
               state.service_name = record.name;
-            }} shape="circle" type="danger">
+            }}
+            shape="circle"
+            type="danger"
+          >
             <i className="ion-android-delete" />
           </Button>
-        
-          
-         
         </>
       ),
     },
   ];
-  
-  const onChangeBookOnline = e => {
-    console.log('radio checked', e.target.value);
-    setBookOnline(e.target.value)
+
+  const onChangeBookOnline = (e) => {
+    console.log("radio checked", e.target.value);
+    setBookOnline(e.target.value);
   };
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const statusAdd =  await AddService();
+    const statusAdd = await AddService();
     console.log(statusAdd);
-    if(statusAdd == true){
-    setVisible(false);
-    history.push('/dashboard/table_ant');
-    
+    if (statusAdd == true) {
+      
+      setData([]);
+      getService();
+      setVisible(false);
+      setConfirmLoading(false);
+    } else {
+      history.push("/dashboard");
     }
-    else{
-      history.push('/dashboard');
-    }
-
-  }
+  };  
   return (
     <>
+    {console.log(data)}
       <ViewWrapper>
         <Button
           shape="round"
@@ -312,7 +339,7 @@ export default function() {
         </Button>
         <TableWrapper dataSource={data} columns={columns} />
       </ViewWrapper>
-      
+
       <Drawer
         closable={false}
         title="Thông tin  dịch vụ"
@@ -344,19 +371,19 @@ export default function() {
           </Descriptions.Item>
         </Descriptions> */}
       </Drawer>
-       <Modal
-            title="Xác nhận"
-            visible={visibleDeleteModal}
-            onOk={handleOkDeleteModal}
-            onCancel={handleCancelDeleteModal}
-            okText="Xác nhận"
-            cancelText="Hủy"
-            okType="danger"
-          >
-            Xóa dịch vụ {state.service_name}?
-          </Modal>
       <Modal
-        title="Thêm sản phẩm"
+        title="Xác nhận"
+        visible={visibleDeleteModal}
+        onOk={handleOkDeleteModal}
+        onCancel={handleCancelDeleteModal}
+        okText="Xác nhận"
+        cancelText="Hủy"
+        okType="danger"
+      >
+        Xóa dịch vụ {state.service_name}?
+      </Modal>
+      <Modal
+        title="Thêm dịch vụ"
         visible={visible}
         onOk={handleSubmit}
         confirmLoading={confirmLoading}
@@ -366,86 +393,46 @@ export default function() {
       >
         <FormWrapper>
           <Form name="basic" layout="vertical" hideRequiredMark>
-            <Form.Item
-              label="Tên sản phẩm"
-              name="name"
-              
-            >
-              <Input onChange={(e) => {setName(e.target.value)}} />
+            <Form.Item label="Tên dịch vụ" name="name">
+              <Input
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
             </Form.Item>
-            <Form.Item
-              label="Giá"
-              name="price"
-              
-            >
+            <Form.Item label="Giá" name="price">
               <Input onChange={(e) => setPrice(e.target.value)} />
             </Form.Item>
-            <Form.Item
-              label="Giá ưu đãi"
-              name="price_discount"
-              
-            >
-              <Input onChange={(e) => setPriceDiscount(e.target.value)}/>
+            <Form.Item label="Giá ưu đãi" name="price_discount">
+              <Input onChange={(e) => setPriceDiscount(e.target.value)} />
             </Form.Item>
-            <Form.Item
-              label="Số lượng"
-              name="stock"
-              
-            >
-              <Input onChange={(e) => setStock(e.target.value)}/>
+            <Form.Item label="Số lượng" name="stock">
+              <Input onChange={(e) => setStock(e.target.value)} />
             </Form.Item>
-            <Form.Item
-              label="Mô tả"
-              name="description"
-              
-            >
+            <Form.Item label="Mô tả" name="description">
               <TextArea
                 rows={4}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Item>
-            <Form.Item
-              label="Hình ảnh"
-              name="picture"
-              
-              
-            >
-              <Input onChange={(e) => setPicture(e.target.value)}/>
+            <Form.Item label="Hình ảnh" name="picture">
+              <Input onChange={(e) => setPicture(e.target.value)} />
             </Form.Item>
-            <Form.Item
-              label="Thời gian thực hiện"
-              name="time_estimate"
-              
-              
-            >
+            <Form.Item label="Thời gian thực hiện" name="time_estimate">
               <Input onChange={(e) => setTimeEstimate(e.target.value)} />
             </Form.Item>
-            <Form.Item
-              label="Có đặt được online"
-              name="bookonline"
-             
-            >
+            <Form.Item label="Có đặt được online" name="bookonline">
               <Radio.Group onChange={onChangeBookOnline} value={book_online}>
-                <Radio
-                  value={true}
-                  
-                >
-                  Có
-                </Radio>
+                <Radio value={true}>Có</Radio>
                 <Radio value={false}>Không</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item
-              label="Dành cho"
-              name="sex_type"
-              
-            >
+            <Form.Item label="Dành cho" name="sex_type">
               <Radio.Group onChange={onChange} value={value}>
                 <Radio value={0}>Nam</Radio>
                 <Radio value={1}>Nữ</Radio>
               </Radio.Group>
             </Form.Item>
-            
           </Form>
         </FormWrapper>
       </Modal>

@@ -12,7 +12,7 @@ import { Modal } from "antd";
 import DrawerBranch from "./DrawerBranch";
 const { Search } = Input;
 export default function() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [name, setName] = useState();
   const [phone, setPhone]= useState();
   const [address,setAddress] = useState();
@@ -33,8 +33,29 @@ export default function() {
         },
       })
       .then((response) => {
-        const branch = response.data.data.data;
-        setData(branch);
+        if(response.data.status == true ){
+          const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/tail?page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        }
+        //const branch = response.data.data.data;
+        //setData(branch);
       });
   }
   useEffect(() => {
@@ -62,6 +83,7 @@ export default function() {
     if(statusAdd == true){
       form.resetFields();
       setTimeout(() => {
+        setData([]);
         getBranch();
         setVisible(false);
         setConfirmLoading(false);
@@ -81,7 +103,7 @@ export default function() {
     const statusDelete = await DeleleBranch(branch.branch_id);
     if(statusDelete==true){
       setTimeout(() => {
-        
+        setData([]);  
         setVisibleDeleteModal(false);
         setConfirmLoading(false);
         getBranch();
