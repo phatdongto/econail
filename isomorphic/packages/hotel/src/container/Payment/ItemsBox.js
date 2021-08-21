@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { ItemsBoxWrapper } from "./Payment.style";
 
 const ItemsBox = (props) => {
+  const { items } = props;
   return (
     <ItemsBoxWrapper>
-      {props.items.map((item) => (
+      {items.map((item) => (
         <div
           key={item.id}
           className="d-flex mb-1"
@@ -13,13 +14,13 @@ const ItemsBox = (props) => {
             borderSpacing: "5px",
           }}
         >
-          <img src={item.src} />
+          <img style={{ width: "30px", height: "30px" }} src={item.picture} />
           <span style={{ color: "grey", marginLeft: "4px" }}>
             {item.name} x {item.quantity}
           </span>
-          y
+
           <span style={{ marginLeft: "auto", color: "grey" }}>
-            {item.price}
+            {item.price * item.quantity}
           </span>
         </div>
       ))}
