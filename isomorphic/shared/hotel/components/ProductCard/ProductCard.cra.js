@@ -58,9 +58,9 @@ const PostGrid = ({
           }}
         />
       }
-      title={<TextLink link={`${link}/${slug}`} content={`${name}~Hi`} />}
+      title={<TextLink link={`${link}/${slug}`} content={`${name}`} />}
       price={`Giá : ${price} VNĐ`}
-      priceDiscount={`Giá ưu đãi <product card> : ${price} VNĐ`}
+      priceDiscount={`Giá ưu đãi(no data): ${price} VNĐ`}
       viewDetailsBtn={
         <TextLink
           onClick={() => handleClick(id)}

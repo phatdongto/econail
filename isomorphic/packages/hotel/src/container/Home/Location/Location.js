@@ -48,44 +48,30 @@ const carouselOptions = {
   },
 };
 
-const handleServiceClick = (id) => {
-  console.log(id);
-};
-
 const LocationGrid = () => {
   const { data } = useDataApi("/data/location.json");
 
-  const [products, setProducts] = useState([]);
-
+  const [services, setServices] = useState([]);
   const apiUrl = "http://econail.localhost/api";
-
   let test = [];
   useEffect(() => {
     axios.get(`${apiUrl}/g/service`).then((res) => {
-      // console.log(res.data.status);
-      // console.log(res.data.data.data);
       if (res.data.status) {
         test = [...res.data.data.data];
-        // setProducts(res.data.data.data);
-        // console.log(res.data.status);
-        setProducts(test);
-        // console.log(test);
-        // console.log(products);
+        setServices(test);
       }
-      // console.log(products);
     });
   }, []);
 
   return (
     <LocationWrapper>
-      {/* {console.log(products.slice(0, 6))} */}
       <Container fluid={true}>
         <SectionTitle
           title={<Heading content="Dịch vụ nổi bật" />}
           link={<TextLink link={LISTING_POSTS_PAGE} content="Xem thêm" />}
         />
         <CarouselSection>
-          {products.length !== 0 ? (
+          {services.length !== 0 ? (
             <GlideCarousel
               carouselSelector="explore_carousel"
               prevButton={<IoIosArrowBack />}
@@ -105,10 +91,9 @@ const LocationGrid = () => {
                     />
                   </GlideSlide>
                 ))} */}
-                {products.slice(0, 6).map((post) => (
+                {services.slice(0, 6).map((post) => (
                   <GlideSlide key={post.id}>
                     <ImageCard
-                      onClick={() => handleServiceClick(post.id)}
                       serviceID={post.id}
                       link="post-service"
                       imageSrc={post.picture}
