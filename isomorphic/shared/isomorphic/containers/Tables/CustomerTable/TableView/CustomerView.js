@@ -1,4 +1,4 @@
-import React , { useState }from 'react';
+import React , { useState , useEffect}from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Component } from 'react';
@@ -11,12 +11,45 @@ import _ from 'lodash';
 
 
 export default function() {
+  const [data, setData] = useState([]);
+  const [username, setUsername] = useState();
+  const [email, setEmail]= useState();
+  const [address,setAddress] = useState();
+  const [form] = Form.useForm();
   const invoices = useSelector(state => state.Invoices);
   const dispatch = useDispatch();
   const match = useRouteMatch();
   const { invoiceId } = useParams();
   const { initialInvoices, currentInvoice, enableEditView } = invoices;
   const [visibleInfo, setVisibleInfo] = React.useState(false);
+  function getCustomer() {
+    axios
+      .get(`http://econail.localhost/api/g/user?is_customer=1`)
+      .then((response) => {
+        if(response.data.status == true ){
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/user?is_customer=1&page=${page}`, {
+              
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        }
+        //const branch = response.data.data.data;
+        //setData(branch);
+      });
+  }
+  useEffect(()=>{
+    getCustomer();
+
+  })
   const showDrawerInfo =()=>{
     setVisibleInfo(true);
   };
@@ -120,7 +153,7 @@ export default function() {
     <Button type="primary" onClick={showModal} style={{ marginBottom: '3%' }}>
         Thêm thể loại mới +
     </Button>
-   <TableWrapper dataSource={categories.data.data} columns={columns}   />
+   <TableWrapper dataSource={data} columns={columns}   />
     <Modal
     title="Thêm thể loại"
     visible={visible}
