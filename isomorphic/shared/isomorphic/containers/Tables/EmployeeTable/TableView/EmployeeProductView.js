@@ -32,8 +32,27 @@ export default function() {
         },
       })
       .then((response) => {
-        const staff = response.data.data.data;
-        setData(staff);
+        if(response.data.status==true){
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/sub_admin/staff?role=2&page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        }
       });
   }
   //Add Employee
@@ -62,6 +81,7 @@ export default function() {
     console.log(statusAdd);
     if(statusAdd == true){
     form.resetFields();
+    setData([]);
     getEmployeeProduct();
     setVisible(false);
     setConfirmLoading(false);

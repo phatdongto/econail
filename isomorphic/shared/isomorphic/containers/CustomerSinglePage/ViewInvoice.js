@@ -15,11 +15,8 @@ import  { TabPane } from '@iso/components/uielements/tabs';
 import AntTable from './AntTables/AntTables';
 const dataList = new fakeData(10);
 export default function(props) {
-  let pdfExportComponent;
-  const printDocument = () => {
-    pdfExportComponent.save();
-  };
-  const { currentInvoice, toggleView, redirectPath } = props;
+  
+ 
   console.log(props, 'props');
   function renderTable(tableInfo) {
     let Component;
@@ -40,12 +37,11 @@ export default function(props) {
       <Box style={{ padding: 20 }}>
         <InvoicePageWrapper className="InvoicePageWrapper">
           <div className="PageHeader" style={{ padding: '20px 20px 0' }}>
-            <Link to={redirectPath}>
-              <Button className="isoGoInvoBtn">
-                <span>Về trang khách hàng</span>
-              </Button>
-            </Link>
+            
           </div>
+          {/* <Button color="secondary" onClick={() => toggleView(true)}>
+              <span>Edit Invoice</span>
+          </Button> */}
           {/* <div
               id="divToPrint"
               className="mt4"
@@ -61,8 +57,8 @@ export default function(props) {
               Q
             </Avatar>
             <Descriptions title="" style={{marginTop:"10px"}}>
-             <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-             <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
+             <Descriptions.Item label="Tên khách hàng">{props.username}</Descriptions.Item>
+             <Descriptions.Item label="Email">{props.email}</Descriptions.Item>
              <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
              <Descriptions.Item label="Remark">empty</Descriptions.Item>
              <Descriptions.Item label="Address">

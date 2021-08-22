@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import notification from '@iso/components/Notification';
 import HelperText from '@iso/components/utility/helper-text';
 import LayoutWrapper from '@iso/components/utility/layoutWrapper';
@@ -11,29 +13,91 @@ import Button from '@iso/components/uielements/button';
 import invoiceActions from '@iso/redux/invoice/actions';
 import CardWrapper, { Box, StatusTag } from '../../Invoice/Invoice.styles';
 import TableWrapper from "../AntTables/AntTables.styles"
+import {Modal} from 'antd';
+import axios from 'axios';
 const { initData, deleteInvoice } = invoiceActions;
 export default function Invoices() {
+  const [data, setData] = useState([]);
+  const [username, setUsername] = useState();
+  const [email, setEmail]= useState();
+  const [customer,setCustomer] = useState({
+    customer_id : null,
+    customer_name: null
+  }) 
   const [selected, setSelected] = React.useState([]);
   const { initialInvoices, invoices } = useSelector(state => state.Invoices);
   const dispatch = useDispatch();
   const match = useRouteMatch();
-  React.useEffect(() => {
-    if (!initialInvoices) {
-      dispatch(initData());
-    }
-  }, [dispatch, initialInvoices]);
+  function getCustomer() {
+    axios
+      .get(`http://econail.localhost/api/g/user?is_customer=1`)
+      .then((response) => {
+        if(response.data.status == true ){
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/g/user?is_customer=1&page=${page}`)
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+        }
+        //const branch = response.data.data.data;
+        //setData(branch);
+      });
+  }
+  useEffect(async ()=>{
+    await getCustomer();
 
+  },[]);
+  const [visibleDeleteModal, setVisibleDeleteModal] = React.useState(false);
+  const showModalDelete = () => {
+    setVisibleDeleteModal(true);
+  };
+  const handleCancelDeleteModal = () => {
+    console.log("Clicked cancel button");
+    setVisibleDeleteModal(false);
+  };
+  //Delete 
+  async function DeleleBranch() {  
+    return axios.get(`http://econail.localhost/api/admin/tail/${branch.branch_id}/delete`,
+    { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(res=>res.data.status);
+
+  }
+  const handleOkDeleteModal = async () => {
+    setModalText("The modal will be closed after two seconds");
+    setConfirmLoading(true);
+    const statusDelete = await DeleleBranch(branch.branch_id);
+    if(statusDelete==true){
+      setTimeout(() => {
+        setData([]);  
+        setVisibleDeleteModal(false);
+        setConfirmLoading(false);
+        getBranch();
+        
+        
+        
+      }, 2000);
+    }
+  };
+
+  
   const columns = [
     {
       title: 'Tên',
-      dataIndex: 'number',
+      dataIndex: 'username',
       rowKey: 'number',
       width: '15%',
       render: text => <span>{text}</span>,
     },
     {
       title: 'Email',
-      dataIndex: 'billFrom',
+      dataIndex: 'email',
       rowKey: 'billFrom',
       width: '25%',
       render: text => <span>{text}</span>,
@@ -71,18 +135,18 @@ export default function Invoices() {
       width: '10%',
       render: (text, invoice) => (
         <div className="isoInvoiceBtnView">
-          <Link to={`/dashboard/customer_management/${invoice.id}`}>
+          <Link to={{pathname:`${match.path}/${invoice.id}`, state: { customer: invoice }}}>
             <Button color="primary" className="invoiceViewBtn">
               Xem
             </Button>
-          </Link>{' '}
+          </Link>
           <Button
             className="invoiceDltBtn"
             // icon="delete"
             onClick={() => {
-              notification('error', '1 invoice deleted');
-              dispatch(deleteInvoice([invoice.key]));
-              setSelected([]);
+              showModalDelete();
+              customer.customer_id = invoice.id;
+             customer.customer_name = invoice.username;
             }}
           >
             <i className="ion-android-delete" />
@@ -109,8 +173,8 @@ export default function Invoices() {
         </div>
 
         <CardWrapper title="Invoices">
-          {invoices.length === 0 ? (
-            <HelperText text="No Invoices" />
+          {data.length === 0 ? (
+            <HelperText text="Loading...." />
           ) : (
             <div className="isoInvoiceTable">
               <Scrollbars
@@ -118,7 +182,7 @@ export default function Invoices() {
               >
                 <TableWrapper
                   
-                  dataSource={invoices}
+                  dataSource={data}
                   columns={columns}
                   pagination={false}
                   className="invoiceListTable"
@@ -128,6 +192,17 @@ export default function Invoices() {
           )}
         </CardWrapper>
       </Box>
+      <Modal
+              title="Xác nhận"
+              visible={visibleDeleteModal}
+              onOk={handleOkDeleteModal}
+              onCancel={handleCancelDeleteModal}
+              okText="Xác nhận"
+              cancelText="Hủy"
+              okType="danger"
+            >
+              <p>Xóa khách hàng này {customer.customer_name}</p>
+        </Modal>
     </LayoutWrapper>
   );
 }
