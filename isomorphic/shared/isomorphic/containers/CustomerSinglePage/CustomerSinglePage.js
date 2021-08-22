@@ -1,50 +1,44 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch, useParams } from 'react-router-dom';
-import EditInvoice from './EditInvoice'
-import ViewInvoice from './ViewInvoice';
-import Loader from '@iso/components/utility/loader';
-import invoiceActions from '@iso/redux/invoice/actions';
-import AntTable from'./AntTables/AntTables'
-const { initData, selectCurrentInvoice, toggleView } = invoiceActions;
-export default function SingleInvoice() {
-    const invoices = useSelector(state => state.Invoices);
+  import React from "react";
+  import { useState } from "react";
+  import { useDispatch, useSelector } from "react-redux";
+  import { useRouteMatch, useParams, useLocation, Link } from "react-router-dom";
+  import EditInvoice from "./EditInvoice";
+  import ViewInvoice from "./ViewInvoice";
+  import Button from "@iso/ui/Antd/Button/Button";
+  import Loader from "@iso/components/utility/loader";
+  import invoiceActions from "@iso/redux/invoice/actions";
+  import AntTable from "./AntTables/AntTables";
+  const SingleInvoice = _ => {
+    
+    const { state } = useLocation();
     const dispatch = useDispatch();
     const match = useRouteMatch();
-    const { invoiceId } = useParams();
-    const { initialInvoices, currentInvoice, enableEditView } = invoices;
-  React.useEffect(() => {
-    if (!initialInvoices) {
-      dispatch(initData());
-    }
-    toggleCreatedInvoice();
-  });
-  // componentWillReceiveProps(nextProps) {
-  //   this.toggleCreatedInvoice(nextProps);
-  // }
-  function toggleCreatedInvoice() {
-    if (initialInvoices && currentInvoice.id !== invoiceId) {
-      dispatch(selectCurrentInvoice(invoiceId));
-    }
-  }
-  const redirectPath = match.url.replace(invoiceId, '');
-  if (currentInvoice.id !== invoiceId) {
-    return <Loader />;
-  } else if (enableEditView) {
+    // const { invoiceId } = useParams();
+
+    const [editing, setEditing] = useState(0);
+    // componentWillReceiveProps(nextProps) {
+    //   this.toggleCreatedInvoice(nextProps);
+    // }
+    // const redirectPath = match.url.replace(invoiceId, '');
+
     return (
-      <EditInvoice
-        toggleView={data => dispatch(toggleView(data))}
-        {...invoices}
-        redirectPath={redirectPath}
-      />
+      <>
+        {editing == 1 ? (
+          <>
+            <Button color="secondary" onClick={() => setEditing(0)}>
+              <span>Chỉnh sửa</span>
+            </Button>
+            <EditInvoice {...state.customer} />
+          </>
+        ) : (
+          <>
+            <Button color="secondary" onClick={() => setEditing(1)}>
+              <span>Trở lại</span>
+            </Button>
+            <ViewInvoice {...state.customer} />
+          </>
+        )}
+      </>
     );
-  } else {
-    return (
-      <ViewInvoice
-        {...invoices}
-        toggleView={data => dispatch(toggleView(data))}
-        redirectPath={redirectPath}
-      />
-    );
-  }
-}
+  };
+  export default SingleInvoice;

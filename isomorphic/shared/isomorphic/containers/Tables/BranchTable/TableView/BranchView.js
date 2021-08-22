@@ -4,11 +4,9 @@ import TableWrapper from "../AntTables.styles";
 import { Link } from "react-router-dom";
 
 import { Button } from "antd";
-
-import { FormWrapper, ViewWrapper } from "../AntTables.styles";
-import { Form, Input, Checkbox , Drawer} from "antd";
-
 import { Modal } from "antd";
+import { FormWrapper, ViewWrapper } from "../AntTables.styles";
+import { Form, Input, Drawer} from "antd";
 import DrawerBranch from "./DrawerBranch";
 const { Search } = Input;
 export default function() {

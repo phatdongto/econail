@@ -356,14 +356,15 @@ const routes = [
     component: lazy(() => import('@iso/containers/BookingManagement/BookingManagement')),
   },
   {
-    path: 'customer_management/:invoiceId',
-    component: lazy(() => import('@iso/containers/CustomerSinglePage/CustomerSinglePage')),
+    path: 'customer_management/:id',
+    component: lazy(() => import('@iso/containers/CustomerSinglePage/SingleInvoice')),
   },
   
   {
     path: 'customer_management',
     component: lazy(() => import('@iso/containers/Tables/CustomerTable/CustomerTable')),
   },
+  
   {
     path: 'delivery_management/:invoiceId',
     component: lazy(() => import('@iso/containers/DeliverySinglePage/DeliverySinglePage')),
