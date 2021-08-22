@@ -1,25 +1,34 @@
-import React from 'react';
-import AmountWrapper from './AmoutBar.style';
+import React from "react";
+import AmountWrapper from "./AmoutBar.style";
 
-const AmountBar = () => {
+const handleClick = () => {
+  console.log("clickkkkkkkked");
+};
+
+const AmountBar = (props) => {
   return (
     <AmountWrapper>
       <form>
         <div
           class="value-button"
           id="decrease"
-          onclick="decreaseValue()"
+          onClick={() => props.onDecrease(props.amount)}
           value="Decrease Value"
         >
           -
         </div>
         <div>
-          <input type="number" id="number" value="0" />
+          <input
+            type="number"
+            id="number"
+            value={props.amount}
+            placeholder={props.amount}
+          />
         </div>
         <div
           class="value-button"
           id="increase"
-          onclick="increaseValue()"
+          onClick={() => props.onIncrease(props.amount)}
           value="Increase Value"
         >
           +

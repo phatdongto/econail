@@ -5,6 +5,7 @@ import CartTable from "./CartTable";
 import { CartLayout, CartWrapper } from "./CartTable.styles";
 import { InputNumber } from "antd";
 import { CHECKOUT_PAGE } from "../../settings/constant";
+import axios from "axios";
 function formatCurrency(value) {
   return Number(value).toLocaleString("en-US", {
     style: "currency",
@@ -42,14 +43,20 @@ function ProductList({ products, onChangeProductQuantity, onRemoveProduct }) {
               <div className="col left">
                 <div className="thumbnail">
                   <a href="#">
-                    <img src={product.image} alt={product.name} />
+                    <img
+                      style={{ width: "150px", height: "150px" }}
+                      src={product.picture}
+                      alt={product.name}
+                    />
                   </a>
                 </div>
                 <div className="detail">
                   <div className="name">
                     <a href="#">{product.name}</a>
                   </div>
-                  <div className="description">{product.description}</div>
+                  <div className="description">
+                    {product.description.slice(0, 25)}
+                  </div>
                   <div className="price">{formatCurrency(product.price)}</div>
                 </div>
               </div>
@@ -61,10 +68,14 @@ function ProductList({ products, onChangeProductQuantity, onRemoveProduct }) {
                     max={1000}
                     value={product.quantity}
                     step={1}
+                    // onChangeProductQuantity(index, event)
+                    // console.log(event)
                     onChange={(event) => onChangeProductQuantity(index, event)}
                   />
                 </div>
-                <div className="total1">10$</div>
+                <div className="total1">
+                  {formatCurrency(product.price * product.quantity)}
+                </div>
 
                 <div className="remove">
                   <svg
@@ -117,9 +128,9 @@ function Summary({
               Discount <span>{formatCurrency(discount)}</span>
             </li>
           )}
-          <li>
+          {/* <li>
             Tax <span>{formatCurrency(tax)}</span>
-          </li>
+          </li> */}
           <li className="total">
             Total <span>{formatCurrency(total)}</span>
           </li>
@@ -168,8 +179,38 @@ const PROMOTIONS = [
 const TAX = 5;
 
 export default function Page() {
-  const CLONE_PRODUCTS = JSON.parse(JSON.stringify(PRODUCTS));
-  const [products, setProducts] = React.useState(CLONE_PRODUCTS);
+  // const CLONE_PRODUCTS = JSON.parse(JSON.stringify(PRODUCTS));
+  // const [products, setProducts] = React.useState(CLONE_PRODUCTS);
+
+  const [products, setProducts] = React.useState([]);
+  const apiUrl = "http://econail.localhost/api";
+
+  const getItem = async () => {
+    let itemsInCart = JSON.parse(localStorage.getItem("items_in_cart"));
+    let cart = Promise.all(
+      await itemsInCart.map(async (item) => {
+        let test = await axios.get(`${apiUrl}/g/product/${item.id}`);
+        test = test.data.data;
+        test.quantity = item.amount;
+        // console.log("testtt", test);
+        return test;
+      })
+    );
+    return cart;
+  };
+
+  React.useEffect(() => {
+    const hi = async () => {
+      let cart = await getItem();
+      setProducts(cart);
+    };
+    hi();
+  }, []);
+
+  React.useEffect(() => {
+    return setProducts([]);
+  }, []);
+
   const [promoCode, setPromoCode] = React.useState("");
   const [discountPercent, setDiscountPercent] = React.useState(0);
 
@@ -182,7 +223,9 @@ export default function Page() {
   const discount = (subTotal * discountPercent) / 100;
 
   const onChangeProductQuantity = (index, event) => {
-    const value = event.target.value;
+    // console.log(event);
+    const value = event;
+    // const value = event.target.value;
     const valueInt = parseInt(value);
     const cloneProducts = [...products];
 
@@ -191,13 +234,38 @@ export default function Page() {
       cloneProducts[index].quantity = value;
     } else if (valueInt > 0 && valueInt < 100) {
       cloneProducts[index].quantity = valueInt;
+      let tmp = JSON.parse(localStorage.getItem("items_in_cart"));
+      tmp = tmp.filter((item) => {
+        // console.log("type:  ", item.id, cloneProducts[index].id);
+        // console.log(
+        //   "type:  ",
+        //   typeof item.id,
+        //   typeof String(cloneProducts[index].id)
+        // );
+        // console.log("item:  ", item.id !== String(cloneProducts[index].id));
+        return String(item.id) !== String(cloneProducts[index].id);
+      });
+      tmp.push({
+        id: cloneProducts[index].id,
+        amount: cloneProducts[index].quantity,
+      });
+      localStorage.setItem("items_in_cart", JSON.stringify(tmp));
     }
-    console.log(cloneProducts, products, PRODUCTS);
+    // console.log(cloneProducts, products, PRODUCTS);
     setProducts(cloneProducts);
   };
 
   const onRemoveProduct = (i) => {
+    let tmp = JSON.parse(localStorage.getItem("items_in_cart"));
+    tmp = tmp.filter((item) => {
+      // console.log("type:  ", typeof item.id, typeof products[i].id);
+      // console.log("item:  ", item.id !== products[i].id);
+      return String(item.id) !== String(products[i].id);
+    });
+    localStorage.setItem("items_in_cart", JSON.stringify(tmp));
+
     const filteredProduct = products.filter((product, index) => {
+      localStorage.setItem("items_in_cart", JSON.stringify(tmp));
       return index != i;
     });
 
@@ -224,7 +292,6 @@ export default function Page() {
     <CartWrapper>
       <CartLayout>
         <Header itemCount={itemCount} />
-
         {products.length > 0 ? (
           <div>
             <ProductList
@@ -236,7 +303,7 @@ export default function Page() {
             <Summary
               subTotal={subTotal}
               discount={discount}
-              tax={TAX}
+              tax={0}
               onEnterPromoCode={onEnterPromoCode}
               checkPromoCode={checkPromoCode}
             />

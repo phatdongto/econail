@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
-import singlePostBgImg from '@hotel/assets/images/single-post-bg.jpg';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
+import singlePostBgImg from "@hotel/assets/images/single-post-bg.jpg";
 
 const SinglePageServiceWrapper = styled.div`
   padding-bottom: 56px;
@@ -53,8 +53,8 @@ export const CostArea = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     font-size: 25px;
-    text-decoration: line-through;
-    font-family: 'Lato', sans-serif;
+
+    font-family: "Lato", sans-serif;
   }
 `;
 export const TextArea = styled.div`
@@ -64,7 +64,7 @@ export const TextArea = styled.div`
   font-weight: bold;
   font-size: 20px;
   h2 .a {
-    content: '';
+    content: "";
     display: inline;
     width: 8px;
     height: 100%;
@@ -83,13 +83,13 @@ export const ImageArea = styled.div`
   }
 `;
 export const LocationMeta = styled.div`
-  color: ${themeGet('text.1', '#909090')};
+  color: ${themeGet("text.1", "#909090")};
   font-size: 13px;
   font-weight: 400;
 `;
 
 export const Title = styled.h2`
-  color: ${themeGet('text.0', '#2C2C2C')};
+  color: ${themeGet("text.0", "#2C2C2C")};
   font-size: 25px;
   line-height: 34px;
   font-weight: 700;
@@ -99,7 +99,7 @@ export const Title = styled.h2`
 export const RatingMeta = styled.div`
   display: flex;
   align-items: center;
-  color: ${themeGet('text.0', '#2C2C2C')};
+  color: ${themeGet("text.0", "#2C2C2C")};
   font-size: 13px;
   margin-top: 2px;
   margin-bottom: 27px;
@@ -108,11 +108,11 @@ export const RatingMeta = styled.div`
   }
 
   i {
-    color: ${themeGet('primary.0', '#008489')};
+    color: ${themeGet("primary.0", "#008489")};
   }
 
   svg {
-    fill: ${themeGet('primary.0', '#008489')};
+    fill: ${themeGet("primary.0", "#008489")};
   }
 
   strong {
@@ -122,7 +122,7 @@ export const RatingMeta = styled.div`
 `;
 
 export const Text = styled.p`
-  color: ${themeGet('text.0', '#2C2C2C')};
+  color: ${themeGet("text.0", "#2C2C2C")};
   font-size: 15px;
   line-height: 24px;
   font-weight: 400;
@@ -142,12 +142,12 @@ export const TextButton = styled.div`
 export const TobBarWrapper = styled.div`
   .sticky-outer-wrapper {
     .sticky-inner-wrapper {
-      background-color: ${themeGet('color.1', '#ffffff')};
+      background-color: ${themeGet("color.1", "#ffffff")};
 
       .scrollbar {
         box-shadow: none;
-        border-top: 1px solid ${themeGet('border.3', '#E6E6E6')};
-        border-bottom: 1px solid ${themeGet('border.3', '#E6E6E6')};
+        border-top: 1px solid ${themeGet("border.3", "#E6E6E6")};
+        border-bottom: 1px solid ${themeGet("border.3", "#E6E6E6")};
 
         .scrollbar_left {
           margin-right: 30px;
@@ -158,7 +158,7 @@ export const TobBarWrapper = styled.div`
           }
 
           a {
-            color: ${themeGet('text.0', '#2C2C2C')};
+            color: ${themeGet("text.0", "#2C2C2C")};
             font-size: 15px;
             padding: 29px 20px;
             text-transform: capitalize;
@@ -173,13 +173,13 @@ export const TobBarWrapper = styled.div`
             }
 
             &:hover {
-              color: ${themeGet('primary.0', '#008489')};
+              color: ${themeGet("primary.0", "#008489")};
             }
 
             &.active {
               font-weight: 700;
-              color: ${themeGet('primary.0', '#008489')};
-              border-bottom: 3px solid ${themeGet('primary.0', '#008489')};
+              color: ${themeGet("primary.0", "#008489")};
+              border-bottom: 3px solid ${themeGet("primary.0", "#008489")};
             }
           }
         }
@@ -225,8 +225,8 @@ export const ButtonGroup = styled.div`
     height: 37px;
     min-width: 90px;
     padding: 0 5px;
-    border: 1px solid ${themeGet('border.3', '#E6E6E6')};
-    color: ${themeGet('text.0', '#2C2C2C')};
+    border: 1px solid ${themeGet("border.3", "#E6E6E6")};
+    color: ${themeGet("text.0", "#2C2C2C")};
     font-size: 15px;
     font-weight: 700;
     display: inline-flex;
@@ -239,7 +239,7 @@ export const ButtonGroup = styled.div`
       margin-right: 10px;
       path {
         fill: transparent;
-        stroke: ${themeGet('text.0', '#2C2C2C')};
+        stroke: ${themeGet("text.0", "#2C2C2C")};
         stroke-width: 1.5px;
       }
     }
@@ -247,8 +247,8 @@ export const ButtonGroup = styled.div`
     &.active {
       svg {
         path {
-          stroke: ${themeGet('color.4', '#FC5C63')};
-          fill: ${themeGet('color.4', '#FC5C63')};
+          stroke: ${themeGet("color.4", "#FC5C63")};
+          fill: ${themeGet("color.4", "#FC5C63")};
         }
       }
     }
@@ -257,7 +257,7 @@ export const ButtonGroup = styled.div`
       outline: none;
     }
     &:hover {
-      background-color: ${themeGet('color.2', '#F7F7F7')};
+      background-color: ${themeGet("color.2", "#F7F7F7")};
     }
     &:after {
       display: none;
@@ -279,9 +279,9 @@ export const ButtonGroup = styled.div`
     }
   }
 `;
+// background-image: url(${singlePostBgImg});
 
 export const PostImage = styled.div`
-  background-image: url(${singlePostBgImg});
   background-position: center center;
   background-size: cover;
   height: 600px;
@@ -292,7 +292,7 @@ export const PostImage = styled.div`
   }
 
   .image_gallery_button {
-    background: ${themeGet('color.1', '#ffffff')};
+    background: ${themeGet("color.1", "#ffffff")};
     border-radius: 3px;
     font-size: 15px;
     font-weight: 700;
@@ -310,8 +310,8 @@ export const PostImage = styled.div`
 
     &:hover,
     &:focus {
-      background: ${themeGet('color.2', '#F7F7F7')};
-      color: ${themeGet('text.0', '#2C2C2C')};
+      background: ${themeGet("color.2", "#F7F7F7")};
+      color: ${themeGet("text.0", "#2C2C2C")};
     }
   }
 `;

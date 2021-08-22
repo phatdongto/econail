@@ -1,10 +1,10 @@
-import React from 'react';
-import TextLink from '@iso/ui/TextLink/TextLink';
-import Rating from '@iso/ui/Rating/Rating';
-import Favourite from '@iso/ui/Favorite/Favorite';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import GridCard from '../GridCard/GridCardService';
+import React from "react";
+import TextLink from "@iso/ui/TextLink/TextLink";
+import Rating from "@iso/ui/Rating/Rating";
+import Favourite from "@iso/ui/Favorite/Favorite";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import GridCard from "../GridCard/GridCardService";
 
 const responsive = {
   desktop: {
@@ -48,14 +48,14 @@ const PostGrid = ({
       isCarousel={true}
       favorite={
         <Favourite
-          onClick={event => {
+          onClick={(event) => {
             console.log(event);
           }}
         />
       }
       location={`Dành cho nam`}
       title={<TextLink link={`${link}/${slug}`} content={title} />}
-      price={`Giá : ${price} VNĐ` }
+      price={`Giá : ${price} VNĐ`}
       priceDiscount={`Giá ưu đãi : ${price} VNĐ`}
       viewDetailsBtn={
         <TextLink link={`${link}/${slug}`} content="Xem chi tiết" />
@@ -84,10 +84,10 @@ const PostGrid = ({
             key={index}
             draggable={false}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'relative',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "relative",
             }}
           />
         ))}

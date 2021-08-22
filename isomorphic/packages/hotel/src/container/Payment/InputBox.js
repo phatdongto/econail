@@ -1,5 +1,5 @@
 import { FormGroup } from "@hotel/components/Review/RendarReviewForm.style";
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { InputBoxWrapper } from "./Payment.style.js";
 
 const InputBox = (props) => {
+  // useEffect(() => {
+  //   updateInput = updateInput.bind(this);
+  // }, []);
   return (
     <InputBoxWrapper>
       <Form>
@@ -19,7 +22,10 @@ const InputBox = (props) => {
               </span>
             ) : null}
           </Form.Label>
-          <Form.Control type="text" />
+          <Form.Control
+            type="text"
+            onChange={(event) => props.onInput(event, props.label)}
+          />
         </Form.Group>
 
         {props.addressNotice ? (

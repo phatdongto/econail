@@ -1,26 +1,28 @@
-import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from '@iso/lib/hooks/useLocation';
-import Sticky from 'react-stickynode';
-import Row from '@iso/ui/Antd/Grid/Row';
-import Col from '@iso/ui/Antd/Grid/Col';
-import Modal from '@iso/ui/Antd/Modal/Modal';
-import Button from '@iso/ui/Antd/Button/Button';
-import Container from '@iso/ui/UI/Container/Container';
-import Loader from '@hotel/components/Loader/Loader';
-import useWindowSize from '@iso/lib/hooks/useWindowSize';
-import Description from '../SinglePage/Description/Description';
+import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// import { useLocation } from '@iso/lib/hooks/useLocation';
+// import Sticky from 'react-stickynode';
+// import Row from '@iso/ui/Antd/Grid/Row';
+// import Col from '@iso/ui/Antd/Grid/Col';
+// import Modal from '@iso/ui/Antd/Modal/Modal';
+import Button from "@iso/ui/Antd/Button/Button";
 
-import Location from '../SinglePage/Location/Location';
-import Review from '../SinglePage/Review/Review';
-import { SERVICE_ORDER } from '../../settings/constant';
+import axios from "axios";
+// import Container from '@iso/ui/UI/Container/Container';
+// import Loader from '@hotel/components/Loader/Loader';
+// import useWindowSize from '@iso/lib/hooks/useWindowSize';
+// import Description from '../SinglePage/Description/Description';
 
-import TopBar from '../SinglePage/TopBar/TopBar';
-import SinglePageWrapper, { PostImage } from './ServiceSinglePage.style';
-import PostImageGallery from '../SinglePage/ImageGallery/ImageGallery';
-import useDataApi from '@iso/lib/hooks/useDataApi';
-import isEmpty from 'lodash/isEmpty';
-import Image from './post-image-1.jpg';
+// import Location from '../SinglePage/Location/Location';
+// import Review from '../SinglePage/Review/Review';
+import { SERVICE_ORDER } from "../../settings/constant";
+
+// import TopBar from '../SinglePage/TopBar/TopBar';
+import SinglePageWrapper, { PostImage } from "./ServiceSinglePage.style";
+// import PostImageGallery from '../SinglePage/ImageGallery/ImageGallery';
+// import useDataApi from '@iso/lib/hooks/useDataApi';
+// import isEmpty from 'lodash/isEmpty';
+// import Image from './post-image-1.jpg';
 import SinglePageServiceWrapper, {
   FormActionArea,
   DescriptionArea,
@@ -28,7 +30,12 @@ import SinglePageServiceWrapper, {
   TextArea,
   ImageArea,
   CostArea,
-} from './ServiceSinglePage.style';
+} from "./ServiceSinglePage.style";
+
+// const [service, setService] = useState([]);
+
+// useEffect(() => {}, []);
+
 const ServiceSinglePage = ({ match }) => {
   /*const { href } = useLocation();
   const [isModalShowing, setIsModalShowing] = useState(false);
@@ -54,26 +61,40 @@ const ServiceSinglePage = ({ match }) => {
     author,
   } = data[0];*/
 
+  const [service, setService] = useState({});
+
+  const apiUrl = "http://econail.localhost/api";
+  let test = {};
+  useEffect(() => {
+    let serviceID = localStorage.getItem("current_service_id");
+
+    axios.get(`${apiUrl}/g/service/${serviceID}`).then((res) => {
+      if (res.status) {
+        test = res.data.data;
+        // console.log(res.data.data);
+
+        setService(test);
+      }
+    });
+  }, []);
+
   return (
     <SinglePageServiceWrapper>
-      <PostImage>
+      {/* {console.log(service)} */}
+      <PostImage style={{ backgroundImage: `url(${service.picture})` }}>
+        {/* <img src={service.picture} alt="error" /> */}
+
         <Button type="primary" className="image_gallery_button">
-          View Photos
+          {/* View Photos */}
         </Button>
       </PostImage>
+      <h2 className="mx-auto">{service.name}</h2>
       <CostArea>
-        <h4>Giá 205k</h4>
-        <h4>Giá ưu đãi:205k</h4>
+        <h4>{`${service.price} VNĐ`}</h4>
+        {/* <h4>{service.price_discount ? service.price_discount : "1000$"}</h4> */}
       </CostArea>
-      <DescriptionArea>
-        In South Williamsburg only a few blocks inland from the East River,
-        Marlo &Sons is a rustic respite with nice wine, good cocktails, and
-        excellent snacking fare such as oysters, local cheese, and potato
-        tortilla. But thereâ€™s more: seasonal salads and soups, the famous
-        brick chicken, a dimly lit space outfitted in various types of wood(this
-        is an Andrew Tarlow restaurant, after all). In many ways.
-      </DescriptionArea>
-      <DescriptionArea>Thời gian: 30 phút</DescriptionArea>
+      <DescriptionArea>{service.description}</DescriptionArea>
+      <DescriptionArea>Thời gian: {service.time_estimate}</DescriptionArea>
 
       <FormActionArea>
         <button>

@@ -1,23 +1,24 @@
-import React from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosArrowForward } from 'react-icons/io';
-import Loader from '@hotel/components/Loader/Loader';
-import Container from '@iso/ui/UI/Container/Container';
-import Heading from '@iso/ui/Heading/Heading';
-import TextLink from '@iso/ui/TextLink/TextLink';
-import SectionTitle from '@hotel/components/SectionTitle/SectionTitle';
-import ImageCard from '@hotel/components/ImageCard/ImageCard';
-import GlideCarousel, { GlideSlide } from '@iso/ui/GlideCarousel/GlideCarousel';
-import useDataApi from '@iso/lib/hooks/useDataApi';
+import React, { useEffect, useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import Loader from "@hotel/components/Loader/Loader";
+import Container from "@iso/ui/UI/Container/Container";
+import Heading from "@iso/ui/Heading/Heading";
+import TextLink from "@iso/ui/TextLink/TextLink";
+import SectionTitle from "@hotel/components/SectionTitle/SectionTitle";
+import ImageCard from "@hotel/components/ImageCard/ImageCard";
+import GlideCarousel, { GlideSlide } from "@iso/ui/GlideCarousel/GlideCarousel";
+import useDataApi from "@iso/lib/hooks/useDataApi";
+import axios from "axios";
 import {
   SERVICE_SINGLE_POST_PAGE,
   LISTING_POSTS_PAGE,
-} from '../../../settings/constant';
-import LocationWrapper, { CarouselSection } from './Location.style';
+} from "../../../settings/constant";
+import LocationWrapper, { CarouselSection } from "./Location.style";
 const carouselOptions = {
-  type: 'carousel',
+  type: "carousel",
   perView: 6,
-  gap: 30,
+  gap: 50,
   autoplay: 3000,
   hoverpause: true,
   breakpoints: {
@@ -48,7 +49,19 @@ const carouselOptions = {
 };
 
 const LocationGrid = () => {
-  const { data } = useDataApi('/data/location.json');
+  const { data } = useDataApi("/data/location.json");
+
+  const [services, setServices] = useState([]);
+  const apiUrl = "http://econail.localhost/api";
+  let test = [];
+  useEffect(() => {
+    axios.get(`${apiUrl}/g/service`).then((res) => {
+      if (res.data.status) {
+        test = [...res.data.data.data];
+        setServices(test);
+      }
+    });
+  }, []);
 
   return (
     <LocationWrapper>
@@ -57,9 +70,8 @@ const LocationGrid = () => {
           title={<Heading content="Dịch vụ nổi bật" />}
           link={<TextLink link={LISTING_POSTS_PAGE} content="Xem thêm" />}
         />
-
         <CarouselSection>
-          {data.length !== 0 ? (
+          {services.length !== 0 ? (
             <GlideCarousel
               carouselSelector="explore_carousel"
               prevButton={<IoIosArrowBack />}
@@ -67,13 +79,26 @@ const LocationGrid = () => {
               options={carouselOptions}
             >
               <>
-                {data.map((post, index) => (
+                {/* {data.map((post, index) => (
                   <GlideSlide key={index}>
                     <ImageCard
                       link="post-service"
-                      imageSrc={post.locationImage.url}
+                      // imageSrc={post.locationImage.url}
+                      imageSrc={"https://picsum.photos/177/280"}
                       title={`Tên dịch vụ`}
                       meta={`100000VND`}
+                      sextype={`Dành cho nam`}
+                    />
+                  </GlideSlide>
+                ))} */}
+                {services.slice(0, 6).map((post) => (
+                  <GlideSlide key={post.id}>
+                    <ImageCard
+                      serviceID={post.id}
+                      link="post-service"
+                      imageSrc={post.picture}
+                      title={`${post.name}`}
+                      meta={`${post.price} VND`}
                       sextype={`Dành cho nam`}
                     />
                   </GlideSlide>

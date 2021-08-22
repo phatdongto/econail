@@ -1,10 +1,10 @@
-import React from 'react';
-import TextLink from '@iso/ui/TextLink/TextLink';
-import Rating from '@iso/ui/Rating/Rating';
-import Favourite from '@iso/ui/Favorite/Favorite';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import GridCard from '../GridCard/GridCard';
+import React from "react";
+import TextLink from "@iso/ui/TextLink/TextLink";
+import Rating from "@iso/ui/Rating/Rating";
+import Favourite from "@iso/ui/Favorite/Favorite";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import GridCard from "../GridCard/GridCard";
 
 const responsive = {
   desktop: {
@@ -33,10 +33,16 @@ const responsive = {
   },
 };
 
+const handleClick = (id) => {
+  localStorage.setItem("current_product_id", id);
+};
+
 const PostGrid = ({
-  title,
-  
+  name,
+  picture,
+  // title,
   price,
+  id,
   priceDiscount,
   gallery,
   slug,
@@ -47,21 +53,36 @@ const PostGrid = ({
       isCarousel={true}
       favorite={
         <Favourite
-          onClick={event => {
+          onClick={(event) => {
             console.log(event);
           }}
         />
       }
-      
-      title={<TextLink link={`${link}/${slug}`} content={title} />}
-      price={`Giá : ${price} VNĐ` }
-      priceDiscount={`Giá ưu đãi : ${price} VNĐ`}
-      
+      title={<TextLink link={`${link}/${slug}`} content={`${name}`} />}
+      price={`Giá : ${price} VNĐ`}
+      priceDiscount={`Giá ưu đãi(no data): ${price} VNĐ`}
       viewDetailsBtn={
-        <TextLink link={`${link}/${slug}`} content="View Details" />
+        <TextLink
+          onClick={() => handleClick(id)}
+          link={`${link}/${id}`}
+          content="View Details"
+        />
       }
     >
-      <Carousel
+      <img
+        className="container"
+        // src={"https://source.unsplash.com/random"}
+        src={picture}
+        alt={"hello"}
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "150px",
+          objectFit: "cover",
+          position: "relative",
+        }}
+      />
+      {/* <Carousel
         additionalTransfrom={0}
         arrows
         autoPlaySpeed={3000}
@@ -84,14 +105,14 @@ const PostGrid = ({
             key={index}
             draggable={false}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              position: 'relative',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "relative",
             }}
           />
         ))}
-      </Carousel>
+      </Carousel> */}
     </GridCard>
   );
 };

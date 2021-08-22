@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import InputBox from "./InputBox";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,56 +8,58 @@ import { Label } from "@hotel/components/Review/RendarReviewForm.style";
 // import { Col } from "antd";
 import { Row, Col } from "react-bootstrap";
 
-class BillingForm extends Component {
-  state = {};
-  render() {
-    console.log("reach here");
-    return (
-      <BillingFormWrapper>
-        <h5 className={""}>Billing detail</h5>
+const BillingForm = (props) => {
+  return (
+    <BillingFormWrapper>
+      {console.log(props.checkoutData)}
+      <h5 className={""}>Billing detail</h5>
 
-        <Row>
-          <Col>
-            <InputBox label="FirstName" important />
-          </Col>
-          <Col>
-            <InputBox label="LastName" important />
-          </Col>
-        </Row>
+      <Row>
+        <Col>
+          <InputBox label="FirstName" onInput={props.onInput} important />
+        </Col>
+        <Col>
+          <InputBox label="LastName" onInput={props.onInput} important />
+        </Col>
+      </Row>
 
-        <Row>
-          <Col>
-            <InputBox label="E-mail address" important />
-          </Col>
-          <Col>
-            <InputBox label="Phone Number" important />
-          </Col>
-        </Row>
+      <Row>
+        <Col>
+          <InputBox label="E-mail address" onInput={props.onInput} important />
+        </Col>
+        <Col>
+          <InputBox label="Phone Number" onInput={props.onInput} important />
+        </Col>
+      </Row>
 
-        <Row>
-          <Col>
-            <InputBox label="Country" important />
-          </Col>
-          <Col>
-            <InputBox label="City" />
-          </Col>
-        </Row>
+      <Row>
+        <Col>
+          <InputBox label="Country" onInput={props.onInput} important />
+        </Col>
+        <Col>
+          <InputBox label="City" onInput={props.onInput} />
+        </Col>
+      </Row>
 
-        <InputBox label="Address" important addressNotice />
+      <InputBox
+        label="Address"
+        onInput={props.onInput}
+        important
+        addressNotice
+      />
 
-        <label className="mt-3">
-          <input
-            name="isGoing"
-            type="checkbox"
-            className="mr-1"
-            // checked={this.state.isGoing}
-            // onChange={this.handleInputChange}
-          />
-          Create account?
-        </label>
-      </BillingFormWrapper>
-    );
-  }
-}
+      <label className="mt-3">
+        <input
+          name="isGoing"
+          type="checkbox"
+          className="mr-1"
+          // checked={this.state.isGoing}
+          // onChange={this.handleInputChange}
+        />
+        Create account?
+      </label>
+    </BillingFormWrapper>
+  );
+};
 
 export default BillingForm;
