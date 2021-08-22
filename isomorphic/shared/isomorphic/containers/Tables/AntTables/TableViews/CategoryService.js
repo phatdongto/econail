@@ -12,7 +12,9 @@ export default function() {
   const [state, setState] = React.useState({
     category_service: {},
   });
+  const url="http://econail.localhost/api/admin/service_category"
   const [data, setData] = useState([]);
+  const [add,setAdd]= useState(0);
   const USER_TOKEN=localStorage.getItem('token');
   const AuthStr = 'Bearer '.concat(USER_TOKEN); 
   const [name,setName] = useState();
@@ -20,32 +22,52 @@ export default function() {
   function getCategoryService(){
     axios.get('http://econail.localhost/api/admin/service_category',{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(response=>{
-      const category_service=response.data.data.data
-      setData(category_service)
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/service_category?page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+      // const category_service=response.data.data.data
+      // setData(category_service)
     })
   }
   useEffect(() => {
     
     getCategoryService();
     
-  }, []);
+  }, [add]);
   
     async function AddCategory(){
-      return axios.post('http://econail.localhost/api/admin/service_category',
+      return axios.post(url,
       {
         "name" : name,
         "note" : description
     },{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }}  
-      ).then(res=>res.data.status);
+      ).then(res=>res.data);
       
     }
     const handleSubmit = async e => {
       e.preventDefault();
       const statusAdd =  await AddCategory();
       console.log(statusAdd);
-      if(statusAdd == true){
+      if(statusAdd.status == true){
       
-      getCategoryService()
+      setAdd(1);
+      setData([]);
       setVisible(false);
       setConfirmLoading(false);
       

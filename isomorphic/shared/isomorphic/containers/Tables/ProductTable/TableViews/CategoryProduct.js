@@ -32,8 +32,27 @@ const {TextArea} = Input
           },
         })
         .then((response) => {
-          const category = response.data.data.data;
-          setData(category);
+          const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while(page <= total_pages){
+          axios.get(`http://econail.localhost/api/admin/product_category?page=${page}`, {
+              headers: {
+                Authorization: AuthStr,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+               
+                setData(old => [...old, ...res.data.data.data]);
+            }
+          );
+          page++;
+        }
+          //const category = response.data.data.data;
+          //setData(category);
         });
     }
     async function DeleleCategoryProduct(categoryid) {  
@@ -59,6 +78,7 @@ const {TextArea} = Input
       const statusAdd =  await AddCategory();
       console.log(statusAdd);
       if(statusAdd == true){
+      setData([]);
       getCategoryProduct()
       setVisible(false);
       
