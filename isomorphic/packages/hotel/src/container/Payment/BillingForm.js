@@ -11,7 +11,7 @@ import { Row, Col } from "react-bootstrap";
 const BillingForm = (props) => {
   return (
     <BillingFormWrapper>
-      {console.log(props.checkoutData)}
+      {/* {console.log(props.checkoutData)} */}
       <h5 className={""}>Billing detail</h5>
 
       <Row>

@@ -2,24 +2,10 @@ import { Button } from "antd";
 import React, { Component } from "react";
 import ItemsBox from "./ItemsBox";
 import { OrderInfoWrapper } from "./Payment.style";
-
-const sstate = {
-  items: [
-    // prettier-ignore
-    {
-      id: 1, name: "camera", quantity: 3, price: 40, src: "https://picsum.photos/40/40?random=1"
-    },
-    // prettier-ignore
-    { id: 2, name: "sip", quantity: 2, price: 60, src: "https://picsum.photos/40/40?random=2" },
-    // prettier-ignore
-    { id: 3, name: "smartphone", quantity: 5, price: 50, src: "https://picsum.photos/40/?random=3"},
-    // prettier-ignore
-    { id: 4, name: "TV", quantity: 7, price: 90, src: "https://picsum.photos/40/40?random=4" },
-  ],
-};
+import Paypal from "./Paypal";
 
 const OrderInfo = (props) => {
-  const { products } = props;
+  const { products, order } = props;
 
   const handleSum = () => {
     let sum = 0;
@@ -46,9 +32,11 @@ const OrderInfo = (props) => {
         </h5>
       </div>
 
-      <Button className="w-100" type="primary">
+      {/* <Button className="w-100" type="primary">
         Paypal
-      </Button>
+      </Button> */}
+      {/* {console.log("Outer products ", products)} */}
+      <Paypal products={products} order={order} />
     </OrderInfoWrapper>
   );
 };

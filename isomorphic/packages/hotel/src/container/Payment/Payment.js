@@ -59,7 +59,7 @@ const Payment = () => {
         height: "100vh",
       }}
     >
-      {console.log(products)}
+      {/* {console.log(products)} */}
       <PaymentWrapper>
         <BillingForm
           className="bill"

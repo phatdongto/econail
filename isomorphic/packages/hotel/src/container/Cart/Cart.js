@@ -105,6 +105,7 @@ function Summary({
   tax,
   onEnterPromoCode,
   checkPromoCode,
+  onPay,
 }) {
   const total = subTotal - discount + tax;
 
@@ -138,9 +139,11 @@ function Summary({
       </div>
 
       <div className="checkout">
-        <Link to={CHECKOUT_PAGE}>
-          <button type="button">Thanh Toán</button>
-        </Link>
+        {/* <Link to={CHECKOUT_PAGE}> */}
+        <button onClick={onPay} type="button">
+          Thanh Toán
+        </button>
+        {/* </Link> */}
       </div>
     </section>
   );
@@ -288,6 +291,44 @@ export default function Page() {
     alert("Sorry, the Promotional code you entered is not valid!");
   };
 
+  const handlePay = () => {
+    console.log("here");
+    let loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
+    let orderForm = {
+      user_id: loginedUser.user_record.id,
+      tail_id: 1,
+      staff_process_id: null,
+      note: "Mô tả Order",
+      status: 0,
+      is_paid: false,
+      payment_id: false,
+      delivery_status: 0,
+      order_products: products.map((product) => {
+        return {
+          product_id: product.id,
+          product_price: product.price,
+          amount: product.quantity,
+          note: "",
+        };
+      }),
+    };
+    let api = axios
+      .post(`${apiUrl}/c/order`, orderForm, {
+        headers: {
+          Authorization: `Bearer ${loginedUser.access_token}`,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+
+    // let tmp = axios.get(`${apiUrl}/c/order`);
+    // console.log("orderForm: ", orderForm);
+    // console.log("token: ", `Bearer ${loginedUser.access_token}`);
+  };
+
   return (
     <CartWrapper>
       <CartLayout>
@@ -306,6 +347,7 @@ export default function Page() {
               tax={0}
               onEnterPromoCode={onEnterPromoCode}
               checkPromoCode={checkPromoCode}
+              onPay={handlePay}
             />
           </div>
         ) : (
