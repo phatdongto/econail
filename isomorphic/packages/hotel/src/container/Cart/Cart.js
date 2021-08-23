@@ -359,7 +359,6 @@ export default function Page() {
         ) : (
           <div className="empty-product">
             <h3>There are no products in your cart.</h3>
-            <button onClick={() => setProducts(PRODUCTS)}>Shopping now</button>
           </div>
         )}
       </CartLayout>

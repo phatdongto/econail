@@ -22,6 +22,7 @@ const formStyle = {
   marginTop: "10px",
   height: "6vh",
   borderRadius: "3px",
+  width: "100%",
 };
 
 const loginButtonStyle = {

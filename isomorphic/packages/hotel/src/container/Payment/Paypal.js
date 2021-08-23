@@ -86,7 +86,7 @@ const Paypal = (props) => {
                   "current_order_info",
                   JSON.stringify(orderInfor)
                 );
-                // localStorage.setItem("items_in_cart", JSON.stringify([]));
+                localStorage.setItem("items_in_cart", JSON.stringify([]));
                 onShowModal();
               }
             });

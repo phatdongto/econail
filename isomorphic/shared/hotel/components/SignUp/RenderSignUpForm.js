@@ -1,16 +1,16 @@
-import React from 'react';
-import { Field, Form } from 'formik';
-import { MdLockOpen } from 'react-icons/md';
-import { AntInput, AntSwitch } from '@iso/ui/Antd/AntdInputWithFormik';
-import Button from '@iso/ui/Antd/Button/Button';
+import React from "react";
+import { Field, Form } from "formik";
+import { MdLockOpen } from "react-icons/md";
+import { AntInput, AntSwitch } from "@iso/ui/Antd/AntdInputWithFormik";
+import Button from "@iso/ui/Antd/Button/Button";
 
 import FormWrapper, {
   FieldWrapper,
   SwitchWrapper,
   Label,
-} from './SignUpFormStyle';
+} from "./SignUpFormStyle";
 
-const RenderSignUpForm = props => {
+const RenderSignUpForm = (props) => {
   const { values, submitCount, handleSubmit } = props;
   return (
     <FormWrapper>
@@ -88,10 +88,9 @@ const RenderSignUpForm = props => {
 
         <Button
           className="signin-btn"
-          type="primary"
-          htmlType="submit"
+          type="submit"
           size="large"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         >
           <MdLockOpen />
           Register
