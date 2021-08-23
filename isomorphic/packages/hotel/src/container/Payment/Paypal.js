@@ -21,11 +21,34 @@ const Paypal = (props) => {
             // purchase_units: tmp,
             purchase_units: [
               {
-                description: "lecturer Min",
+                description: `order_id: ${
+                  JSON.parse(localStorage.getItem("current_order_info")).id
+                }`,
                 amount: {
                   currency_code: "USD",
-                  value: `${tmp}.0`,
+                  value: `${tmp}.00`,
+                  breakdown: {
+                    item_total: { value: `${tmp}.00`, currency_code: "USD" },
+                  },
                 },
+                items: products.map((product) => {
+                  return {
+                    name: product.name,
+                    unit_amount: {
+                      value: product.price,
+                      currency_code: "USD",
+                    },
+                    quantity: product.quantity,
+                  };
+                }),
+                // items: [
+                //   {
+                //     name: "Hafer",
+                //     unit_amount: { value: "3", currency_code: "USD" },
+                //     quantity: "1",
+                //     sku: "haf001",
+                //   },
+                // ],
               },
             ],
           });
@@ -33,6 +56,7 @@ const Paypal = (props) => {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+          localStorage.setItem("Paypal_res", JSON.stringify(order));
         },
         onError: (err) => {
           console.log(err);

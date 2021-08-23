@@ -139,11 +139,11 @@ function Summary({
       </div>
 
       <div className="checkout">
-        {/* <Link to={CHECKOUT_PAGE}> */}
-        <button onClick={onPay} type="button">
-          Thanh Toán
-        </button>
-        {/* </Link> */}
+        <Link to={CHECKOUT_PAGE}>
+          <button onClick={onPay} type="button">
+            Thanh Toán
+          </button>
+        </Link>
       </div>
     </section>
   );
@@ -321,7 +321,13 @@ export default function Page() {
         },
       })
       .then((res) => {
-        console.log(res);
+        if (res.data.status) {
+          let orderInfor = res.data.data;
+          localStorage.setItem(
+            "current_order_info",
+            JSON.stringify(orderInfor)
+          );
+        }
       });
 
     // let tmp = axios.get(`${apiUrl}/c/order`);
