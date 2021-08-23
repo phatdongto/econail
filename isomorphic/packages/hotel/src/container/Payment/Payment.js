@@ -1,6 +1,10 @@
 import { Divider } from "rc-menu";
 import React, { Component, useState } from "react";
 
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { HOME_PAGE } from "../../settings/constant";
+
 import BillingForm from "./BillingForm";
 import OrderInfo from "./OrderInfo";
 
@@ -10,6 +14,7 @@ import axios from "axios";
 
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 const Payment = () => {
   const [checkoutData, setCheckoutData] = useState({});
@@ -49,6 +54,11 @@ const Payment = () => {
     setCheckoutData(tmpData);
   };
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div
       style={{
@@ -66,7 +76,29 @@ const Payment = () => {
           onInput={updateInput}
           checkoutData={checkoutData}
         />
-        <OrderInfo products={products} />
+        <OrderInfo products={products} onShowModal={handleShow} />
+
+        <Button onClick={handleShow}>Modal</Button>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+          style={{ marginTop: "25vh" }}
+        >
+          {/* <Modal.Header closeButton>
+            <Modal.Title>Modal title</Modal.Title>
+          </Modal.Header> */}
+          <Modal.Body>Your order is on the way !!!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Link to={HOME_PAGE}>
+              <Button variant="primary">Okay</Button>
+            </Link>
+          </Modal.Footer>
+        </Modal>
       </PaymentWrapper>
     </div>
   );

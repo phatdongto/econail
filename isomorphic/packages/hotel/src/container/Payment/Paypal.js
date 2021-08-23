@@ -4,7 +4,7 @@ import axios from "axios";
 const loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
 
 const Paypal = (props) => {
-  const { products } = props;
+  const { products, onShowModal } = props;
   const paypal = useRef();
   const [hasData, setHasData] = useState(false);
 
@@ -48,7 +48,6 @@ const Paypal = (props) => {
         },
         onApprove: async (data, actions) => {
           const apiUrl = "http://econail.localhost/api";
-          console.log("access_token ", loginedUser.access_token);
 
           //get current orderid
           let order_id = JSON.parse(localStorage.getItem("current_order_info"))
@@ -87,6 +86,8 @@ const Paypal = (props) => {
                   "current_order_info",
                   JSON.stringify(orderInfor)
                 );
+                // localStorage.setItem("items_in_cart", JSON.stringify([]));
+                onShowModal();
               }
             });
         },

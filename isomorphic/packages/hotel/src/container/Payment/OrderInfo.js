@@ -5,7 +5,7 @@ import { OrderInfoWrapper } from "./Payment.style";
 import Paypal from "./Paypal";
 
 const OrderInfo = (props) => {
-  const { products, order } = props;
+  const { products, order, onShowModal } = props;
 
   const handleSum = () => {
     let sum = 0;
@@ -36,7 +36,7 @@ const OrderInfo = (props) => {
         Paypal
       </Button> */}
       {/* {console.log("Outer products ", products)} */}
-      <Paypal products={products} order={order} />
+      <Paypal products={products} order={order} onShowModal={onShowModal} />
     </OrderInfoWrapper>
   );
 };

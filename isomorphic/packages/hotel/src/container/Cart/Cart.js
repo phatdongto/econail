@@ -312,7 +312,7 @@ export default function Page() {
         };
       }),
     };
-    let api = axios
+    axios
       .post(`${apiUrl}/c/order`, orderForm, {
         headers: {
           Authorization: `Bearer ${loginedUser.access_token}`,
