@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
+
+const loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
 
 const Paypal = (props) => {
   const { products } = props;
   const paypal = useRef();
-  console.log("list: ", products);
   const [hasData, setHasData] = useState(false);
 
   const handlePayment = () => {
-    console.log("listE: ", products);
     window.paypal
       .Buttons({
         createOrder: (data, actions, err) => {
@@ -41,22 +42,53 @@ const Paypal = (props) => {
                     quantity: product.quantity,
                   };
                 }),
-                // items: [
-                //   {
-                //     name: "Hafer",
-                //     unit_amount: { value: "3", currency_code: "USD" },
-                //     quantity: "1",
-                //     sku: "haf001",
-                //   },
-                // ],
               },
             ],
           });
         },
         onApprove: async (data, actions) => {
-          const order = await actions.order.capture();
-          console.log(order);
-          localStorage.setItem("Paypal_res", JSON.stringify(order));
+          const apiUrl = "http://econail.localhost/api";
+          console.log("access_token ", loginedUser.access_token);
+
+          //get current orderid
+          let order_id = JSON.parse(localStorage.getItem("current_order_info"))
+            .id;
+          const Paypal_res = await actions.order.capture();
+          console.log("Paypal_res: ", Paypal_res);
+
+          localStorage.setItem("Paypal_res", JSON.stringify(Paypal_res));
+
+          let orderForm = await axios.get(`${apiUrl}/c/order/${order_id}`, {
+            headers: {
+              Authorization: `Bearer ${loginedUser.access_token}`,
+            },
+          });
+          orderForm = orderForm.data.data;
+          console.log("orderForm: ", orderForm);
+          // update order attribute
+          orderForm.status = 1;
+          orderForm.is_paid = true;
+          orderForm.note = JSON.stringify(Paypal_res);
+
+          await axios
+            .post(`${apiUrl}/c/order/${order_id}/update`, orderForm, {
+              headers: {
+                Authorization: `Bearer ${loginedUser.access_token}`,
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                "Access-Control-Allow-Origin": "*",
+              },
+            })
+            .then((res) => {
+              if (res.data.status) {
+                console.log("update res: ", res);
+                let orderInfor = res.data.data;
+                localStorage.setItem(
+                  "current_order_info",
+                  JSON.stringify(orderInfor)
+                );
+              }
+            });
         },
         onError: (err) => {
           console.log(err);
