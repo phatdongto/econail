@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
@@ -17,16 +18,13 @@ import {Modal} from 'antd';
 import axios from 'axios';
 const { initData, deleteInvoice } = invoiceActions;
 export default function Invoices() {
+  const _isMounted = useRef(true);
   const [data, setData] = useState([]);
-  const [username, setUsername] = useState();
-  const [email, setEmail]= useState();
+  
   const [customer,setCustomer] = useState({
     customer_id : null,
     customer_name: null
   }) 
-  const [selected, setSelected] = React.useState([]);
-  const { initialInvoices, invoices } = useSelector(state => state.Invoices);
-  const dispatch = useDispatch();
   const match = useRouteMatch();
   function getCustomer() {
     axios
@@ -50,10 +48,16 @@ export default function Invoices() {
         //setData(branch);
       });
   }
-  useEffect(async ()=>{
-    await getCustomer();
-
-  },[]);
+  useEffect( ()=>{
+   async function fetchData() {
+     
+      // You can await here
+      await getCustomer();
+      // ...
+    }
+   fetchData(); 
+   
+  },[])
   const [visibleDeleteModal, setVisibleDeleteModal] = React.useState(false);
   const showModalDelete = () => {
     setVisibleDeleteModal(true);
@@ -74,6 +78,7 @@ export default function Invoices() {
     setConfirmLoading(true);
     const statusDelete = await DeleleBranch(branch.branch_id);
     if(statusDelete==true){
+
       setTimeout(() => {
         setData([]);  
         setVisibleDeleteModal(false);
@@ -165,11 +170,7 @@ export default function Invoices() {
       </PageHeader>
       <Box>
         <div className="isoInvoiceTableBtn">
-          <Link to={`${match.path}/${getnewInvoiceId()}`}>
-            <Button type="primary" className="mateAddInvoiceBtn">
-              Thêm mới khách hàng
-            </Button>
-          </Link>
+          
         </div>
 
         <CardWrapper title="Invoices">
