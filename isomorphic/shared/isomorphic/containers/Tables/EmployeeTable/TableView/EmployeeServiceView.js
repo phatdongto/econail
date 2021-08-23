@@ -51,7 +51,7 @@ export default function() {
       .then((response) => {
         if(response.data.status==true){
           const total_pages = response.data.data.meta["last_page"];
-        console.log(tail_id);
+
         let page = 1;
         while(page <= total_pages){
           axios.get(`http://econail.localhost/api/sub_admin/staff?role=3&page=${page}`, {
@@ -63,10 +63,12 @@ export default function() {
               },
             })
             .then((res) => {
+
                 const employee= res.data.data.data
                
                 setData(old => [...old, ...res.data.data.data]);
                 setData1(old => [...old, ...res.data.data.data]);
+
             }
           );
           page++;
@@ -111,7 +113,9 @@ export default function() {
     if(statusAdd == true){
     form.resetFields();
     setData([]);
+
     await getEmployeeService();
+
     setVisible(false);
     setConfirmLoading(false);
     

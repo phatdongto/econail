@@ -49,7 +49,9 @@ export default function() {
   useEffect(()=>{
     getCustomer();
 
+
   },[])
+
   const showDrawerInfo =()=>{
     setVisibleInfo(true);
   };

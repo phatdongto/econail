@@ -50,17 +50,19 @@ export default function() {
               },
             })
             .then((res) => {
+
               const employee= res.data.data.data
               const filteredProducts = employee.filter(emp => emp.tail_id == tail_id)
               setData(old => [...old, ...filteredProducts]);
               setData1(old => [...old, ...filteredProducts]);
                
+
             }
           );
           page++;
         }
         }
-        setState({dataList:data});
+
       });
   }
   //Add Employee
@@ -90,7 +92,9 @@ export default function() {
     if(statusAdd == true){
     form.resetFields();
     setData([]);
+
     await getEmployeeProduct();
+
     setVisible(false);
     setConfirmLoading(false);
     

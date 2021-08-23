@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useRef } from 'react';
+
 import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
@@ -18,13 +18,15 @@ import {Modal} from 'antd';
 import axios from 'axios';
 const { initData, deleteInvoice } = invoiceActions;
 export default function Invoices() {
-  const _isMounted = useRef(true);
   const [data, setData] = useState([]);
-  
+  const [username, setUsername] = useState();
+  const [email, setEmail]= useState();
+
   const [customer,setCustomer] = useState({
     customer_id : null,
     customer_name: null
   }) 
+
   const match = useRouteMatch();
   function getCustomer() {
     axios
@@ -48,6 +50,7 @@ export default function Invoices() {
         //setData(branch);
       });
   }
+
   useEffect( ()=>{
    async function fetchData() {
      
@@ -58,6 +61,7 @@ export default function Invoices() {
    fetchData(); 
    
   },[])
+
   const [visibleDeleteModal, setVisibleDeleteModal] = React.useState(false);
   const showModalDelete = () => {
     setVisibleDeleteModal(true);
