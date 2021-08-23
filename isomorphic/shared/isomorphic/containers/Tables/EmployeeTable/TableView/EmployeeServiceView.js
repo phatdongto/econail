@@ -23,8 +23,10 @@ const { TextArea } = Input;
 export default function() {
   const USER_TOKEN = localStorage.getItem("token");
   const AuthStr = "Bearer ".concat(USER_TOKEN);
+  const tail_id = localStorage.getItem("tail_id");
   const [data, setData] = useState([]);
   const [form] = Form.useForm();
+  const [data1, setData1] = useState([]);
   const [state, setState] = React.useState({
     dataList: service_employee.data.data,
     searchText: "",
@@ -49,7 +51,7 @@ export default function() {
       .then((response) => {
         if(response.data.status==true){
           const total_pages = response.data.data.meta["last_page"];
-        console.log(total_pages);
+
         let page = 1;
         while(page <= total_pages){
           axios.get(`http://econail.localhost/api/sub_admin/staff?role=3&page=${page}`, {
@@ -61,8 +63,12 @@ export default function() {
               },
             })
             .then((res) => {
+
+                const employee= res.data.data.data
                
                 setData(old => [...old, ...res.data.data.data]);
+                setData1(old => [...old, ...res.data.data.data]);
+
             }
           );
           page++;
@@ -71,7 +77,14 @@ export default function() {
       });
   }
   useEffect(() => {
-   getEmployeeService();
+    
+    async function fetchData() {
+     
+      // You can await here
+      await getEmployeeService();
+      // ...
+    }
+   fetchData();
   },[]);
   //Add Employee
   const [name,setName]=useState();
@@ -100,7 +113,9 @@ export default function() {
     if(statusAdd == true){
     form.resetFields();
     setData([]);
-    getEmployeeService();
+
+    await getEmployeeService();
+
     setVisible(false);
     setConfirmLoading(false);
     
@@ -135,16 +150,15 @@ export default function() {
   };
   function onSearch() {
     let { searchText } = state;
-    searchText = searchText.toUpperCase();
-    const dataList = data.filter((data) =>
-      data["name"].toUpperCase().includes(searchText)
-    );
-    setState({
-      dataList,
 
-      searchText: "",
-      filtered: false,
-    });
+    searchText = searchText.toUpperCase();
+    
+    const filter =data.filter((emp) =>
+    emp["username"].toUpperCase().includes(searchText));
+    setData(filter);
+    setState({
+      searchText:""
+    })
   }
   function onInputChange(event) {
     setState({ ...state, searchText: event.target.value });
@@ -260,12 +274,19 @@ export default function() {
       ),
     },
   ];
-
+  const handleResetFilter = () =>{
+      
+    setData([]);
+    setData(data1);
+}
   return (
     <>
       <ViewWrapper>
         <div className="a">
-          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} />
+          <div>
+          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} onChange={onInputChange} onSearch={onSearch} enterButton />
+          <Button onClick={handleResetFilter}>Reset</Button>
+          </div>
 
           <Button
             shape="round "
@@ -278,7 +299,7 @@ export default function() {
               float: "right",
             }}
           >
-            Thêm nhân viên dịch vụ +
+            <span>Thêm nhân viên dịch vụ   <i className="ion-person-add" /></span>
           </Button>
         </div>
         <TableWrapper dataSource={data} columns={columns} />

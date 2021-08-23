@@ -8,7 +8,7 @@ import siteConfig from '@iso/config/site.config';
 import Sidebar from '../Sidebar/Sidebar';
 import Topbar from '../Topbar/Topbar';
 import DashboardRoutes from './DashboardRoutes';
-
+import DashboardSubAdminRoutes from './SubAdminRoutes'
 import { DashboardContainer, DashboardGlobalStyles } from './Dashboard.styles';
 
 const { Content, Footer } = Layout;
@@ -32,7 +32,8 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const appHeight = useSelector(state => state.App.height);
   const { width, height } = useWindowSize();
-
+  
+  const role= localStorage.getItem("role");
   React.useEffect(() => {
     dispatch(toggleAll(width, height));
   }, [width, height, dispatch]);
@@ -50,7 +51,11 @@ export default function Dashboard() {
             }}
           >
             <Content className="isomorphicContent" style={styles.content}>
-              <DashboardRoutes />
+              {role == "admin" ? 
+                <DashboardRoutes />
+              :
+                <DashboardSubAdminRoutes />
+              }
             </Content>
             <Footer style={styles.footer}>{siteConfig.footerText}</Footer>
           </Layout>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +12,7 @@ import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm';
 import authAction from '@iso/redux/auth/actions';
 import appAction from '@iso/redux/app/actions';
 import Auth0 from '../../Authentication/Auth0/Auth0';
+import {Modal} from 'antd';
 import useToken from '../../../../../packages/isomorphic/src/useToken';
 import {
   signInWithGoogle,
@@ -25,8 +27,7 @@ const { clearMenu } = appAction;
 async function loginUser(username,password) {
     const url='http://econail.localhost/api/login?username='+username+'&password='+password
     return axios.get(url)
-    .then(res => res.data.data.access_token
-    )
+    .then(res => res.data)
  }
 export default function SignIn({setToken}) {
   let history = useHistory();
@@ -36,6 +37,19 @@ export default function SignIn({setToken}) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   // React.useEffect(() => {
   //   if (isLoggedIn) {
   //     setRedirectToReferrer(true);
@@ -44,11 +58,27 @@ export default function SignIn({setToken}) {
   
    const handleSubmit = async e => {
     e.preventDefault();
-    const token = await loginUser(username,password);
-    console.log(token);
+    const response = await loginUser(username,password);
+    if(response.status==true){
+      const token = response.data.access_token;
+      const role = response.data.scope;
+      
+      if(role == "admin"){
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
+        history.push('/dashboard');
+       
+      }
+      else{
+        const tail_id = response.data.user_record.tail_id;
+          localStorage.setItem('token', token);
+          localStorage.setItem('role', role);
+          localStorage.setItem('tail_id', tail_id);
+          history.push('/dashboard/employee_management');
+        
+      }
+    }
     
-    localStorage.setItem('token', token);
-    history.push('/dashboard');
   }
   function handleLogin(e, token = false) {
     e.preventDefault();
@@ -75,16 +105,24 @@ export default function SignIn({setToken}) {
             </Link>
           </div>
           <div className="isoSignInForm">
-            <form>
+            <Form>
+              <Form.Item
+              rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                
               <div className="isoInputWrapper">
                 <Input
                   size="large"
                   placeholder="Username"
                   autoComplete="true"
                   onChange={e => setUserName(e.target.value)}
+                  
                 />
               </div>
+              </Form.Item>
 
+              <Form.Item
+              rules={[{ required: true, message: 'Please input your username!' }]}>
               <div className="isoInputWrapper">
                 <Input
                   size="large"
@@ -92,8 +130,10 @@ export default function SignIn({setToken}) {
                   placeholder="Password"
                   autoComplete="false"
                   onChange={e => setPassword(e.target.value)}
+
                 />
               </div>
+              </Form.Item>
 
               <div className="isoInputWrapper isoLeftRightComponent">
                 <Checkbox>
@@ -107,7 +147,7 @@ export default function SignIn({setToken}) {
               <p className="isoHelperText">
                 <IntlMessages id="page.signInPreview" />
               </p>
-            </form>
+            </Form>
             <div className="isoInputWrapper isoOtherLogin">
               <Button
                 onClick={signInWithFacebook}
@@ -150,6 +190,7 @@ export default function SignIn({setToken}) {
           </div>
         </div>
       </div>
+      
     </SignInStyleWrapper>
   );
 }
