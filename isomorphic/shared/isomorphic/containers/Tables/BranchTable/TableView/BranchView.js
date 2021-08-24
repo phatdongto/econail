@@ -32,7 +32,9 @@ export default function() {
       })
       .then((response) => {
         if(response.data.status == true ){
-          const total_pages = response.data.data.meta["last_page"];
+
+        const total_pages = response.data.data.meta["last_page"];
+
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){

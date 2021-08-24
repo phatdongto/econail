@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Layout } from 'antd';
 import options from './options';
+import optionsSub from './optionsSubAdmin';
 import Scrollbars from '@iso/components/utility/customScrollBar';
 import Menu from '@iso/components/uielements/menu';
 import IntlMessages from '@iso/components/utility/intlMessages';
@@ -21,6 +22,8 @@ const {
 } = appActions;
 
 export default function Sidebar() {
+  
+  const role = localStorage.getItem('role');
   const dispatch = useDispatch();
   const {
     view,
@@ -115,15 +118,26 @@ export default function Sidebar() {
             selectedKeys={current}
             onOpenChange={onOpenChange}
           >
-            {options.map(singleOption => (
-              <SidebarMenu
-                key={singleOption.key}
-                submenuStyle={submenuStyle}
-                submenuColor={submenuColor}
-                singleOption={singleOption}
-              />
-            ))}
-            {/* Demo Menu */}
+            
+            {role === "admin" ? (
+              options.map(singleOption => (
+                <SidebarMenu
+                  key={singleOption.key}
+                  submenuStyle={submenuStyle}
+                  submenuColor={submenuColor}
+                  singleOption={singleOption}
+                />
+              ))
+             ):(
+              optionsSub.map(singleOption => (
+                <SidebarMenu
+                  key={singleOption.key}
+                  submenuStyle={submenuStyle}
+                  submenuColor={submenuColor}
+                  singleOption={singleOption}
+                />
+              ))
+             )}
             <SubMenu
               key="sub1"
               title={

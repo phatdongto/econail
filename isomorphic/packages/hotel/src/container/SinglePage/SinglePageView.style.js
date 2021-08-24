@@ -5,7 +5,14 @@ import singlePostBgImg from '@hotel/assets/images/single-post-bg.jpg';
 const SinglePageWrapper = styled.div`
   padding-bottom: 56px;
 
-  @media only screen and (max-width: 667px) {
+  @media only screen and (max-width: 767px) {
+    padding-bottom: 0;
+  }
+`;
+export const Information = styled.div`
+  display:flex;
+
+  @media only screen and (max-width: 767px) {
     padding-bottom: 0;
   }
 `;
@@ -17,7 +24,7 @@ export const Amount = styled.div`
   display: flex;
   padding: 4px 0px 0px 0px;
 `;
-export const Cost = styled.div`
+export const Cost = styled.span`
   font-weight: 700;
   color: red;
   margin-bottom: 10px;
@@ -227,9 +234,9 @@ export const PostImage = styled.div`
   background-image: url(${singlePostBgImg});
   background-position: center center;
   background-size: cover;
-  width: 500px;
-  height: 600px;
-  position: relative;
+  width: 1000px;
+  height: 406px;
+  
   float: left;
   @media only screen and (max-width: 767px) {
     height: 406px;

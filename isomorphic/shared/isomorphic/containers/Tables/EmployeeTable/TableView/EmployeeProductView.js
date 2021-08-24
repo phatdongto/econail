@@ -9,12 +9,15 @@ import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Form, Input, Checkbox, Modal, Select } from "antd";
 import DrawerEmployee from "./DrawerEmployeeService";
 import axios from "axios";
+import { dataList } from "../../AntTables/AntTables";
 const { Search } = Input;
 export default function() {
   const USER_TOKEN = localStorage.getItem("token");
   const AuthStr = "Bearer ".concat(USER_TOKEN);
+  const tail_id = localStorage.getItem('tail_id');
   const [state, setState] = React.useState({
-    dataList:{},
+    dataList:null,
+    searchText: "",
     employee: {},
     employee_id:null,
     employee_name:null
@@ -22,6 +25,7 @@ export default function() {
   });
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
+  const [data1, setData1] = useState([]);
   function getEmployeeProduct() {
     axios
       .get(`http://econail.localhost/api/sub_admin/staff?role=2`, {
@@ -46,13 +50,19 @@ export default function() {
               },
             })
             .then((res) => {
+
+              const employee= res.data.data.data
+              const filteredProducts = employee.filter(emp => emp.tail_id == tail_id)
+              setData(old => [...old, ...filteredProducts]);
+              setData1(old => [...old, ...filteredProducts]);
                
-                setData(old => [...old, ...res.data.data.data]);
+
             }
           );
           page++;
         }
         }
+
       });
   }
   //Add Employee
@@ -82,7 +92,9 @@ export default function() {
     if(statusAdd == true){
     form.resetFields();
     setData([]);
-    getEmployeeProduct();
+
+    await getEmployeeProduct();
+
     setVisible(false);
     setConfirmLoading(false);
     
@@ -93,8 +105,17 @@ export default function() {
 
   }
   useEffect(() => {
-    getEmployeeProduct();
+    async function fetchData() {
+     
+      // You can await here
+      await getEmployeeProduct();
+      // ...
+    }
+   fetchData();
+   
+    
   }, []);
+  
   // Delete Employee
   async function DeleleEmployee(employee_id) {  
     return axios.get(`http://econail.localhost/api/sub_admin/staff/${employee_id}/delete`,
@@ -111,11 +132,13 @@ export default function() {
         
         setVisibleDeleteModal(false);
         setConfirmLoading(false);
-        getEmployeeProduct()
+        
         
         
         
       }, 2000);
+      setData([]);
+      await getEmployeeProduct();
     }
   };
   
@@ -161,6 +184,24 @@ export default function() {
     console.log("Clicked cancel button");
     setVisible(false);
   };
+  function onSearch() {
+    let { searchText } = state;
+
+    searchText = searchText.toUpperCase();
+    
+    const filter =data.filter((emp) =>
+    emp["username"].toUpperCase().includes(searchText));
+    setData(filter);
+    setState({
+      searchText:""
+    })
+    
+  }
+  function onInputChange(event) {
+    setState({ ...state, searchText: event.target.value });
+    
+  }
+  let {searchText}=state
   const columns = [
     {
       title: "Tên đăng nhập",
@@ -222,19 +263,26 @@ export default function() {
       ),
     },
   ];
-
+  const handleResetFilter = () =>{
+      
+      setData([]);
+      setData(data1);
+  }
   return (
     <>
    
       <ViewWrapper>
       <div className="a">
-          <Search placeholder="Nhập tên nhân viên"  style={{ width: 200 }} />
+          <div>
+          <Search placeholder="Nhập tên nhân viên" value={state.searchText} onSearch={onSearch} allowClear onChange={onInputChange} style={{ width: 200 }} enterButton />
+          <Button onClick={handleResetFilter}>Reset</Button>
+          </div>
           <Button
             shape="round "
             onClick={showModal}
             style={{ marginBottom: "3%",color:'whitesmoke',backgroundColor:"#22D3EE",border:'none',float:'right' }}
           >
-            Thêm nhân viên mới +
+            <span>Thêm nhân viên   <i className="ion-person-add" /></span>
           </Button>
           </div>
         <TableWrapper dataSource={data} columns={columns} />
