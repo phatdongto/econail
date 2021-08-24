@@ -6,7 +6,9 @@ const SinglePageServiceWrapper = styled.div`
   padding-bottom: 56px;
   margin-left: 50px;
   margin-right: 50px;
-
+  h2.title-service{
+    text-align:center;
+  }
   @media only screen and (max-width: 667px) {
     padding-bottom: 0;
   }
