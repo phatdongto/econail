@@ -15,7 +15,7 @@ import Review from "./Review/Review";
 import Reservation from "./Reservation/Reservation";
 import BottomReservation from "./Reservation/BottomReservation";
 import TopBar from "./TopBar/TopBar";
-import SinglePageWrapper, { PostImage } from "./SinglePageView.style";
+import SinglePageWrapper, { PostImage , Information} from "./SinglePageView.style";
 import PostImageGallery from "./ImageGallery/ImageGallery";
 import useDataApi from "@iso/lib/hooks/useDataApi";
 import isEmpty from "lodash/isEmpty";
@@ -70,14 +70,9 @@ const SinglePage = ({ match }) => {
         author={author}
         media={gallery}
       />
+      <Information>
       <PostImage>
-        <Button
-          type="primary"
-          onClick={() => setIsModalShowing(true)}
-          className="image_gallery_button"
-        >
-          View Photos
-        </Button>
+        
         <Modal
           visible={isModalShowing}
           onCancel={() => setIsModalShowing(false)}
@@ -119,6 +114,8 @@ const SinglePage = ({ match }) => {
               rating={rating}
               ratingCount={ratingCount}
               productPrice={product.price}
+              discount={product.price_discount}
+              amount={product.amount}
             />
           </Col>
           <Col xl={8}>
@@ -140,6 +137,7 @@ const SinglePage = ({ match }) => {
           </Col>
         </Row>
       </Container>
+      </Information>
       {/* products description */}
       <Description1 content={product.description} />
       <Review reviews={reviews} ratingCount={ratingCount} rating={rating} />

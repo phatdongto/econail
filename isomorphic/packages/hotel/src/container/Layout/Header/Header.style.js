@@ -179,7 +179,7 @@ export const NavbarSearchWrapper = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: ${themeGet('color.1', '#ffffff')};
     height: 48px;
-    min-width: 890px;
+    min-width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

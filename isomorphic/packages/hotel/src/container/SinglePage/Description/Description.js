@@ -19,9 +19,8 @@ const Description = ({
   ratingCount,
   titleStyle,
   productPrice,
-  locationMetaStyle,
-  contentStyle,
-  linkStyle,
+  discount,
+  amount,
 }) => {
   const [choosenAmount, setChoosenAmount] = useState({
     amount: 0,
@@ -54,9 +53,18 @@ const Description = ({
       <DescriptionWrapper>
         <Heading as="h2" content={title} {...titleStyle} />
         <RatingMeta>
-          <Rating rating={rating} ratingCount={ratingCount} type="bulk" />
+          <Rating rating={rating} ratingCount={ratingCount} amount={amount} type="bulk" />
         </RatingMeta>
-        <Cost>{productPrice} VNĐ</Cost>
+        {discount !=0 || discount !=null ?(
+          <Cost>{productPrice} VNĐ</Cost>
+        ):(
+          <span>
+          <Cost style={{textDecoration:"line-through",fontSize:"20px",color:"grey"}} >{productPrice} VNĐ</Cost>
+          <Cost>{discount} VNĐ</Cost>
+          </span>
+         
+        )}
+        
         <Amount>
           Số lượng:{" "}
           <AmountBar
