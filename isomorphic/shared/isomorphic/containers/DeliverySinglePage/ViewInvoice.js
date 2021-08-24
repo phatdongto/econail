@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import Box from '@iso/components/utility/box';
@@ -6,30 +7,23 @@ import Button from '@iso/components/uielements/button';
 import LayoutWrapper from '@iso/components/utility/layoutWrapper';
 import InvoicePageWrapper from './SingleInvoice.styles';
 import Invoice from './Invoice';
-
+import axios from 'axios';
 export default function(props) {
   let pdfExportComponent;
   const printDocument = () => {
     pdfExportComponent.save();
   };
-  const { currentInvoice, toggleView, redirectPath } = props;
+  const [data,setData] = useState([]);
+    const USER_TOKEN = localStorage.getItem("token");
+    const AuthStr = "Bearer ".concat(USER_TOKEN);
+  const { order,username } = props;
   console.log(props, 'props');
 
   return (
     <LayoutWrapper>
       <Box style={{ padding: 20 }}>
         <InvoicePageWrapper className="InvoicePageWrapper">
-          <div className="PageHeader" style={{ padding: '20px 20px 0' }}>
-            <Link to={redirectPath}>
-              <Button className="isoGoInvoBtn">
-                <span>Về trang trước</span>
-              </Button>
-            </Link>
-            <Button color="secondary" onClick={() => toggleView(true)}>
-              <span>Cập nhật đơn hàng</span>
-            </Button>
-            
-          </div>
+          
           {/* <div
               id="divToPrint"
               className="mt4"
@@ -47,8 +41,8 @@ export default function(props) {
             margin="20pt"
           >
             <Invoice
-              currentInvoice={currentInvoice}
-              ref={invoice => (invoice = invoice)}
+              data={order}
+              username={username}
             />
           </PDFExport>
           {/* </div> */}

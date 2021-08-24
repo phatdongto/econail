@@ -36,6 +36,9 @@ const StatusTag = styled.span`
   &.delivered {
     background-color: ${palette('success', 0)};
   }
+  &.cancel {
+    background-color: #B9B9B9;
+  }
 `;
 
 const CardWrapper = styled.div`
