@@ -7,34 +7,29 @@ import Table from './TableStyle';
 const viewColumns = [
   {
     title: '#',
-    dataIndex: 'key',
+    dataIndex: 'order_id',
     width: '10%',
     rowKey: 'key',
   },
   {
-    title: 'Tên sản phẩm',
-    dataIndex: 'itemName',
-    width: '40%',
+    title: 'Mã sản phẩm',
+    dataIndex: 'product_id',
+    width: '10%',
     rowKey: 'itemName',
   },
   {
-    title: 'Đơn giá',
-    dataIndex: 'costs',
+    title: 'Số lượng',
+    dataIndex: 'amount',
     width: '15%',
     rowKey: 'costs',
   },
   {
-    title: 'Số lượng',
-    dataIndex: 'qty',
+    title: 'Giá',
+    dataIndex: 'product_price',
     width: '15%',
     rowKey: 'qty',
   },
-  {
-    title: 'Giá',
-    dataIndex: 'price',
-    width: '20%',
-    rowKey: 'price',
-  },
+  
 ];
 
 const ViewTable = ({ invoiceList }) => (

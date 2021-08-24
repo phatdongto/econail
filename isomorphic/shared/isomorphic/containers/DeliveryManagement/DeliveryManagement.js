@@ -158,7 +158,7 @@ export default function Invoices() {
             Component = TableView.WaitBooking;
             break;
     default:
-            Component = TableView.WaitBooking;
+            Component = TableView.AllBookingView;
             break;    
       
     }

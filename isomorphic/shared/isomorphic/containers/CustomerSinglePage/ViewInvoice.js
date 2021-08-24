@@ -16,7 +16,7 @@ import AntTable from './AntTables/AntTables';
 const dataList = new fakeData(10);
 export default function(props) {
   
- 
+  const {customer,info,order} =props;
   console.log(props, 'props');
   function renderTable(tableInfo) {
     let Component;
@@ -30,7 +30,7 @@ export default function(props) {
         break;
       
     }
-    return <Component tableInfo={tableInfo} dataList={dataList} />;
+    return <Component tableInfo={tableInfo} dataList={dataList} order={order} />;
   }
   return (
     <LayoutWrapper>
@@ -57,12 +57,13 @@ export default function(props) {
               Q
             </Avatar>
             <Descriptions title="" style={{marginTop:"10px"}}>
-             <Descriptions.Item label="Tên khách hàng">{props.username}</Descriptions.Item>
-             <Descriptions.Item label="Email">{props.email}</Descriptions.Item>
-             <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-             <Descriptions.Item label="Remark">empty</Descriptions.Item>
+             <Descriptions.Item label="Tên khách hàng">{info.fullname != null ?(info.fullname):("Không có")}</Descriptions.Item>
+             <Descriptions.Item label="Email">{customer.email != null ?(customer.email):("Không có")}</Descriptions.Item>
+             <Descriptions.Item label="Điện thoại">{info.phone != null ?(info.phone):("Không có")}</Descriptions.Item>
+             <Descriptions.Item label="Tài khoản">{customer.username != null ?(customer.username):("Không có")}</Descriptions.Item>
+             <Descriptions.Item label="Công ty">{info.company != null ?(info.company):("Không có")}</Descriptions.Item>
              <Descriptions.Item label="Address">
-      No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+             {info.address != null ?(info.address):("Không có")}
              </Descriptions.Item>
              </Descriptions>
              

@@ -1,5 +1,5 @@
   import React from "react";
-  import { useState } from "react";
+  import { useState , useEffect} from "react";
   import { useDispatch, useSelector } from "react-redux";
   import { useRouteMatch, useParams, useLocation, Link } from "react-router-dom";
   import EditInvoice from "./EditInvoice";
@@ -11,16 +11,38 @@
   const SingleInvoice = _ => {
     
     const { state } = useLocation();
-    const dispatch = useDispatch();
-    const match = useRouteMatch();
+    
+    
     // const { invoiceId } = useParams();
-
+    const USER_TOKEN = localStorage.getItem("token");
+    const AuthStr = "Bearer ".concat(USER_TOKEN);
+    const tailid = localStorage.getItem("tail_id");
     const [editing, setEditing] = useState(0);
+    const {id_customer}= state;
+    const [data,setData] = useState([]);
     // componentWillReceiveProps(nextProps) {
     //   this.toggleCreatedInvoice(nextProps);
     // }
     // const redirectPath = match.url.replace(invoiceId, '');
-
+    function GetOneUser(id_number) {
+      return axios
+        .get(
+          `http://econail.localhost/api/g/user/${id_number}`,
+  
+        
+        )
+        .then((res) => {
+          const data = res.data.data;
+          setData(data);
+        });
+    }
+    React.useEffect(() => {
+      async function fetchData(){
+        await GetOneUser(id_customer)
+        
+      }
+      fetchData();
+    },[]);
     return (
       <>
         {editing == 1 ? (
@@ -35,7 +57,7 @@
             <Button color="secondary" onClick={() => setEditing(1)}>
               <span>Trở lại</span>
             </Button>
-            <ViewInvoice {...state.customer} />
+            <ViewInvoice customer={data} />
           </>
         )}
       </>

@@ -6,44 +6,58 @@ import { FormWrapper,ViewWrapper } from '../AntTables.styles';
 import { StatusTag } from '../../../Invoice/Invoice.styles';
 import { Drawer,Descriptions,Badge ,Modal,Col,Row,Form,Input,Checkbox} from 'antd';
 import { Button } from 'antd';
-export default class SimpleView extends React.Component{
-  state = { visible: false };
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-  render(){
+export default function SimpleView(props){
+    const {order} = props;
     const columns = [
       {
         title: 'Mã đơn hàng',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'id',
+        key: '',
         width: "10%"  ,
         
       },
       {
-        title: 'Tổng giá',
-        dataIndex: 'price',
-        key: 'price',
-        width: "10%" ,
-        ellipsis:true
+        title: 'Trạng thái giao hàng',
+        dataIndex: 'delivery_status',
+        rowKey: 'deliveryStatus',
+        width: '13%',
+        render: (text) => {
+          let className;
+          let t = '';
+          if (text === 0 ) {
+            className = 'pending';
+            t="Chưa giao"
+          } else if (
+            text === 1
+          ) {
+            className = 'delivered';
+            t="Đã giao"
+          } 
+          return <StatusTag className={className}>{t}</StatusTag>;
+        },
       },
       {
-        title: 'Tình trạng',
-        dataIndex: 'price_discount',
-        key: 'price_discount',
-        width: "10%" ,
-        render:()=>{
-          return <StatusTag className="">Đã chuyển</StatusTag>;
-        }
-        
-      },
+        title: 'Trang thái',
+        dataIndex: 'status',
+        rowKey: 'billFrom',
+        width: '15%',
+        render: status => {
+          let className;
+          let text='';
+          if (status === 0) {
+            className = 'shipped';
+            text="Chưa giải quyết"
+          } else if(status ===1) {
+            className = 'delivered';
+            text = 'Đã thanh toán';
+          }else if(status ===2) {
+            className = 'shipped';
+            text = 'Chưa thanh toán';
+          }
+          
+          return <StatusTag className={className}>{text}</StatusTag>;
+        },
+      },  
       {
         title: '',
         dataIndex: 'action',
@@ -53,8 +67,20 @@ export default class SimpleView extends React.Component{
             {record.name === 'initial' && <Button icon="plus" shape="circle" />}
             {record.name !== 'initial' && (
               <>
-              <Button icon="search" shape="circle" style={{backgroundColor: "#008CBA" ,marginRight:"5px"}} />
-              <Button icon="delete" shape="circle" type="danger" />
+              <Button
+                key={`a-${record.name}`}
+                // onClick={() => {
+                //   showDrawerInfo();
+                //   state.category_service = record;
+                // }}
+                type="primary"
+            shape="round"
+            style={{marginRight: "10px",border:'none'}}
+              >
+                Chi tiết
+              </Button>
+
+              <Button  shape="circle" type="danger" ><i className="ion-android-delete" /></Button>
               </>
             )}
           </>
@@ -73,7 +99,7 @@ export default class SimpleView extends React.Component{
     return (
       <>
       <ViewWrapper >
-      <TableWrapper dataSource={services.data.data} columns={columns}   />
+      <TableWrapper dataSource={order} columns={columns}   />
       </ViewWrapper>
       <Drawer
             title="Create a new account"
@@ -233,5 +259,5 @@ export default class SimpleView extends React.Component{
           </Drawer>
       </>
     );
-  }
 }
+
