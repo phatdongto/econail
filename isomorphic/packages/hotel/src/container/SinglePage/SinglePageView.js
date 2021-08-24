@@ -90,7 +90,7 @@ const SinglePage = ({ match }) => {
           closable={false}
         >
           <Fragment>
-            <PostImageGallery />
+            <PostImageGallery picture={product.picture} />
             <Button
               onClick={() => setIsModalShowing(false)}
               className="image_gallery_close"

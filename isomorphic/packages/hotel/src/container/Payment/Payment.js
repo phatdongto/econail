@@ -78,7 +78,7 @@ const Payment = () => {
         />
         <OrderInfo products={products} onShowModal={handleShow} />
 
-        <Button onClick={handleShow}>Modal</Button>
+        {/* <Button onClick={handleShow}>Modal</Button> */}
         <Modal
           show={show}
           onHide={handleClose}

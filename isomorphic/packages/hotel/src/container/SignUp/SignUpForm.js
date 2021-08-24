@@ -6,6 +6,7 @@ import RenderSignUpForm from "@hotel/components/SignUp/RenderSignUpForm";
 import { AuthContext } from "../../context/AuthProvider";
 import MyRenderSignUpForm from "./MyRenderSignUpForm";
 import { MyFormWrapper } from "./SignUp.style";
+import axios from "axios";
 
 const initialValues = {
   // email: "",
@@ -62,11 +63,47 @@ const getRegisterValidationSchema = () => {
   });
 };
 
-export default () => {
-  const { signUp, loggedIn } = useContext(AuthContext);
-  if (loggedIn) return <Redirect to={{ pathname: "/" }} />;
+const signUp = async (params) => {
+  const apiUrl = "http://econail.localhost/api";
+  let checkLogined = false;
+
+  let res = await axios.post(`${apiUrl}/g/create_customer`, {
+    username: params.username,
+    email: `${params.username}@abc.com`,
+    password: params.password,
+    fullname: "Khách hàng",
+    phone: "0123456789",
+  });
+
+  console.log("SignUp check: ", res);
+
+  console.log("signup status1: ", res.data.status);
+  if (res.data.status) {
+    console.log("signup status2: ", res.data.status);
+    checkLogined = true;
+  }
+
+  console.log("checklogined: ", checkLogined);
+  return checkLogined;
+  // setUser(fakeUserData);
+  // setToken(fakeToken);
+  // addItem("token", fakeToken);
+  // setLoggedIn(false);
+};
+
+export default ({ onShowModal }) => {
+  // const { signUp, loggedIn1 } = useContext(AuthContext);
+  const { signIn, loggedIn } = useContext(AuthContext);
+  // if (loggedIn) return <Redirect to={{ pathname: "/" }} />;
+  // if (loggedIn) return <Redirect to={{ pathname: "/" }} />;
   const handleSubmit = (values, { setSubmitting }) => {
-    signUp(values);
+    signUp(values).then((tmp) => {
+      if (tmp) {
+        signIn(values);
+        onShowModal();
+      }
+    });
+
     // console.log(values);
     setTimeout(() => {
       setSubmitting(false);

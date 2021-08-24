@@ -79,24 +79,15 @@ const AuthProvider = (props) => {
         `${apiUrl}/login?username=${params.username}&password=${params.password}`
       )
       .then((res) => {
-        console.log(res.data);
+        console.log("Signin check: ", res.data);
         if (res.data.status === true) {
-          // setAPI((prevState) => {
-          //   return { ...prevState, ...res };
-          // });
-          // console.log(res.data.status);
-          if (res.data.status === true) {
-            // console.log(res.data.status);
-            setUser(res.data.data.user_record);
-            setToken(res.data.data.access_token);
-            addItem("token", res.data.data.access_token);
+          setUser(res.data.data.user_record);
+          setToken(res.data.data.access_token);
+          addItem("token", res.data.data.access_token);
 
-            // console.log(res.data.data);
-            // console.log(JSON.stringify(res.data.data));
-            localStorage.setItem("loginedUser", JSON.stringify(res.data.data));
+          localStorage.setItem("loginedUser", JSON.stringify(res.data.data));
 
-            setLoggedIn(true);
-          } else setLoggedIn(false);
+          setLoggedIn(true);
         } else setLoggedIn(false);
       });
     //********************** */
@@ -107,12 +98,32 @@ const AuthProvider = (props) => {
     //   addItem("token", fakeToken);
     //   setLoggedIn(false);
   };
-  const signUp = (params) => {
-    console.log(params, "sign up form Props");
-    setUser(fakeUserData);
-    setToken(fakeToken);
-    addItem("token", fakeToken);
-    setLoggedIn(false);
+  const signUp = async (params) => {
+    const apiUrl = "http://econail.localhost/api";
+    let checkLogined = false;
+
+    let res = await axios.post(`${apiUrl}/g/create_customer`, {
+      username: params.username,
+      email: `${params.username}@abc.com`,
+      password: params.password,
+      fullname: "Khách hàng",
+      phone: "0123456789",
+    });
+
+    console.log("SignUp check: ", res);
+
+    console.log("signup status1: ", res.data.status);
+    if (res.data.status) {
+      console.log("signup status2: ", res.data.status);
+      checkLogined = true;
+    }
+
+    console.log("checklogined: ", checkLogined);
+    return checkLogined;
+    // setUser(fakeUserData);
+    // setToken(fakeToken);
+    // addItem("token", fakeToken);
+    // setLoggedIn(false);
   };
 
   /**

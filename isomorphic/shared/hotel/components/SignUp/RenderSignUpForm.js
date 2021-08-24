@@ -89,6 +89,7 @@ const RenderSignUpForm = (props) => {
         <Button
           className="signin-btn"
           type="submit"
+          htmlType="submit"
           size="large"
           style={{ width: "100%" }}
         >
