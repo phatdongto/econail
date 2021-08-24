@@ -97,9 +97,12 @@ const ServiceSinglePage = ({ match }) => {
       <DescriptionArea>Thời gian: {service.time_estimate}</DescriptionArea>
 
       <FormActionArea>
-        <button>
-          <Link to={SERVICE_ORDER}>Đặt lịch ngay</Link>
+      <Link to={SERVICE_ORDER}>
+      <button>
+        Đặt lịch ngay
         </button>
+      </Link>
+        
       </FormActionArea>
     </SinglePageServiceWrapper>
   );

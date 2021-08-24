@@ -36,6 +36,11 @@ export const FormActionArea = styled.form`
     font-size: 25px;
     margin: 4px 2px;
     cursor: pointer;
+
+  }
+  button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
   }
 `;
 export const DescriptionArea = styled.div`
