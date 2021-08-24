@@ -94,12 +94,12 @@ const groupColumns = [
 ];
 const tableinfos = [
   {
-    title: 'Đơn hàng chờ xác nhận',
+    title: 'Đơn hàng',
     value: 'wait_booking',
     columns: clone(smallColumns),
   },
   {
-    title: 'Đơn hàng đã giao',
+    title: 'Đơn hàng đã hoàn thành',
     value: 'success_booking',
     columns: clone(smallColumns),
   },

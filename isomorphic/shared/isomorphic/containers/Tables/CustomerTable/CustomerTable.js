@@ -144,7 +144,7 @@ export default function Invoices() {
       width: '10%',
       render: (text, invoice) => (
         <div className="isoInvoiceBtnView">
-          <Link to={{pathname:`${match.path}/${invoice.id}`, state: { customer: invoice }}}>
+          <Link to={{pathname:`${match.path}/${invoice.id}`, state: { id_customer: invoice.id }}}>
             <Button color="primary" className="invoiceViewBtn">
               Xem
             </Button>
