@@ -1,22 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import moment from 'moment';
-import { EditTable } from '@iso/components/Invoice/InvoiceTable';
-import OrderStatus from '@iso/components/Invoice/OrderStatus';
-import notification from '@iso/components/Notification';
-import Button from '@iso/components/uielements/button';
-import Input, { Textarea } from '@iso/components/uielements/input';
-import DatePicker from '@iso/components/uielements/datePicker';
-import Box from '@iso/components/utility/box';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper';
-import InvoicePageWrapper from './SingleInvoice.styles';
-import { stringToPosetiveInt } from '@iso/lib/helpers/utility';
-import { orderStatusOptions } from '../Invoice/config';
-import invoiceActions from '@iso/redux/invoice/actions';
-
+import React from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import moment from "moment";
+import { EditTable } from "@iso/components/Invoice/InvoiceTable";
+import OrderStatus from "@iso/components/Invoice/OrderStatus";
+import notification from "@iso/components/Notification";
+import Button from "@iso/components/uielements/button";
+import { Textarea } from "@iso/components/uielements/input";
+import DatePicker from "@iso/components/uielements/datePicker";
+import Box from "@iso/components/utility/box";
+import { Input } from "antd";
+import LayoutWrapper from "@iso/components/utility/layoutWrapper";
+import InvoicePageWrapper from "./SingleInvoice.styles";
+import { ViewTable } from "./InvoiceTable";
+import invoiceActions from "@iso/redux/invoice/actions";
+import { Select } from "antd";
+import InvoiceAddress from '@iso/components/Invoice/Address';
+const { Option } = Select;
+const{TextArea} =Input;
 const { updateInvoice, editInvoice } = invoiceActions;
-const updateValues = invoice => {
+const updateValues = (invoice) => {
   const { invoiceList } = invoice;
   let subTotal = 0;
   invoiceList.forEach((item, index) => {
@@ -30,22 +34,22 @@ const updateValues = invoice => {
   invoice.totalCost = invoice.vatPrice + subTotal;
   return invoice;
 };
-const checkInvoice = invoice => {
+const checkInvoice = (invoice) => {
   const emptyKeys = [
-    'number',
-    'billTo',
-    'billToAddress',
-    'billFrom',
-    'billFromAddress',
-    'currency',
+    "number",
+    "billTo",
+    "billToAddress",
+    "billFrom",
+    "billFromAddress",
+    "currency",
   ];
   const emptyKeysErrors = [
-    'Invoice Number',
-    'Bill To',
-    'Bill To Address',
-    'Bill From',
-    'Bill From Address',
-    'Currency',
+    "Invoice Number",
+    "Bill To",
+    "Bill To Address",
+    "Bill From",
+    "Bill From Address",
+    "Currency",
   ];
   for (let i = 0; i < emptyKeys.length; i++) {
     if (!invoice[emptyKeys[i]]) {
@@ -63,51 +67,71 @@ const checkInvoice = invoice => {
       return `quantity of ${i + 1} item should be positive`;
     }
   }
-  return '';
+  return "";
 };
 
 export default function(props) {
+  const USER_TOKEN = localStorage.getItem("token");
+  const AuthStr = "Bearer ".concat(USER_TOKEN);
   const dispatch = useDispatch();
-  const { editableInvoice, isNewInvoice, redirectPath, toggleView } = props;
+  const {
+    editableInvoice,
+    isNewInvoice,
+    redirectPath,
+    toggleView,
+    order,
+    username,
+  } = props;
   const onSave = () => {
     const error = checkInvoice(editableInvoice);
     if (error) {
-      notification('error', error);
+      notification("error", error);
     } else {
       const successMessage = isNewInvoice
-        ? 'A new Invoice added'
-        : 'Invoice Updated';
-      notification('success', successMessage);
+        ? "A new Invoice added"
+        : "Invoice Updated";
+      notification("success", successMessage);
       dispatch(updateInvoice(editableInvoice));
     }
   };
+  function updateOrder(id){
+    return axios.post(`http://econail.localhost/api/sub_admin/order/${id}/update`,
+    {
+        "status" : order_status,
+        "delivery_status":delivery_status,
+        "address":address
+    },
+    { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    .then(res=>res.data.status);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    const data = {
-      ...editableInvoice,
-      [name]: value,
-    };
-    dispatch(editInvoice(data));
+  
+  }
+  const handleUpdate = async () =>{
+    const statusUpdate = await updateOrder(order.id);
+    if(statusUpdate == true){
+      
+    }
+};
+  const [order_status,setOrderStatus] = useState(order.status);
+  const [delivery_status,setDeliveryStatus] = useState(order.delivery_status);
+  const [address,setAddress] = useState(order.address)
+  function handleChange(value) {
+    setOrderStatus(value)
+  }
+  function handleChange(value) {
+    setOrderStatus(value)
+  }
+  function handleChangeDelivery(value) {
+    setDeliveryStatus(value)
   }
   return (
     <LayoutWrapper>
       <Box>
         <InvoicePageWrapper className="editView">
           <div className="PageHeader">
-            {isNewInvoice ? (
-              <Link to={redirectPath}>
-                <Button color="primary">
-                  <span>Cancel</span>
-                </Button>
-              </Link>
-            ) : (
-              <Button onClick={() => toggleView(false)}>
-                <span>Cancel</span>
-              </Button>
-            )}
+            
 
-            <Button type="primary" onClick={onSave} className="saveBtn">
+            <Button type="primary" onClick={handleUpdate} className="saveBtn">
               <span>Save</span>
             </Button>
           </div>
@@ -115,33 +139,40 @@ export default function(props) {
             <div className="OrderInfo">
               <div className="LeftSideContent">
                 <h3 className="Title">Invoice Info</h3>
-                <Input
-                  placeholder="Number"
-                  name="number"
-                  value={editableInvoice.number}
-                  onChange={handleChange}
-                  className="LeftSideContentInput"
-                />
+                <span className="InvoiceNumber">{order.id}</span>
               </div>
               <div className="RightSideContent">
                 <div className="RightSideStatus">
                   <span className="RightSideStatusSpan">Order Status: </span>
-                  <OrderStatus
-                    value={editableInvoice.orderStatus}
-                    name="orderStatus"
-                    onChange={handleChange}
-                    orderStatusOptions={orderStatusOptions}
-                    className="RightStatusDropdown"
-                  />
+                  <Select defaultValue={order.status} style={{ width: 200,marginBottom:10 }} onChange={handleChange}>
+      <Option value={0}>Chưa xử lý</Option>
+      <Option value={1}>Thanh Toán</Option>
+      <Option value={2}>
+        Chưa thanh toán
+      </Option>
+      <Option value={3}>
+        Hủy
+      </Option>
+      
+    </Select>
+                </div>
+                <div className="RightSideStatus" >
+                  <span className="RightSideStatusSpan">Giao hàng: </span>
+                  <Select defaultValue={order.delivery_status} style={{ width: 200 }} onChange={handleChangeDelivery}>
+      <Option value={0}>Chưa giao</Option>
+      <Option value={1}>Đã giao</Option>
+      
+      
+    </Select>
                 </div>
                 <div className="RightSideDate">
-                  Order date:{' '}
+                  Order date:{" "}
                   <DatePicker
                     allowClear={false}
-                    value={moment(new Date(editableInvoice.orderDate))}
-                    onChange={val => {
+                    value={moment(new Date(order.created_at))}
+                    onChange={(val) => {
                       editableInvoice.orderDate = val.toDate().getTime();
-                      dispatch(editInvoice(editableInvoice));
+                      dispatch(editInvoice(order));
                     }}
                     format="MMMM Do YYYY"
                     animateYearScrolling={true}
@@ -151,48 +182,54 @@ export default function(props) {
             </div>
             <div className="BillingInformation">
               <div className="LeftSideContent">
-                <Input
-                  placeholder="Bill From"
-                  value={editableInvoice.billFrom}
-                  name="billForm"
-                  onChange={handleChange}
-                  className="BillFormTitle"
-                />
-                <Textarea
-                  placeholder="Bill From Address"
-                  value={editableInvoice.billFromAddress}
+              <h3 className="Title">Người đặt</h3>
+              <InvoiceAddress
+            companyAddress={username}
+            
+          />
+                <h3 className="Title" style={{marginTop:"10px"}}>Địa chỉ</h3>
+                <TextArea
+                  defaultValue={order.address}
+                 
                   rows={5}
                   name="billFromAddress"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
                   className="BillFormAddress"
                 />
               </div>
-              <div className="RightSideContent">
+              {/* <div className="RightSideContent">
                 <Input
                   placeholder="Bill To"
-                  value={editableInvoice.billTo}
+                  value={order.address}
                   name="billTo"
                   onChange={handleChange}
                   className="BillFormTitle"
                 />
                 <Textarea
                   placeholder="Bill To Address"
-                  value={editableInvoice.billToAddress}
+                  value="{editableInvoice.billToAddress}"
                   rows={5}
                   name="billToAddress"
                   onChange={handleChange}
                   className="BillFormAddress"
                 />
-              </div>
+              </div> */}
+              <div className="RightSideContent">
+          <h3 className="Title">Chi nhánh</h3>
+
+          <InvoiceAddress
+            
+            companyAddress={order.tail_id}
+          />
+          
+        </div>
             </div>
 
             <div className="InvoiceTable editInvoiceTable">
-              <EditTable
-                editableInvoice={editableInvoice}
-                editInvoice={e => dispatch(editInvoice(e))}
-                updateValues={updateValues}
-              />
-              <div className="InvoiceTableBtn">
+            <ViewTable invoiceList={order.order_product} />
+              {/* <div className="InvoiceTableBtn">
                 <Button
                   onClick={() => {
                     editableInvoice.invoiceList.push({
@@ -208,19 +245,19 @@ export default function(props) {
                 >
                   Add Item
                 </Button>
-              </div>
+              </div> */}
               <div className="TotalBill">
-                <p>
+                {/* <p>
                   <span className="TotalBillTitle">Sub-total : </span>
                   <span>{`${editableInvoice.currency}${editableInvoice.subTotal}`}</span>
-                </p>
-                <div className="vatRateCalc">
+                </p> */}
+                {/* <div className="vatRateCalc">
                   <span className="vatRateCalcSpan"> Total Vat : </span>
                   <div className="vatRateCalcWrap">
                     <Input
                       value={editableInvoice.vatRate}
                       addonAfter="%"
-                      onChange={event => {
+                      onChange={(event) => {
                         editableInvoice.vatRate = stringToPosetiveInt(
                           event.target.value,
                           editableInvoice.vatRate
@@ -233,10 +270,10 @@ export default function(props) {
                       {`${editableInvoice.currency}${editableInvoice.vatPrice}`}
                     </span>
                   </div>
-                </div>
+                </div> */}
                 <div className="currencySignWithTotal">
                   <span className="grandTotalSpan">Grand Total </span>
-                  <div className="currencySignWrap">
+                  {/* <div className="currencySignWrap">
                     <Input
                       value={editableInvoice.currency}
                       onChange={handleChange}
@@ -246,7 +283,7 @@ export default function(props) {
                     <span className="currencySignSpan">
                       {editableInvoice.totalCost}
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
