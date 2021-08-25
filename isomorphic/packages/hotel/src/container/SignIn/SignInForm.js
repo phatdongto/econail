@@ -10,7 +10,6 @@ import { AuthContext } from "../../context/AuthProvider";
 // const handleLogin = (values) => {
 //   api
 //     .get(
-//       `${apiUrl}/login?username=${values.username}&password=${values.password}`
 //     )
 //     .then((res) => {
 //       console.log(res.data);

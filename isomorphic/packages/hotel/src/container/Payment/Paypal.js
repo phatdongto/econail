@@ -48,8 +48,6 @@ const Paypal = (props) => {
           });
         },
         onApprove: async (data, actions) => {
-          // const API_URL = "http://econail.localhost/api";
-
           //get current orderid
           let order_id = JSON.parse(localStorage.getItem("current_order_info"))
             .id;
