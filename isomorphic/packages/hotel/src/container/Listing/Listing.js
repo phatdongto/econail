@@ -9,7 +9,7 @@ import ListingMap from "./ListingMap";
 import FilterDrawer from "@hotel/components/Search/MobileSearchView";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import useDataApi from "@iso/lib/hooks/useDataApi";
-import { SINGLE_POST_PAGE } from "../../settings/constant";
+import { SINGLE_POST_PAGE, API_URL } from "../../settings/constant";
 
 import axios from "axios";
 
@@ -25,10 +25,10 @@ export default function Listing({ location, history }) {
   const { data, loading, loadMoreData, total, limit } = useDataApi(url);
 
   const [products, setProducts] = useState([]);
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let test = [];
   useEffect(() => {
-    axios.get(`${apiUrl}/g/product`).then((res) => {
+    axios.get(`${API_URL}/g/product`).then((res) => {
       if (res.data.status) {
         test = [...res.data.data.data];
         setProducts(test);

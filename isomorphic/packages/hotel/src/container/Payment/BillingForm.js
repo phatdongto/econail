@@ -23,21 +23,29 @@ const BillingForm = (props) => {
         </Col>
       </Row>
 
-      <Row>
+      {/* <Row>
         <Col>
           <InputBox label="E-mail address" onInput={props.onInput} important />
         </Col>
         <Col>
           <InputBox label="Phone Number" onInput={props.onInput} important />
         </Col>
-      </Row>
+      </Row> */}
 
       <Row>
         <Col>
           <InputBox label="Country" onInput={props.onInput} important />
         </Col>
         <Col>
-          <InputBox label="City" onInput={props.onInput} />
+          <InputBox label="City" onInput={props.onInput} important />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <InputBox label="District" onInput={props.onInput} important />
+        </Col>
+        <Col>
+          <InputBox label="Ward" onInput={props.onInput} />
         </Col>
       </Row>
 
@@ -48,7 +56,7 @@ const BillingForm = (props) => {
         addressNotice
       />
 
-      <label className="mt-3">
+      {/* <label className="mt-3">
         <input
           name="isGoing"
           type="checkbox"
@@ -57,7 +65,7 @@ const BillingForm = (props) => {
           // onChange={this.handleInputChange}
         />
         Create account?
-      </label>
+      </label> */}
     </BillingFormWrapper>
   );
 };

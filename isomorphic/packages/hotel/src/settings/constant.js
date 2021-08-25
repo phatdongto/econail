@@ -22,6 +22,9 @@ export const AGENT_PROFILE_CONTACT = "/contact";
 export const ADD_HOTEL_PAGE = "/add";
 export const CHECKOUT_PAGE = "/checkout";
 export const PAYMENT_PAGE = "/payment";
+export const USER_ORDERS_PAGE = "/user-orders";
+export const ORDER_DETAIL_PAGE = "/order-detail";
+export const API_URL = "http://econail.localhost/api";
 
 // Other Pages
 export const PRICING_PLAN_PAGE = "/pricing-plan";

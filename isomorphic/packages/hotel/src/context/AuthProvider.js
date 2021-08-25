@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { API_URL } from "../settings/constant";
+
 export const AuthContext = React.createContext();
 
 const fakeUserData = {
@@ -73,10 +75,10 @@ const AuthProvider = (props) => {
      * if returns true then change the state
      */
 
-    const apiUrl = "http://econail.localhost/api";
+    // const API_URL = "http://econail.localhost/api";
     axios
       .get(
-        `${apiUrl}/login?username=${params.username}&password=${params.password}`
+        `${API_URL}/login?username=${params.username}&password=${params.password}`
       )
       .then((res) => {
         console.log("Signin check: ", res.data);
@@ -99,10 +101,10 @@ const AuthProvider = (props) => {
     //   setLoggedIn(false);
   };
   const signUp = async (params) => {
-    const apiUrl = "http://econail.localhost/api";
+    // const API_URL = "http://econail.localhost/api";
     let checkLogined = false;
 
-    let res = await axios.post(`${apiUrl}/g/create_customer`, {
+    let res = await axios.post(`${API_URL}/g/create_customer`, {
       username: params.username,
       email: `${params.username}@abc.com`,
       password: params.password,

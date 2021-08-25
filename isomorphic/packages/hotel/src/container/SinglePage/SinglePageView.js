@@ -15,21 +15,25 @@ import Review from "./Review/Review";
 import Reservation from "./Reservation/Reservation";
 import BottomReservation from "./Reservation/BottomReservation";
 import TopBar from "./TopBar/TopBar";
-import SinglePageWrapper, { PostImage , Information} from "./SinglePageView.style";
+import SinglePageWrapper, {
+  PostImage,
+  Information,
+} from "./SinglePageView.style";
 import PostImageGallery from "./ImageGallery/ImageGallery";
 import useDataApi from "@iso/lib/hooks/useDataApi";
 import isEmpty from "lodash/isEmpty";
 import FormActionArea from "./Reservation/Reservation.style";
 import Description1 from "./Description1/Description1";
 import axios from "axios";
+import { API_URL } from "../../settings/constant";
 
 const SinglePage = ({ match }) => {
   const [product, setProduct] = useState([]);
 
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   useEffect(() => {
     let id = localStorage.getItem("current_product_id");
-    axios.get(`${apiUrl}/g/product/${id}`).then((res) => {
+    axios.get(`${API_URL}/g/product/${id}`).then((res) => {
       if (res.status) {
         setProduct(res.data.data);
       }
@@ -71,72 +75,44 @@ const SinglePage = ({ match }) => {
         media={gallery}
       />
       <Information>
-      <PostImage>
-        
-        <Modal
-          visible={isModalShowing}
-          onCancel={() => setIsModalShowing(false)}
-          footer={null}
-          width="100%"
-          maskStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-          }}
-          wrapClassName="image_gallery_modal"
-          closable={false}
-        >
-          <Fragment>
-            <PostImageGallery picture={product.picture} />
-            <Button
-              onClick={() => setIsModalShowing(false)}
-              className="image_gallery_close"
-            >
-              <svg width="16.004" height="16" viewBox="0 0 16.004 16">
-                <path
-                  id="_ionicons_svg_ios-close_2_"
-                  d="M170.4,168.55l5.716-5.716a1.339,1.339,0,1,0-1.894-1.894l-5.716,5.716-5.716-5.716a1.339,1.339,0,1,0-1.894,1.894l5.716,5.716-5.716,5.716a1.339,1.339,0,0,0,1.894,1.894l5.716-5.716,5.716,5.716a1.339,1.339,0,0,0,1.894-1.894Z"
-                  transform="translate(-160.5 -160.55)"
-                  fill="#909090"
-                />
-              </svg>
-            </Button>
-          </Fragment>
-        </Modal>
-      </PostImage>
+        <PostImage>
+          <img src={product.picture} />
+        </PostImage>
 
-      <Container>
-        <Row gutter={30} id="reviewSection" style={{ marginTop: 30 }}>
-          <Col xl={16}>
-            {/* product info */}
-            <Infomation
-              content={product.description}
-              title={product.name}
-              location={location}
-              rating={rating}
-              ratingCount={ratingCount}
-              productPrice={product.price}
-              discount={product.price_discount}
-              amount={product.amount}
-            />
-          </Col>
-          <Col xl={8}>
-            {width > 1200 ? (
-              <Sticky
-                innerZ={999}
-                activeClass="isSticky"
-                top={202}
-                bottomBoundary="#reviewSection"
-              ></Sticky>
-            ) : (
-              <BottomReservation
+        <Container>
+          <Row gutter={30} id="reviewSection" style={{ marginTop: 30 }}>
+            <Col xl={16}>
+              {/* product info */}
+              <Infomation
+                content={product.description}
                 title={product.name}
-                price={product.price}
+                location={location}
                 rating={rating}
                 ratingCount={ratingCount}
+                productPrice={product.price}
+                discount={product.price_discount}
+                amount={product.amount}
               />
-            )}
-          </Col>
-        </Row>
-      </Container>
+            </Col>
+            <Col xl={8}>
+              {width > 1200 ? (
+                <Sticky
+                  innerZ={999}
+                  activeClass="isSticky"
+                  top={202}
+                  bottomBoundary="#reviewSection"
+                ></Sticky>
+              ) : (
+                <BottomReservation
+                  title={product.name}
+                  price={product.price}
+                  rating={rating}
+                  ratingCount={ratingCount}
+                />
+              )}
+            </Col>
+          </Row>
+        </Container>
       </Information>
       {/* products description */}
       <Description1 content={product.description} />

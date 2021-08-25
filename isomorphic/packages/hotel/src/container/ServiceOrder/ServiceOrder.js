@@ -9,6 +9,8 @@ import axios from "axios";
 import moment from "moment";
 import MyModal from "./Modal";
 
+import { API_URL } from "../../settings/constant";
+
 import "antd/dist/antd.css";
 import { Form } from "react-bootstrap";
 
@@ -21,7 +23,6 @@ import ServiceOrderWrapper, {
 } from "./ServiceOrder.style";
 
 const { Option } = Select;
-const apiUrl = "http://econail.localhost/api";
 
 function formatDate(date) {
   var d = new Date(date),
@@ -43,7 +44,7 @@ const ServiceListing = () => {
   var loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
 
   useEffect(() => {
-    axios.get(`${apiUrl}/g/tail`).then((res) => {
+    axios.get(`${API_URL}/g/tail`).then((res) => {
       if (res.status) {
         // console.log(res.data.data.data);
         setTails(res.data.data.data);
@@ -54,7 +55,7 @@ const ServiceListing = () => {
       localStorage.getItem("current_service_id")
     );
 
-    axios.get(`${apiUrl}/g/service/${current_service_id}`).then((res) => {
+    axios.get(`${API_URL}/g/service/${current_service_id}`).then((res) => {
       if (res.status) {
         // console.log(res.data);
         setService(res.data.data);
@@ -76,7 +77,7 @@ const ServiceListing = () => {
     setBookingForm(bookingInfo);
     console.log(bookingInfo);
     axios
-      .post(`${apiUrl}/c/book_service`, bookingInfo, {
+      .post(`${API_URL}/c/book_service`, bookingInfo, {
         headers: {
           Authorization: `Bearer ${loginedUser.access_token}`,
         },

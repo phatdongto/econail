@@ -1,22 +1,22 @@
-import React, { useState, useContext } from 'react';
-import Sticky from 'react-stickynode';
-import { Link, withRouter } from 'react-router-dom';
-import { IoIosClose } from 'react-icons/io';
-import Button from '@iso/ui/Antd/Button/Button';
-import Drawer from '@iso/ui/Antd/Drawer/Drawer';
-import Logo from '@iso/ui/Logo/Logo';
-import Text from '@iso/ui/Text/Text';
-import TextLink from '@iso/ui/TextLink/TextLink';
-import Navbar from '@hotel/components/Navbar/Navbar';
-import { AuthContext } from '../../../context/AuthProvider';
-import { LayoutContext } from '../../../context/LayoutProvider';
-import useWindowSize from '@iso/lib/hooks/useWindowSize';
-import { AGENT_PROFILE_PAGE } from '../../../settings/constant';
-import AuthMenu from './AuthMenu';
-import MainMenu from './MainMenu';
-import MobileMenu from './MobileMenu';
-import ProfileMenu from './ProfileMenu';
-import NavbarSearch from './NavbarSearch';
+import React, { useState, useContext } from "react";
+import Sticky from "react-stickynode";
+import { Link, withRouter } from "react-router-dom";
+import { IoIosClose } from "react-icons/io";
+import Button from "@iso/ui/Antd/Button/Button";
+import Drawer from "@iso/ui/Antd/Drawer/Drawer";
+import Logo from "@iso/ui/Logo/Logo";
+import Text from "@iso/ui/Text/Text";
+import TextLink from "@iso/ui/TextLink/TextLink";
+import Navbar from "@hotel/components/Navbar/Navbar";
+import { AuthContext } from "../../../context/AuthProvider";
+import { LayoutContext } from "../../../context/LayoutProvider";
+import useWindowSize from "@iso/lib/hooks/useWindowSize";
+import { AGENT_PROFILE_PAGE } from "../../../settings/constant";
+import AuthMenu from "./AuthMenu";
+import MainMenu from "./MainMenu";
+import MobileMenu from "./MobileMenu";
+import ProfileMenu from "./ProfileMenu";
+import NavbarSearch from "./NavbarSearch";
 import HeaderWrapper, {
   MobileNavbar,
   CloseDrawer,
@@ -24,12 +24,17 @@ import HeaderWrapper, {
   AvatarImage,
   AvatarInfo,
   LogoArea,
-} from './Header.style';
-import LogoImage from './logo_transparent.png';
-// Dummy images
-import DemoLogo from '@hotel/assets/images/logo-alt.svg';
-const AvatarImg = `http://s3.amazonaws.com/redqteam.com/isomorphic-reloaded-image/profilepic.png`;
+} from "./Header.style";
+import LogoImage from "./logo_transparent.png";
+import { NavLink } from "react-router-dom";
 
+import { CART } from "../../../settings/constant";
+// Dummy images
+import DemoLogo from "@hotel/assets/images/logo-alt.svg";
+const AvatarImg = `http://s3.amazonaws.com/redqteam.com/isomorphic-reloaded-image/profilepic.png`;
+const iconStyle = {
+  color: "blue",
+};
 export default withRouter(function Header({ location }) {
   const [{ searchVisibility }] = useContext(LayoutContext);
   // auth context
@@ -47,7 +52,7 @@ export default withRouter(function Header({ location }) {
   const { width } = useWindowSize();
 
   // check header type
-  const headerType = location.pathname === '/' ? 'transparent' : 'default';
+  const headerType = location.pathname === "/" ? "transparent" : "default";
 
   return (
     <HeaderWrapper>
@@ -80,7 +85,7 @@ export default withRouter(function Header({ location }) {
               <NavbarSearch />
             </LogoArea>
             <Button
-              className={`hamburg-btn ${state ? 'active' : ''}`}
+              className={`hamburg-btn ${state ? "active" : ""}`}
               onClick={sidebarHandler}
             >
               <span />
@@ -101,18 +106,20 @@ export default withRouter(function Header({ location }) {
                 </button>
               </CloseDrawer>
               {loggedIn ? (
-                <AvatarWrapper>
-                  <AvatarImage>
-                    <Logo src={AvatarImg} title="hotel" />
-                  </AvatarImage>
-                  <AvatarInfo>
-                    <Text as="h3" content="Nova Scotia" />
-                    <TextLink
-                      link={AGENT_PROFILE_PAGE}
-                      content="View Profile"
-                    />
-                  </AvatarInfo>
-                </AvatarWrapper>
+                <>
+                  <AvatarWrapper>
+                    <AvatarImage>
+                      <Logo src={AvatarImg} title="hotel" />
+                    </AvatarImage>
+                    <AvatarInfo>
+                      <Text as="h3" content="Nova Scotia" />
+                      <TextLink
+                        link={AGENT_PROFILE_PAGE}
+                        content="View Profile"
+                      />
+                    </AvatarInfo>
+                  </AvatarWrapper>
+                </>
               ) : (
                 <AuthMenu className="auth-menu" />
               )}
