@@ -4,9 +4,10 @@ import React, { Fragment, useState, useEffect } from "react";
 // import { IoIosArrowBack } from "react-icons/io";
 // import { IoIosArrowForward } from "react-icons/io";
 // import Loader from "@hotel/components/Loader/Loader";
-import { Select, DatePicker } from "antd";
+import { Select, DatePicker, Button } from "antd";
 import axios from "axios";
 import moment from "moment";
+import MyModal from "./Modal";
 
 import "antd/dist/antd.css";
 import { Form } from "react-bootstrap";
@@ -55,11 +56,18 @@ const ServiceListing = () => {
 
     axios.get(`${apiUrl}/g/service/${current_service_id}`).then((res) => {
       if (res.status) {
-        console.log(res.data);
+        // console.log(res.data);
         setService(res.data.data);
       }
     });
   }, []);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+  };
 
   const handleSubmit = () => {
     let bookingInfo = { ...bookingForm };
@@ -75,6 +83,9 @@ const ServiceListing = () => {
       })
       .then((res) => {
         console.log("post api res: ", res);
+        if (res.data.status) {
+          setShow(true);
+        }
       });
   };
 
@@ -147,6 +158,10 @@ const ServiceListing = () => {
         </Component>
         <button onClick={handleSubmit}>Hoàn tất</button>
       </ServiceOrderWrapper>
+      <MyModal show={show} onClose={handleClose} />
+      {/* <Button onClick={() => setShow(true)} show={show}>
+        Show modal
+      </Button> */}
     </div>
   );
 };
