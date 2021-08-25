@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 // import PropTypes from "prop-types";
 // import { FaHome, FaRegCalendarAlt } from "react-icons/fa";
 // import { IoIosArrowBack } from "react-icons/io";
 // import { IoIosArrowForward } from "react-icons/io";
 // import Loader from "@hotel/components/Loader/Loader";
 import { Select, DatePicker } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 import "antd/dist/antd.css";
 import { Form } from "react-bootstrap";
@@ -17,21 +19,86 @@ import ServiceOrderWrapper, {
   colourStyles,
 } from "./ServiceOrder.style";
 
-// const options = [
-//   { label: "Lucy", value: "Lucy" },
-//   { label: "Jake", value: "Jack" },
-//   { label: "Vance", value: "Vance" },
-// ];
-
-// const Option = {Select}
 const { Option } = Select;
+const apiUrl = "http://econail.localhost/api";
+
+function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
 
 const ServiceListing = () => {
-  const [options, setOptions] = useState([
-    { label: "Lucy", value: "Lucy" },
-    { label: "Jake", value: "Jack" },
-    { label: "Vance", value: "Vance" },
-  ]);
+  const [tails, setTails] = useState([]);
+  const [service, setService] = useState({});
+  const [bookingForm, setBookingForm] = useState({});
+
+  var loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
+
+  useEffect(() => {
+    axios.get(`${apiUrl}/g/tail`).then((res) => {
+      if (res.status) {
+        // console.log(res.data.data.data);
+        setTails(res.data.data.data);
+      }
+    });
+
+    let current_service_id = JSON.parse(
+      localStorage.getItem("current_service_id")
+    );
+
+    axios.get(`${apiUrl}/g/service/${current_service_id}`).then((res) => {
+      if (res.status) {
+        console.log(res.data);
+        setService(res.data.data);
+      }
+    });
+  }, []);
+
+  const handleSubmit = () => {
+    let bookingInfo = { ...bookingForm };
+    bookingInfo.user_id = loginedUser.user_record.id;
+    bookingInfo.service_id = service.id;
+    setBookingForm(bookingInfo);
+    console.log(bookingInfo);
+    axios
+      .post(`${apiUrl}/c/book_service`, bookingInfo, {
+        headers: {
+          Authorization: `Bearer ${loginedUser.access_token}`,
+        },
+      })
+      .then((res) => {
+        console.log("post api res: ", res);
+      });
+  };
+
+  const handleTimeChange = (value, dateString) => {
+    let tmp = { ...bookingForm };
+    tmp.time_start = dateString;
+    tmp.time_end = value;
+    let joy = new Date(String(tmp.time_end._d));
+    joy.setSeconds(joy.getSeconds() + service.time_estimate);
+    tmp.time_end = `${formatDate(joy)} ${joy.toTimeString().split(" ")[0]}`;
+
+    setBookingForm(tmp);
+  };
+
+  const handleTailChange = (value) => {
+    let tmp = { ...bookingForm };
+    tmp.tail_id = tails[value].id;
+    setBookingForm(tmp);
+  };
+
+  function disabledDate(current) {
+    // Can not select days before today and today
+    return current && current < moment().endOf("day");
+  }
 
   return (
     <div
@@ -48,28 +115,37 @@ const ServiceListing = () => {
         <Component>
           <SubTitle>Chọn Salon</SubTitle>
           {/* <Form.Item > */}
-          <Select options={options} style={styles} placeholder="Chọn Salon">
-            {options.map((option) => (
-              <Option value={option.value}>{option.value}</Option>
+          <Select
+            // labelInValue
+            onChange={handleTailChange}
+            style={styles}
+            placeholder="Chọn Salon"
+          >
+            {tails.map((option, index) => (
+              <Option key={index} value={index}>
+                {option.name}
+              </Option>
             ))}
           </Select>
-          {/* </Form.Item> */}
-          {/* <Option value = 'Kim'> Kim </Option>
-          </Select> */}
-
           <SubTitle>Dịch vụ</SubTitle>
-          <input
+          {/* <input
             type="text"
             id="fname"
             name="firstname"
             placeholder="Sơn móng tay"
-          ></input>
+          /> */}
+          <label>{service.name}</label>
         </Component>
         <Component>
           <SubTitle>Chọn thời gian</SubTitle>
-          <DatePicker style={styles} />
+          <DatePicker
+            style={styles}
+            disabledDate={disabledDate}
+            showTime
+            onChange={handleTimeChange}
+          />
         </Component>
-        <button>Hoàn tất</button>
+        <button onClick={handleSubmit}>Hoàn tất</button>
       </ServiceOrderWrapper>
     </div>
   );
