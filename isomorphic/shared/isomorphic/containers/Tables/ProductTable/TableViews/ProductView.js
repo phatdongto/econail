@@ -5,7 +5,7 @@ import TableWrapper from "../AntTables.styles";
 import { FormWrapper } from "../../AntTables/AntTables.styles";
 import { Icon } from 'antd';
 import { FilterDropdown } from '@iso/components/Tables/HelperCells';
-import { Button } from "antd";
+import { Button,Select } from "antd";
 import DrawerDetailService from "./Drawer";
 import { backgroundColor, color, marginRight } from "styled-system";
 import { ViewWrapper } from "../../../CustomerSinglePage/AntTables/AntTables.styles";
@@ -16,6 +16,7 @@ import products from "../../product";
 
 //import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
 const { TextArea } = Input;
+const {Option} = Select;
 export default function(props) {
   let history = useHistory();
   const USER_TOKEN = localStorage.getItem("token");
@@ -26,9 +27,10 @@ export default function(props) {
   const [description,setDescription]=useState();
   const [picture,setPicture]=useState();
   const [stock,setStock]=useState();
-  
   const [amount,setAmount]=useState();
+  const [categoryid,setCategoryId] = useState();
  
+  const [category,setCategory] = useState([])
   const [unit, setUnit] = React.useState();
   const [state, setState] = React.useState({
     dataList: products.data.data,
@@ -190,6 +192,41 @@ export default function(props) {
     whiteSpace: "nowrap",
   };
   const [data,setData] = useState([]);
+  function getCategoryProduct() {
+    axios
+      .get("http://econail.localhost/api/admin/product_category", {
+        headers: {
+          Authorization: AuthStr,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => {
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while (page <= total_pages) {
+          axios
+            .get(
+              `http://econail.localhost/api/admin/product_category?page=${page}`,
+              {
+                headers: {
+                  Authorization: AuthStr,
+                  "Access-Control-Allow-Methods":
+                    "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            )
+            .then((res) => {
+              setCategory((old) => [...old, ...res.data.data.data]);
+            });
+          page++;
+        }
+        // const category_service=response.data.data.data
+        // setData(category_service)
+      });
+  }
   function getProduct() {
     axios
       .get("http://econail.localhost/api/admin/product", {
@@ -225,6 +262,7 @@ export default function(props) {
   }
   useEffect(()=>{
     getProduct();
+    getCategoryProduct();
   },[]);
   // Delete Product
   async function DeleteProduct(productID) {  
@@ -260,7 +298,7 @@ export default function(props) {
       "stock" :parseInt(`${stock}`),
       "amount": parseInt(`${amount}`),
       "unit" : "gam",
-      "products_categories_id" :1
+      "products_categories_id" : categoryid
   },{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }}  
     ).then(res=>res.data.status);
     
@@ -280,6 +318,9 @@ export default function(props) {
       history.push('/dashboard');
     }
 
+  }
+  function handleChange(value) {
+    setCategoryId(value);
   }
   return (
     <>
@@ -400,7 +441,20 @@ export default function(props) {
             >
               <Input onChange={(e) => setUnit(e.target.value)} />
             </Form.Item>
-            
+            <Form.Item label="Loại dịch vụ" name="category">
+              <Select
+                defaultValue={1}
+                style={{ width: 200 }}
+                onChange={handleChange}
+                
+              >
+                {category.map((category) => (
+                  <Option key={category.id} value={category.id}>
+                    {category.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
             
           </Form>
         </FormWrapper>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import TableWrapper from "../../AntTables/AntTables.styles";
 import { FilterDropdown } from "@iso/components/Tables/HelperCells";
 
-import { Icon } from "antd";
+import { Icon,Select } from "antd";
 import DrawerService from "../DrawerService/DrawerService";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import {
@@ -23,6 +23,7 @@ import AddServiceView from "./ModalView/AddServiceView";
 
 import axios from "axios";
 const { TextArea } = Input;
+const {Option} = Select;
 export default function() {
   let history = useHistory();
 
@@ -37,8 +38,10 @@ export default function() {
   const [timeEstimate, setTimeEstimate] = useState();
   const [book_online, setBookOnline] = React.useState(true);
   const [value, setValue] = React.useState(1);
+  const [categoryif,setCategoryId] = useState();
   const [data, setData] = useState([]);
-  const service =[];
+  const [category,setCategory] = useState([])
+  const service = [];
   async function DeleleService(serviceID) {
     return axios
       .get(`http://econail.localhost/api/admin/service/${serviceID}/delete`, {
@@ -59,12 +62,12 @@ export default function() {
           price: parseInt(`${price}`),
           price_discount: parseInt(`${price_discount}`),
           description: `${description}`,
-          stock: parseInt(`${stock}`),
+          
           picture: null,
           time_estimate: parseInt(`${timeEstimate}`),
           can_book_online: book_online,
           sex_type: value,
-          services_categories_id: 1,
+          services_categories_id: categoryif,
         },
         {
           headers: {
@@ -76,10 +79,10 @@ export default function() {
       )
       .then((res) => res.data.status);
   }
-  
-  
+
   function getService() {
-    axios.get("http://econail.localhost/api/admin/service", {
+    axios
+      .get("http://econail.localhost/api/admin/service", {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -90,8 +93,9 @@ export default function() {
         const total_pages = response.data.data.meta["last_page"];
         console.log(total_pages);
         let page = 1;
-        while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/admin/service?page=${page}`, {
+        while (page <= total_pages) {
+          axios
+            .get(`http://econail.localhost/api/admin/service?page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -100,17 +104,50 @@ export default function() {
               },
             })
             .then((res) => {
-               
-                setData(old => [...old, ...res.data.data.data]);
-            }
-          );
+              setData((old) => [...old, ...res.data.data.data]);
+            });
           page++;
         }
-        
+      });
+  }
+  function getCategoryService() {
+    axios
+      .get("http://econail.localhost/api/admin/service_category", {
+        headers: {
+          Authorization: AuthStr,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => {
+        const total_pages = response.data.data.meta["last_page"];
+        console.log(total_pages);
+        let page = 1;
+        while (page <= total_pages) {
+          axios
+            .get(
+              `http://econail.localhost/api/admin/service_category?page=${page}`,
+              {
+                headers: {
+                  Authorization: AuthStr,
+                  "Access-Control-Allow-Methods":
+                    "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                  "Access-Control-Allow-Origin": "*",
+                },
+              }
+            )
+            .then((res) => {
+              setCategory((old) => [...old, ...res.data.data.data]);
+            });
+          page++;
+        }
+        // const category_service=response.data.data.data
+        // setData(category_service)
       });
   }
   useEffect(() => {
-     getService();
+    getService();
+    getCategoryService();
   }, []);
   const [state, setState] = React.useState({
     dataList: services_1.data.data,
@@ -205,6 +242,9 @@ export default function() {
       dataSource: dataSource.filter((item) => item.key !== key),
     });
   };
+  function handleChange(value) {
+    setCategoryId(value);
+  }
   const columns = [
     {
       title: "Tên dịch vụ",
@@ -313,7 +353,6 @@ export default function() {
     const statusAdd = await AddService();
     console.log(statusAdd);
     if (statusAdd == true) {
-      
       setData([]);
       getService();
       setVisible(false);
@@ -321,10 +360,10 @@ export default function() {
     } else {
       history.push("/dashboard");
     }
-  };  
+  };
   return (
     <>
-    {console.log(data)}
+      {console.log(data)}
       <ViewWrapper>
         <Button
           shape="round"
@@ -406,9 +445,7 @@ export default function() {
             <Form.Item label="Giá ưu đãi" name="price_discount">
               <Input onChange={(e) => setPriceDiscount(e.target.value)} />
             </Form.Item>
-            <Form.Item label="Số lượng" name="stock">
-              <Input onChange={(e) => setStock(e.target.value)} />
-            </Form.Item>
+            
             <Form.Item label="Mô tả" name="description">
               <TextArea
                 rows={4}
@@ -432,6 +469,20 @@ export default function() {
                 <Radio value={0}>Nam</Radio>
                 <Radio value={1}>Nữ</Radio>
               </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Loại dịch vụ" name="category">
+              <Select
+                defaultValue={1}
+                style={{ width: 200 }}
+                onChange={handleChange}
+                
+              >
+                {category.map((category) => (
+                  <Option key={category.id} value={category.id}>
+                    {category.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Form>
         </FormWrapper>
