@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import MyRenderSignUpForm from "./MyRenderSignUpForm";
 import { MyFormWrapper } from "./SignUp.style";
 import axios from "axios";
+import { API_URL } from "../../settings/constant";
 
 const initialValues = {
   // email: "",
@@ -64,10 +65,10 @@ const getRegisterValidationSchema = () => {
 };
 
 const signUp = async (params) => {
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let checkLogined = false;
 
-  let res = await axios.post(`${apiUrl}/g/create_customer`, {
+  let res = await axios.post(`${API_URL}/g/create_customer`, {
     username: params.username,
     email: `${params.username}@abc.com`,
     password: params.password,

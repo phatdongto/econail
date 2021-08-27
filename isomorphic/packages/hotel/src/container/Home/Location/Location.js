@@ -13,6 +13,7 @@ import axios from "axios";
 import {
   SERVICE_SINGLE_POST_PAGE,
   LISTING_POSTS_PAGE,
+  API_URL,
 } from "../../../settings/constant";
 import LocationWrapper, { CarouselSection } from "./Location.style";
 const carouselOptions = {
@@ -52,10 +53,10 @@ const LocationGrid = () => {
   const { data } = useDataApi("/data/location.json");
 
   const [services, setServices] = useState([]);
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let test = [];
   useEffect(() => {
-    axios.get(`${apiUrl}/g/service`).then((res) => {
+    axios.get(`${API_URL}/g/service`).then((res) => {
       if (res.data.status) {
         test = [...res.data.data.data];
         setServices(test);

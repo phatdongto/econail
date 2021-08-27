@@ -8,6 +8,7 @@ import SectionTitle from "@hotel/components/SectionTitle/SectionTitle";
 import useWindowSize from "@iso/lib/hooks/useWindowSize";
 import useDataApi from "@iso/lib/hooks/useDataApi";
 import axios from "axios";
+import { API_URL } from "../../../settings/constant";
 import {
   LISTING_POSTS_PAGE,
   SINGLE_POST_PAGE,
@@ -19,10 +20,10 @@ const TopHotelsGrid = () => {
 
   const [products, setProducts] = useState([]);
 
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let test = [];
   useEffect(() => {
-    axios.get(`${apiUrl}/g/product`).then((res) => {
+    axios.get(`${API_URL}/g/product`).then((res) => {
       if (res.data.status) {
         test = [...res.data.data.data];
         setProducts(test);

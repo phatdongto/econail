@@ -11,6 +11,8 @@ import ImageCard from "@hotel/components/ImageCard/ImageCard";
 import GlideCarousel, { GlideSlide } from "@iso/ui/GlideCarousel/GlideCarousel";
 import useDataApi from "@iso/lib/hooks/useDataApi";
 import axios from "axios";
+import { API_URL } from "../../settings/constant";
+
 import {
   SERVICE_SINGLE_POST_PAGE,
   LISTING_POSTS_PAGE,
@@ -55,10 +57,10 @@ export default function ServiceListing() {
   const { data } = useDataApi("/data/location.json");
 
   const [services, setServices] = useState([]);
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let test = [];
   useEffect(() => {
-    axios.get(`${apiUrl}/g/service`).then((res) => {
+    axios.get(`${API_URL}/g/service`).then((res) => {
       if (res.data.status) {
         test = [...res.data.data.data];
         setServices(test);

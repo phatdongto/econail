@@ -6,6 +6,7 @@ import { CartLayout, CartWrapper } from "./CartTable.styles";
 import { InputNumber } from "antd";
 import { CHECKOUT_PAGE } from "../../settings/constant";
 import axios from "axios";
+import { API_URL } from "../../settings/constant";
 function formatCurrency(value) {
   return Number(value).toLocaleString("en-US", {
     style: "currency",
@@ -186,13 +187,13 @@ export default function Page() {
   // const [products, setProducts] = React.useState(CLONE_PRODUCTS);
 
   const [products, setProducts] = React.useState([]);
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
 
   const getItem = async () => {
     let itemsInCart = JSON.parse(localStorage.getItem("items_in_cart"));
     let cart = Promise.all(
       await itemsInCart.map(async (item) => {
-        let test = await axios.get(`${apiUrl}/g/product/${item.id}`);
+        let test = await axios.get(`${API_URL}/g/product/${item.id}`);
         test = test.data.data;
         test.quantity = item.amount;
         // console.log("testtt", test);
@@ -313,7 +314,7 @@ export default function Page() {
       }),
     };
     axios
-      .post(`${apiUrl}/c/order`, orderForm, {
+      .post(`${API_URL}/c/order`, orderForm, {
         headers: {
           Authorization: `Bearer ${loginedUser.access_token}`,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -330,7 +331,7 @@ export default function Page() {
         }
       });
 
-    // let tmp = axios.get(`${apiUrl}/c/order`);
+    // let tmp = axios.get(`${API_URL}/c/order`);
     // console.log("orderForm: ", orderForm);
     // console.log("token: ", `Bearer ${loginedUser.access_token}`);
   };

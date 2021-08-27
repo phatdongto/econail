@@ -3,7 +3,7 @@ import React, { Component, useState } from "react";
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { HOME_PAGE } from "../../settings/constant";
+import { HOME_PAGE, API_URL } from "../../settings/constant";
 
 import BillingForm from "./BillingForm";
 import OrderInfo from "./OrderInfo";
@@ -20,13 +20,13 @@ const Payment = () => {
   const [checkoutData, setCheckoutData] = useState({});
 
   const [products, setProducts] = React.useState([]);
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
 
   const getItem = async () => {
     let itemsInCart = JSON.parse(localStorage.getItem("items_in_cart"));
     let cart = Promise.all(
       await itemsInCart.map(async (item) => {
-        let test = await axios.get(`${apiUrl}/g/product/${item.id}`);
+        let test = await axios.get(`${API_URL}/g/product/${item.id}`);
         test = test.data.data;
         test.quantity = item.amount;
         // console.log("testtt", test);

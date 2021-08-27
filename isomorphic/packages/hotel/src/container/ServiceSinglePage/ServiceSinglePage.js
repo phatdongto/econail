@@ -15,7 +15,7 @@ import axios from "axios";
 
 // import Location from '../SinglePage/Location/Location';
 // import Review from '../SinglePage/Review/Review';
-import { SERVICE_ORDER } from "../../settings/constant";
+import { SERVICE_ORDER, API_URL } from "../../settings/constant";
 
 // import TopBar from '../SinglePage/TopBar/TopBar';
 import SinglePageWrapper, { PostImage } from "./ServiceSinglePage.style";
@@ -63,12 +63,12 @@ const ServiceSinglePage = ({ match }) => {
 
   const [service, setService] = useState({});
 
-  const apiUrl = "http://econail.localhost/api";
+  // const API_URL = "http://econail.localhost/api";
   let test = {};
   useEffect(() => {
     let serviceID = localStorage.getItem("current_service_id");
 
-    axios.get(`${apiUrl}/g/service/${serviceID}`).then((res) => {
+    axios.get(`${API_URL}/g/service/${serviceID}`).then((res) => {
       if (res.status) {
         test = res.data.data;
         // console.log(res.data.data);
@@ -97,12 +97,9 @@ const ServiceSinglePage = ({ match }) => {
       <DescriptionArea>Thời gian: {service.time_estimate}</DescriptionArea>
 
       <FormActionArea>
-      <Link to={SERVICE_ORDER}>
-      <button>
-        Đặt lịch ngay
-        </button>
-      </Link>
-        
+        <Link to={SERVICE_ORDER}>
+          <button>Đặt lịch ngay</button>
+        </Link>
       </FormActionArea>
     </SinglePageServiceWrapper>
   );

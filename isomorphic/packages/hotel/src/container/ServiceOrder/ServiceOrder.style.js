@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 export const Component = styled.div`
   padding: 0px 10px;
@@ -8,7 +8,8 @@ export const Component = styled.div`
   margin-top: 10px;
 
   input,
-  .chooseSalon{
+  label,
+  .chooseSalon {
     width: 100% !important;
     padding: 12px 20px;
 
@@ -34,9 +35,9 @@ export const Component = styled.div`
   //   border : none!important;
   // }
 
-  .ant-select-selection--single{
-    border : none!important;
-    padding : 0!important;
+  .ant-select-selection--single {
+    border: none !important;
+    padding: 0 !important;
   }
 
   .ant-select-enabled {
@@ -44,44 +45,40 @@ export const Component = styled.div`
     // border : none!important;
   }
 
-  .ant-select-selection__rendered{
-    margin : 0!important;
-    padding : 0px!important;
+  .ant-select-selection__rendered {
+    margin: 0 !important;
+    padding: 0px !important;
   }
 
   // .ant-select-selection__rendered>div{
   //   margin : 0!important;
   // }
 
-  .ant-calendar-picker-input{
-    border : none;
-    padding : 0!important;
+  .ant-calendar-picker-input {
+    border: none;
+    padding: 0 !important;
   }
-
 `;
 
 export const styles = {
-  width: '100%',
-  padding: '6px 20px',
+  width: "100%",
+  padding: "6px 20px",
   display: "outline-block",
   border: "1px solid #ccc",
   borderRadius: "4px",
   // boxSizing: "border-box",
-}
+};
 
 export const colourStyles = {
-  control: styles => ({ width : '100%', backgroundColor: 'white' }),
+  control: (styles) => ({ width: "100%", backgroundColor: "white" }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // const color = chroma(data.color);
     return {
-      
-      backgroundColor: isDisabled ? 'red' : 'blue',
-      color: '#FAF',
-      cursor: isDisabled ? 'not-allowed' : 'default',
-      
+      backgroundColor: isDisabled ? "red" : "blue",
+      color: "#FAF",
+      cursor: isDisabled ? "not-allowed" : "default",
     };
   },
-
 };
 
 const ServiceOrderWrapper = styled.div`

@@ -136,7 +136,7 @@ export default function SignUp() {
         />
       </SignUpBannerWrapper>
 
-      <Button onClick={handleShow}>Modal</Button>
+      {/* <Button onClick={handleShow}>Modal</Button> */}
       <Modal
         show={show}
         onHide={handleClose}

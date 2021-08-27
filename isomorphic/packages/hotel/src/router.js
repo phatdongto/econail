@@ -21,6 +21,8 @@ import {
   PRICING_PLAN_PAGE,
   SERVICE_LISTING_PAGE,
   SERVICE_ORDER,
+  USER_ORDERS_PAGE,
+  ORDER_DETAIL_PAGE,
 } from "./settings/constant";
 
 /**
@@ -57,6 +59,28 @@ const routes = [
         import(/* webpackChunkName: "SignUp" */ "./container/SignUp/SignUp"),
       loading: Loading,
       modules: ["SignUp"],
+    }),
+  },
+  {
+    path: USER_ORDERS_PAGE,
+    component: Loadable({
+      loader: () =>
+        import(
+          /* webpackChunkName: "SignUp" */ "./container/UserOrders/UserOrders"
+        ),
+      loading: Loading,
+      modules: ["UserOrder"],
+    }),
+  },
+  {
+    path: ORDER_DETAIL_PAGE,
+    component: Loadable({
+      loader: () =>
+        import(
+          /* webpackChunkName: "SignUp" */ "./container/OrderDetail/OrderDetail"
+        ),
+      loading: Loading,
+      modules: ["OrderDetail"],
     }),
   },
   {

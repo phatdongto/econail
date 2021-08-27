@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../settings/constant";
 
 const loginedUser = JSON.parse(localStorage.getItem("loginedUser"));
 
@@ -47,8 +48,6 @@ const Paypal = (props) => {
           });
         },
         onApprove: async (data, actions) => {
-          const apiUrl = "http://econail.localhost/api";
-
           //get current orderid
           let order_id = JSON.parse(localStorage.getItem("current_order_info"))
             .id;
@@ -57,7 +56,7 @@ const Paypal = (props) => {
 
           localStorage.setItem("Paypal_res", JSON.stringify(Paypal_res));
 
-          let orderForm = await axios.get(`${apiUrl}/c/order/${order_id}`, {
+          let orderForm = await axios.get(`${API_URL}/c/order/${order_id}`, {
             headers: {
               Authorization: `Bearer ${loginedUser.access_token}`,
             },
@@ -70,7 +69,7 @@ const Paypal = (props) => {
           orderForm.note = JSON.stringify(Paypal_res);
 
           await axios
-            .post(`${apiUrl}/c/order/${order_id}/update`, orderForm, {
+            .post(`${API_URL}/c/order/${order_id}/update`, orderForm, {
               headers: {
                 Authorization: `Bearer ${loginedUser.access_token}`,
                 "Access-Control-Allow-Methods":
