@@ -22,6 +22,7 @@ import services_1 from "../../services";
 import AddServiceView from "./ModalView/AddServiceView";
 
 import axios from "axios";
+const { Search } = Input;
 const { TextArea } = Input;
 const {Option} = Select;
 export default function() {
@@ -151,7 +152,7 @@ export default function() {
   }, []);
   const [state, setState] = React.useState({
     dataList: services_1.data.data,
-    filterDropdownVisible: false,
+    
     searchText: "",
     filtered: false,
     service: {},
@@ -159,31 +160,13 @@ export default function() {
     service_name: null,
   });
 
-  function onSearch() {
-    let { searchText } = state;
-    searchText = searchText.toUpperCase();
-    const dataList = services_1.data.data.filter((data) =>
-      data["name"].toUpperCase().includes(searchText)
-    );
-    setState({
-      dataList,
-      filterDropdownVisible: false,
-      searchText: "",
-      filtered: false,
-    });
-  }
+  
   function onInputChange(event) {
     setState({ ...state, searchText: event.target.value });
   }
-  let { searchText } = state;
 
-  const filterDropdown = (
-    <FilterDropdown
-      searchText={searchText}
-      onInputChange={onInputChange}
-      onSearch={onSearch}
-    />
-  );
+
+ 
 
   const [visibleInfo, setVisibleInfo] = React.useState(false);
   const showDrawerInfo = () => {
@@ -205,6 +188,7 @@ export default function() {
       setTimeout(() => {
         setVisibleDeleteModal(false);
         setConfirmLoading(false);
+        setData([]);
         getService();
       }, 2000);
     }
@@ -236,12 +220,13 @@ export default function() {
     console.log("Clicked cancel button");
     setVisible(false);
   };
-  const handleDeleteService = () => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
-    });
-  };
+  let { searchText } = state;
+  searchText = searchText.toUpperCase();
+  const filterdData = searchText // based on text, filter data and use filtered data
+    ? data.filter((branch) =>
+    branch["name"].toUpperCase().includes(searchText))
+    : data;
+ 
   function handleChange(value) {
     setCategoryId(value);
   }
@@ -251,18 +236,7 @@ export default function() {
       dataIndex: "name",
       key: "name",
       width: "12%",
-      filterDropdown,
-      filterIcon: (
-        <Icon
-          type="search"
-          style={{ color: state.filtered ? "#108ee9" : "#aaa" }}
-        />
-      ),
-      filterDropdownVisible: state.filterDropdownVisible,
-      onFilterDropdownVisibleChange: (visible) => {
-        setState({ ...state, filterDropdownVisible: visible });
-        document.getElementById("tableFilterInput").focus();
-      },
+      
     },
     {
       title: "Giá",
@@ -358,13 +332,19 @@ export default function() {
       setVisible(false);
       setConfirmLoading(false);
     } else {
-      history.push("/dashboard");
+      Modal.error({
+        title: 'Lỗi',
+        content: 'Kiểm tra các thông tin nhập',
+      });
+      setConfirmLoading(false);
     }
   };
   return (
     <>
       {console.log(data)}
       <ViewWrapper>
+        <div className="a">
+        <Search placeholder="Tìm dịch vụ" style={{ width: 200 }}  onChange={onInputChange} />
         <Button
           shape="round"
           onClick={showModal}
@@ -376,7 +356,8 @@ export default function() {
         >
           Thêm dịch vụ mới +
         </Button>
-        <TableWrapper dataSource={data} columns={columns} />
+        </div>
+        <TableWrapper dataSource={filterdData} columns={columns} />
       </ViewWrapper>
 
       <Drawer

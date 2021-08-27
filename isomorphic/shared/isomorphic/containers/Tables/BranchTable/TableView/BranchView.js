@@ -19,6 +19,7 @@ export default function() {
   const [branch,setBranch] =useState({
     branch_id:null,
     branch_name:null,
+    searchText:'',
   });
   const [form] = Form.useForm();
   function getBranch() {
@@ -96,6 +97,17 @@ export default function() {
     { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(res=>res.data.status);
 
+  }
+  //Search
+  let { searchText } = branch;
+  searchText = searchText.toUpperCase();
+  const filterdData = searchText // based on text, filter data and use filtered data
+    ? data.filter((branch) =>
+    branch["name"].toUpperCase().includes(searchText))
+    : data;
+  
+  function onInputChange(event) {
+    setBranch({ ...branch, searchText: event.target.value });
   }
   const handleOkDeleteModal = async () => {
     setModalText("The modal will be closed after two seconds");
@@ -223,7 +235,7 @@ export default function() {
     <>
       <ViewWrapper>
         <div className="a">
-          <Search placeholder="Tìm chi nhánh" style={{ width: 200 }} />
+          <Search placeholder="Tìm chi nhánh" style={{ width: 200 }}  onChange={onInputChange} />
 
           <Button
             shape="round "
@@ -240,7 +252,7 @@ export default function() {
           </Button>
         </div>
 
-        <TableWrapper dataSource={data} columns={columns} />
+        <TableWrapper dataSource={filterdData} columns={columns} />
       </ViewWrapper>
       <Modal
               title="Xác nhận"
