@@ -121,7 +121,13 @@ export default function() {
     
     }
     else{
-      setVisible(false);
+      
+        Modal.error({
+          title: 'Lỗi',
+          content: 'Kiểm tra các thông tin nhập',
+        });
+        setConfirmLoading(false);
+      
     }
 
   }
@@ -141,6 +147,7 @@ export default function() {
         
         setVisibleDeleteModal(false);
         setConfirmLoading(false);
+        setData([])
         getEmployeeService()
         
         
@@ -148,18 +155,13 @@ export default function() {
       }, 2000);
     }
   };
-  function onSearch() {
-    let { searchText } = state;
-
-    searchText = searchText.toUpperCase();
-    
-    const filter =data.filter((emp) =>
-    emp["username"].toUpperCase().includes(searchText));
-    setData(filter);
-    setState({
-      searchText:""
-    })
-  }
+  
+  let { searchText } = state;
+  searchText = searchText.toUpperCase();
+  const filterdData = searchText // based on text, filter data and use filtered data
+    ? data.filter((branch) =>
+    branch["username"].toUpperCase().includes(searchText))
+    : data;
   function onInputChange(event) {
     setState({ ...state, searchText: event.target.value });
   }
@@ -284,8 +286,8 @@ export default function() {
       <ViewWrapper>
         <div className="a">
           <div>
-          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} onChange={onInputChange} onSearch={onSearch} enterButton />
-          <Button onClick={handleResetFilter}>Reset</Button>
+          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} onChange={onInputChange}  />
+          
           </div>
 
           <Button
@@ -302,7 +304,7 @@ export default function() {
             <span>Thêm nhân viên dịch vụ   <i className="ion-person-add" /></span>
           </Button>
         </div>
-        <TableWrapper dataSource={data} columns={columns} />
+        <TableWrapper dataSource={filterdData} columns={columns} />
       </ViewWrapper>
       <Modal
                 title="Xác nhận"
@@ -326,7 +328,7 @@ export default function() {
       >
         <FormWrapper>
           <Form form={form} name="basic" layout="vertical" hideRequiredMark>
-            <Form.Item label="Tên nhân viên" name="name">
+            <Form.Item label="Tên nhân viên" name="name" rules={[{ required: true }]}>
               <Input
                 onChange={(e) => {
                   setName(e.target.value);

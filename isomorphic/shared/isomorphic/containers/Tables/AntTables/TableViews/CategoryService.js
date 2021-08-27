@@ -73,7 +73,11 @@ export default function() {
       
       }
       else{
-        setVisible(false);
+        Modal.error({
+          title: 'Lỗi',
+          content: 'Kiểm tra các thông tin nhập',
+        });
+        setConfirmLoading(false);
       }
   
     }

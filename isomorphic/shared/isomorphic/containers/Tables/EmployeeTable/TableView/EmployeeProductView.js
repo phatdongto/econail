@@ -25,7 +25,7 @@ export default function() {
   });
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [data1, setData1] = useState([]);
+ 
   function getEmployeeProduct() {
     axios
       .get(`http://econail.localhost/api/sub_admin/staff?role=2`, {
@@ -54,7 +54,7 @@ export default function() {
               const employee= res.data.data.data
               const filteredProducts = employee.filter(emp => emp.tail_id == tail_id)
               setData(old => [...old, ...filteredProducts]);
-              setData1(old => [...old, ...filteredProducts]);
+              
                
 
             }
@@ -100,6 +100,11 @@ export default function() {
     
     }
     else{
+      Modal.error({
+        title: 'Lỗi',
+        content: 'Kiểm tra các thông tin nhập',
+      });
+      setConfirmLoading(false);
       setVisible(false);
     }
 
@@ -184,24 +189,17 @@ export default function() {
     console.log("Clicked cancel button");
     setVisible(false);
   };
-  function onSearch() {
-    let { searchText } = state;
-
-    searchText = searchText.toUpperCase();
-    
-    const filter =data.filter((emp) =>
-    emp["username"].toUpperCase().includes(searchText));
-    setData(filter);
-    setState({
-      searchText:""
-    })
-    
-  }
+  let { searchText } = state;
+  searchText = searchText.toUpperCase();
+  const filterdData = searchText // based on text, filter data and use filtered data
+    ? data.filter((branch) =>
+    branch["username"].toUpperCase().includes(searchText))
+    : data;
   function onInputChange(event) {
     setState({ ...state, searchText: event.target.value });
     
   }
-  let {searchText}=state
+ 
   const columns = [
     {
       title: "Tên đăng nhập",
@@ -273,10 +271,9 @@ export default function() {
    
       <ViewWrapper>
       <div className="a">
-          <div>
-          <Search placeholder="Nhập tên nhân viên" value={state.searchText} onSearch={onSearch} allowClear onChange={onInputChange} style={{ width: 200 }} enterButton />
-          <Button onClick={handleResetFilter}>Reset</Button>
-          </div>
+          
+          <Search placeholder="Nhập tên nhân viên"  allowClear onChange={onInputChange} style={{ width: 200 }}  />
+          
           <Button
             shape="round "
             onClick={showModal}
@@ -285,7 +282,7 @@ export default function() {
             <span>Thêm nhân viên   <i className="ion-person-add" /></span>
           </Button>
           </div>
-        <TableWrapper dataSource={data} columns={columns} />
+        <TableWrapper dataSource={filterdData} columns={columns} />
       </ViewWrapper>
       <Modal
               title="Xác nhận"

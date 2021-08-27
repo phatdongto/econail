@@ -84,7 +84,11 @@ const {TextArea} = Input
       
       }
       else{
-        setVisible(false);
+        Modal.error({
+          title: 'Lỗi',
+          content: 'Kiểm tra các thông tin nhập',
+        });
+        setConfirmLoading(false);
       }
   
     }
@@ -116,6 +120,7 @@ const {TextArea} = Input
           
           setVisibleDeleteModal(false);
           setConfirmLoading(false);
+          setData([])
           getCategoryProduct()
           
           
