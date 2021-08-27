@@ -13,6 +13,7 @@ import {
   Button,
   Popconfirm,
 } from "antd";
+import { API_URL } from "../../../../config/url/url";
 import services_1 from "../../services";
 import axios from "axios";
 const {TextArea} =Input;
@@ -39,7 +40,7 @@ const DrawerCategoryService = (props) => {
   function getOneCategory(id_number) {
     //const id =  id_number.toString();
     axios
-      .get(`http://econail.localhost/api/admin/service_category/${id_number}`, {
+      .get(`${API_URL}/admin/service_category/${id_number}`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -60,10 +61,10 @@ const DrawerCategoryService = (props) => {
   }, [id_category]);
   
   async function UpdateCategory (id_number) {
-    return axios.post(`http://econail.localhost/api/admin/service_category/${id_number}/update`,
+    return axios.post(`${API_URL}/admin/service_category/${id_number}/update`,
     {
         "name" : name,
-        "note" : "HAy"
+        "note" : description,
     },
         {
           headers: {

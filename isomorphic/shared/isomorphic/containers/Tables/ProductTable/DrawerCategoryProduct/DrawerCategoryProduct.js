@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { API_URL } from "../../../../config/url/url";
 import {
   Drawer,
   Descriptions,
@@ -39,7 +39,7 @@ const DrawerProduct = (props) => {
   function getOneCategory(id_number) {
     //const id =  id_number.toString();
     axios
-      .get(`http://econail.localhost/api/admin/product_category/${id_number}`, {
+      .get(`${API_URL}/admin/product_category/${id_number}`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -58,10 +58,10 @@ const DrawerProduct = (props) => {
     
     };
     fetchData();
-  }, [`http://econail.localhost/api/admin/product_category/${id_category}`]);
+  }, [`${API_URL}/admin/product_category/${id_category}`]);
   
   async function UpdateCategory (id_number) {
-    return axios.post(`http://econail.localhost/api/admin/product_category/${id_number}/update`,
+    return axios.post(`${API_URL}/admin/product_category/${id_number}/update`,
     {
         "name" : `${name}`,
         "note" : "HAy"

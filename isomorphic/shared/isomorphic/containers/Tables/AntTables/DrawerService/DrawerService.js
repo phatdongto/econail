@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { Drawer, Descriptions, Modal, Radio,Form,Input,Button,Popconfirm } from "antd";
 import services_1 from "../../services";
 import axios from "axios";
+import { API_URL } from "../../../../config/url/url";
 const DrawerService=(props)=>{
     const id_string=props.service.id;
     const [data, setData] = useState({});
@@ -30,7 +31,7 @@ const DrawerService=(props)=>{
   
     //const id =  id_number.toString();
      axios
-      .get(`http://econail.localhost/api/admin/service/${id_number}`, {
+      .get(`${API_URL}/admin/service/${id_number}`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -50,7 +51,7 @@ const DrawerService=(props)=>{
         fetchData()
   }, [id_string]);
   async function UpdateService(serviceID) {  
-    return axios.post(`http://econail.localhost/api/admin/service/${serviceID}/update`,
+    return axios.post(`${API_URL}/admin/service/${serviceID}/update`,
     {
         "name" : name,
         "price" : parseInt(`${price}`),  

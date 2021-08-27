@@ -30,14 +30,14 @@ export default function Invoices() {
   const match = useRouteMatch();
   function getCustomer() {
     axios
-      .get(`http://econail.localhost/api/g/user?is_customer=1`)
+      .get(`${API_URL}/g/user?is_customer=1`)
       .then((response) => {
         if(response.data.status == true ){
         const total_pages = response.data.data.meta["last_page"];
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/g/user?is_customer=1&page=${page}`)
+          axios.get(`${API_URL}/g/user?is_customer=1&page=${page}`)
             .then((res) => {
                
                 setData(old => [...old, ...res.data.data.data]);

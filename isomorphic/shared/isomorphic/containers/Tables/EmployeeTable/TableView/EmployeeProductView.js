@@ -8,6 +8,7 @@ import { Button, Drawer, Badge } from "antd";
 import { FormWrapper, ViewWrapper } from "../../AntTables/AntTables.styles";
 import { Form, Input, Checkbox, Modal, Select } from "antd";
 import DrawerEmployee from "./DrawerEmployeeService";
+import { API_URL } from "../../../../config/url/url";
 import axios from "axios";
 import { dataList } from "../../AntTables/AntTables";
 const { Search } = Input;
@@ -28,7 +29,7 @@ export default function() {
  
   function getEmployeeProduct() {
     axios
-      .get(`http://econail.localhost/api/sub_admin/staff?role=2`, {
+      .get(`${API_URL}/sub_admin/staff?role=2`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -41,7 +42,7 @@ export default function() {
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/sub_admin/staff?role=2&page=${page}`, {
+          axios.get(`${API_URL}/sub_admin/staff?role=2&page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -72,7 +73,7 @@ export default function() {
   const [fullname,setFullname] = useState();
   const [phone,setPhone] = useState();
   async function AddEmployee(){
-    return axios.post('http://econail.localhost/api/sub_admin/staff',
+    return axios.post(`${API_URL}/sub_admin/staff`,
     {
       "username" : name, 
       "email" : email,
@@ -123,7 +124,7 @@ export default function() {
   
   // Delete Employee
   async function DeleleEmployee(employee_id) {  
-    return axios.get(`http://econail.localhost/api/sub_admin/staff/${employee_id}/delete`,
+    return axios.get(`${API_URL}/sub_admin/staff/${employee_id}/delete`,
     { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(res=>res.data.status);
 

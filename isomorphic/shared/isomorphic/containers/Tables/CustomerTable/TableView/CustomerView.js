@@ -8,7 +8,7 @@ import categories from "../../category"
 import { Drawer,Descriptions,Badge , Modal} from 'antd';
 import { Link ,useRouteMatch} from 'react-router-dom';
 import _ from 'lodash';
-
+import { API_URL } from '../../../../config/url/url';
 
 export default function() {
   const [data, setData] = useState([]);
@@ -24,14 +24,14 @@ export default function() {
   const [visibleInfo, setVisibleInfo] = React.useState(false);
   function getCustomer() {
     axios
-      .get(`http://econail.localhost/api/g/user?is_customer=1`)
+      .get(`${API_URL}/g/user?is_customer=1`)
       .then((response) => {
         if(response.data.status == true ){
         const total_pages = response.data.data.meta["last_page"];
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/admin/user?is_customer=1&page=${page}`, {
+          axios.get(`${API_URL}/admin/user?is_customer=1&page=${page}`, {
               
             })
             .then((res) => {

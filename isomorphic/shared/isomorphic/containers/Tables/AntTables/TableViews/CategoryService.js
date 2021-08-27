@@ -7,12 +7,13 @@ import categories from "../../category";
 import { Drawer, Descriptions, Badge, Modal,Form,Input } from "antd";
 import { FormWrapper } from "../AntTables.styles";
 import DrawerCategoryService from "./DrawerCategoryService";
+import { API_URL } from "../../../../config/url/url";
 const {TextArea} = Input
 export default function() {
   const [state, setState] = React.useState({
     category_service: {},
   });
-  const url="http://econail.localhost/api/admin/service_category"
+  const url=`${API_URL}/admin/service_category`
   const [data, setData] = useState([]);
   const [add,setAdd]= useState(0);
   const USER_TOKEN=localStorage.getItem('token');
@@ -20,13 +21,13 @@ export default function() {
   const [name,setName] = useState();
   const [description,setDescription] = useState();
   function getCategoryService(){
-    axios.get('http://econail.localhost/api/admin/service_category',{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
+    axios.get(`${API_URL}/admin/service_category`,{ headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(response=>{
         const total_pages = response.data.data.meta["last_page"];
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/admin/service_category?page=${page}`, {
+          axios.get(`${API_URL}/admin/service_category?page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
