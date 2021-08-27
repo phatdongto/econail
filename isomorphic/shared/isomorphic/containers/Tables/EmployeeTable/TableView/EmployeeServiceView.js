@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import DrawerEmployee from "./DrawerEmployeeService";
 import service_employee from "../../service_employee";
 import axios from "axios";
+import { API_URL } from "../../../../config/url/url";
 const { Search } = Input;
 const { TextArea } = Input;
 export default function() {
@@ -41,7 +42,7 @@ export default function() {
 
   function getEmployeeService() {
     axios
-      .get(`http://econail.localhost/api/sub_admin/staff?role=3`, {
+      .get(`${API_URL}/sub_admin/staff?role=3`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -54,7 +55,7 @@ export default function() {
 
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/sub_admin/staff?role=3&page=${page}`, {
+          axios.get(`${API_URL}/sub_admin/staff?role=3&page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -93,7 +94,7 @@ export default function() {
   const [fullname,setFullname] = useState();
   const [phone,setPhone] = useState();
   async function AddEmployee(){
-    return axios.post('http://econail.localhost/api/sub_admin/staff',
+    return axios.post(`${API_URL}/sub_admin/staff`,
     {
       "username" : name, 
       "email" : email,
@@ -133,7 +134,7 @@ export default function() {
   }
   // Delete Employee
   async function DeleleEmployee(employee_id) {  
-    return axios.get(`http://econail.localhost/api/sub_admin/staff/${employee_id}/delete`,
+    return axios.get(`${API_URL}/sub_admin/staff/${employee_id}/delete`,
     { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(res=>res.data.status);
 

@@ -12,6 +12,8 @@ import { Drawer, Descriptions, Badge, Modal, Form, Input, Radio } from "antd";
 import DrawerProduct from "../DrawerDetailProduct/DrawerDetailProduct";
 import products from "../../product";
 
+import { API_URL } from "../../../../config/url/url";
+
 //import AddEmployeeView from "../../EmployeeTable/TableView/ModalView/AddEmployeeView";
 const { Search } = Input;
 const { TextArea } = Input;
@@ -44,7 +46,7 @@ export default function(props) {
   const [visibleInfo, setVisibleInfo] = React.useState(false);
 
   const showDrawerInfo = (name) => {
-    name1 = name;
+
     setVisibleInfo(true);
   };
   const handleCancelDrwerInfo = () => {
@@ -157,7 +159,9 @@ export default function(props) {
   const [data, setData] = useState([]);
   function getCategoryProduct() {
     axios
-      .get("http://econail.localhost/api/admin/product_category", {
+
+      .get(`${API_URL}/admin/product_category`, {
+
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -171,7 +175,9 @@ export default function(props) {
         while (page <= total_pages) {
           axios
             .get(
-              `http://econail.localhost/api/admin/product_category?page=${page}`,
+
+              `${API_URL}/admin/product_category?page=${page}`,
+
               {
                 headers: {
                   Authorization: AuthStr,
@@ -192,7 +198,7 @@ export default function(props) {
   }
   function getProduct() {
     axios
-      .get("http://econail.localhost/api/admin/product", {
+      .get(`${API_URL}/admin/product`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -205,7 +211,9 @@ export default function(props) {
         let page = 1;
         while (page <= total_pages) {
           axios
-            .get(`http://econail.localhost/api/admin/product?page=${page}`, {
+
+            .get(`${API_URL}/admin/product?page=${page}`, {
+
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -229,7 +237,9 @@ export default function(props) {
   // Delete Product
   async function DeleteProduct(productID) {
     return axios
-      .get(`http://econail.localhost/api/admin/product/${productID}/delete`, {
+
+      .get(`${API_URL}/admin/product/${productID}/delete`, {
+
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -264,7 +274,9 @@ export default function(props) {
   async function AddProduct() {
     return axios
       .post(
-        "http://econail.localhost/api/admin/product",
+
+        `${API_URL}/admin/product`,
+
         {
           name: name,
           price: parseInt(`${price}`),

@@ -7,7 +7,7 @@ import { FormWrapper } from "../../AntTables/AntTables.styles";
   import { Drawer, Descriptions, Modal, Form,Input } from "antd";
   import category_product from "../category";
   import DrawerProduct from "../DrawerCategoryProduct/DrawerCategoryProduct";
-  import AddServiceCategoryView from "./ModalView/AddServiceCategoryView";
+  import { API_URL } from "../../../../config/url/url";
 import category from "../category";
 const {TextArea} = Input
   export default function() {
@@ -24,7 +24,7 @@ const {TextArea} = Input
     });
     function getCategoryProduct() {
       axios
-        .get("http://econail.localhost/api/admin/product_category", {
+        .get(`${API_URL}/admin/product_category`, {
           headers: {
             Authorization: AuthStr,
             "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -36,7 +36,7 @@ const {TextArea} = Input
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/admin/product_category?page=${page}`, {
+          axios.get(`${API_URL}/admin/product_category?page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -56,7 +56,7 @@ const {TextArea} = Input
         });
     }
     async function DeleleCategoryProduct(categoryid) {  
-      return axios.get(`http://econail.localhost/api/admin/product_category/${categoryid}/delete`,
+      return axios.get(`${API_URL}/admin/product_category/${categoryid}/delete`,
       { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
       .then(res=>res.data.status);
   
@@ -65,7 +65,7 @@ const {TextArea} = Input
     const [name,setName] = useState();
     const [description,setDescription] = useState();
     async function AddCategory(){
-      return axios.post('http://econail.localhost/api/admin/product_category',
+      return axios.post(`${API_URL}/admin/product_category`,
       {
         "name" : name,
         "note" : description

@@ -17,6 +17,7 @@ import { ViewTable } from "./InvoiceTable";
 import invoiceActions from "@iso/redux/invoice/actions";
 import { Select } from "antd";
 import InvoiceAddress from '@iso/components/Invoice/Address';
+import { API_URL } from "../../config/url/url";
 const { Option } = Select;
 const{TextArea} =Input;
 const { updateInvoice, editInvoice } = invoiceActions;
@@ -95,7 +96,7 @@ export default function(props) {
     }
   };
   function updateOrder(id){
-    return axios.post(`http://econail.localhost/api/sub_admin/order/${id}/update`,
+    return axios.post(`${API_URL}/sub_admin/order/${id}/update`,
     {
         "status" : order_status,
         "delivery_status":delivery_status,

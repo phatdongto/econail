@@ -9,7 +9,7 @@ import EditInvoice from './EditInvoice'
 import ViewInvoice from './ViewInvoice';
 import Loader from '@iso/components/utility/loader';
 import invoiceActions from '@iso/redux/invoice/actions';
-
+import { API_URL } from '../../config/url/url';
 const { initData, selectCurrentInvoice, toggleView } = invoiceActions;
 export default function SingleInvoice() {
     const invoices = useSelector(state => state.Invoices);
@@ -28,7 +28,7 @@ export default function SingleInvoice() {
     function GetOneUser(id_number) {
       return axios
         .get(
-          `http://econail.localhost/api/g/user/${id_number}`,
+          `${API_URL}/g/user/${id_number}`,
   
         
         )
@@ -40,7 +40,7 @@ export default function SingleInvoice() {
     function GetOneOrder(id_number) {
       return axios
         .get(
-          `http://econail.localhost/api/sub_admin/order/${id_number}`,
+          `${API_URL}/sub_admin/order/${id_number}`,
   
           {
             headers: {

@@ -8,6 +8,7 @@ import { Modal } from "antd";
 import { FormWrapper, ViewWrapper } from "../AntTables.styles";
 import { Form, Input, Drawer} from "antd";
 import DrawerBranch from "./DrawerBranch";
+import { API_URL } from "../../../../config/url/url";
 const { Search } = Input;
 export default function() {
   const [data, setData] = useState([]);
@@ -24,7 +25,7 @@ export default function() {
   const [form] = Form.useForm();
   function getBranch() {
     axios
-      .get(`http://econail.localhost/api/admin/tail`, {
+      .get(`${API_URL}/admin/tail`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -39,7 +40,7 @@ export default function() {
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/admin/tail?page=${page}`, {
+          axios.get(`${API_URL}/admin/tail?page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -67,7 +68,7 @@ export default function() {
     setVisibleDeleteModal(true);
   };
   async function AddBranch(){
-    return axios.post('http://econail.localhost/api/admin/tail',
+    return axios.post(`${API_URL}/admin/tail`,
     {
       "name" : name, 
       "phone" : phone,
@@ -93,7 +94,7 @@ export default function() {
   };
   //Delete 
   async function DeleleBranch() {  
-    return axios.get(`http://econail.localhost/api/admin/tail/${branch.branch_id}/delete`,
+    return axios.get(`${API_URL}/admin/tail/${branch.branch_id}/delete`,
     { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(res=>res.data.status);
 

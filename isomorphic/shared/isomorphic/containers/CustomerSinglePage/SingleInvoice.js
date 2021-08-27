@@ -9,6 +9,7 @@ import Loader from "@iso/components/utility/loader";
 import invoiceActions from "@iso/redux/invoice/actions";
 import AntTable from "./AntTables/AntTables";
 import axios from "axios";
+import { API_URL } from "../../config/url/url";
 const SingleInvoice = _ => {
   
   const { state } = useLocation();
@@ -31,7 +32,7 @@ const SingleInvoice = _ => {
   function GetOneUser(id_number) {
     return axios
       .get(
-        `http://econail.localhost/api/g/user/${id_number}`
+        `${API_URL}/g/user/${id_number}`
         )
       .then((res) => {
         const data = res.data.data;
@@ -42,7 +43,7 @@ const SingleInvoice = _ => {
   }
   function getOrder() {
     axios
-      .get(`http://econail.localhost/api/sub_admin/order`,
+      .get(`${API_URL}/sub_admin/order`,
       { headers: { Authorization: AuthStr,
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         'Access-Control-Allow-Origin' : '*' }})
@@ -52,7 +53,7 @@ const SingleInvoice = _ => {
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/sub_admin/order?page=${page}`,
+          axios.get(`${API_URL}/sub_admin/order?page=${page}`,
           { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
             .then((res) => {
                

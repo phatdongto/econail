@@ -11,6 +11,7 @@ import LayoutWrapper from '../../../components/utility/layoutWrapper';
 import _ from 'lodash';
 import CardWrapper, { Box, StatusTag } from '../../Invoice/Invoice.styles';
 import axios from 'axios';
+import { API_URL } from '../../../config/url/url';
 const { initData, deleteInvoice } = invoiceActions;
 export default function Invoices() {
   const [data,setData]= useState([]);
@@ -23,7 +24,7 @@ export default function Invoices() {
   const match = useRouteMatch();
   function getOrder() {
     axios
-      .get(`http://econail.localhost/api/sub_admin/order`,
+      .get(`${API_URL}/sub_admin/order`,
       { headers: { Authorization: AuthStr,
         'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         'Access-Control-Allow-Origin' : '*' }})
@@ -33,7 +34,7 @@ export default function Invoices() {
         console.log(total_pages);
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/sub_admin/order?page=${page}`,
+          axios.get(`${API_URL}/sub_admin/order?page=${page}`,
           { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
             .then((res) => {
                

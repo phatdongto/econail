@@ -12,6 +12,7 @@ import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm';
 import authAction from '@iso/redux/auth/actions';
 import appAction from '@iso/redux/app/actions';
 import Auth0 from '../../Authentication/Auth0/Auth0';
+import { API_URL } from '../../../config/url/url';
 import {Modal} from 'antd';
 import useToken from '../../../../../packages/isomorphic/src/useToken';
 import {
@@ -25,7 +26,7 @@ import SignInStyleWrapper from './SignIn.styles';
 const { login } = authAction;
 const { clearMenu } = appAction;
 async function loginUser(username,password) {
-    const url='http://econail.localhost/api/login?username='+username+'&password='+password
+    const url=`${API_URL}/login?username=`+username+'&password='+password
     return axios.get(url)
     .then(res => res.data)
  }
