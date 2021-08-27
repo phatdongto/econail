@@ -16,6 +16,15 @@ background-color: #ffffff;
 `;
 export const ViewWrapper=styled.div`
 height:100%;
+.a{
+  
+  display : flex;
+  height:30px;
+  margin-bottom:30px;
+  width:100%;
+  justify-content:space-between;
+}
+
 `;
 
 const TableWrapper = styled(Table)`
