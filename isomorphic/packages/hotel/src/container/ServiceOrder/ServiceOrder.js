@@ -4,7 +4,7 @@ import React, { Fragment, useState, useEffect } from "react";
 // import { IoIosArrowBack } from "react-icons/io";
 // import { IoIosArrowForward } from "react-icons/io";
 // import Loader from "@hotel/components/Loader/Loader";
-import { Select, DatePicker, Button } from "antd";
+import { Select, DatePicker, Button, TimePicker } from "antd";
 import axios from "axios";
 import moment from "moment";
 import MyModal from "./Modal";
@@ -23,6 +23,11 @@ import ServiceOrderWrapper, {
 } from "./ServiceOrder.style";
 
 const { Option } = Select;
+
+const timeFormat = {
+  disabledSeconds: true,
+  minuteStep: 30,
+};
 
 function formatDate(date) {
   var d = new Date(date),
@@ -112,6 +117,10 @@ const ServiceListing = () => {
     return current && current < moment().endOf("day");
   }
 
+  const onDateRender = (currentDate, today) => {
+    console.log(currentDate, "---", today);
+  };
+
   return (
     <div
       style={{
@@ -153,8 +162,11 @@ const ServiceListing = () => {
           <DatePicker
             style={styles}
             disabledDate={disabledDate}
-            showTime
+            showTime={<TimePicker disabledSeconds minuteStep={30} />}
+            disabledSeconds
+            minuteStep={30}
             onChange={handleTimeChange}
+            // dateRender={onDateRender}
           />
         </Component>
         <button onClick={handleSubmit}>Hoàn tất</button>

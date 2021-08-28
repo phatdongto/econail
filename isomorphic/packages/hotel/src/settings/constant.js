@@ -24,7 +24,8 @@ export const CHECKOUT_PAGE = "/checkout";
 export const PAYMENT_PAGE = "/payment";
 export const USER_ORDERS_PAGE = "/user-orders";
 export const ORDER_DETAIL_PAGE = "/order-detail";
-export const API_URL = "http://econail.localhost/api";
+// export const API_URL = "http://econail.localhost/api";
+export const API_URL = "http://20.198.248.238/api";
 
 // Other Pages
 export const PRICING_PLAN_PAGE = "/pricing-plan";
