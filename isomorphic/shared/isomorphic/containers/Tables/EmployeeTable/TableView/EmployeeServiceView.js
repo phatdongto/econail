@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import DrawerEmployee from "./DrawerEmployeeService";
 import service_employee from "../../service_employee";
 import axios from "axios";
+import { API_URL } from "../../../../config/url/url";
 const { Search } = Input;
 const { TextArea } = Input;
 export default function() {
@@ -41,7 +42,7 @@ export default function() {
 
   function getEmployeeService() {
     axios
-      .get(`http://econail.localhost/api/sub_admin/staff?role=3`, {
+      .get(`${API_URL}/sub_admin/staff?role=3`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -54,7 +55,7 @@ export default function() {
 
         let page = 1;
         while(page <= total_pages){
-          axios.get(`http://econail.localhost/api/sub_admin/staff?role=3&page=${page}`, {
+          axios.get(`${API_URL}/sub_admin/staff?role=3&page=${page}`, {
               headers: {
                 Authorization: AuthStr,
                 "Access-Control-Allow-Methods":
@@ -93,7 +94,7 @@ export default function() {
   const [fullname,setFullname] = useState();
   const [phone,setPhone] = useState();
   async function AddEmployee(){
-    return axios.post('http://econail.localhost/api/sub_admin/staff',
+    return axios.post(`${API_URL}/sub_admin/staff`,
     {
       "username" : name, 
       "email" : email,
@@ -121,13 +122,19 @@ export default function() {
     
     }
     else{
-      setVisible(false);
+      
+        Modal.error({
+          title: 'Lỗi',
+          content: 'Kiểm tra các thông tin nhập',
+        });
+        setConfirmLoading(false);
+      
     }
 
   }
   // Delete Employee
   async function DeleleEmployee(employee_id) {  
-    return axios.get(`http://econail.localhost/api/sub_admin/staff/${employee_id}/delete`,
+    return axios.get(`${API_URL}/sub_admin/staff/${employee_id}/delete`,
     { headers: { Authorization: AuthStr,'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS','Access-Control-Allow-Origin' : '*' }})
     .then(res=>res.data.status);
 
@@ -141,6 +148,7 @@ export default function() {
         
         setVisibleDeleteModal(false);
         setConfirmLoading(false);
+        setData([])
         getEmployeeService()
         
         
@@ -148,18 +156,13 @@ export default function() {
       }, 2000);
     }
   };
-  function onSearch() {
-    let { searchText } = state;
-
-    searchText = searchText.toUpperCase();
-    
-    const filter =data.filter((emp) =>
-    emp["username"].toUpperCase().includes(searchText));
-    setData(filter);
-    setState({
-      searchText:""
-    })
-  }
+  
+  let { searchText } = state;
+  searchText = searchText.toUpperCase();
+  const filterdData = searchText // based on text, filter data and use filtered data
+    ? data.filter((branch) =>
+    branch["username"].toUpperCase().includes(searchText))
+    : data;
   function onInputChange(event) {
     setState({ ...state, searchText: event.target.value });
   }
@@ -284,8 +287,8 @@ export default function() {
       <ViewWrapper>
         <div className="a">
           <div>
-          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} onChange={onInputChange} onSearch={onSearch} enterButton />
-          <Button onClick={handleResetFilter}>Reset</Button>
+          <Search placeholder="Nhập tên nhân viên" style={{ width: 200 }} onChange={onInputChange}  />
+          
           </div>
 
           <Button
@@ -302,7 +305,7 @@ export default function() {
             <span>Thêm nhân viên dịch vụ   <i className="ion-person-add" /></span>
           </Button>
         </div>
-        <TableWrapper dataSource={data} columns={columns} />
+        <TableWrapper dataSource={filterdData} columns={columns} />
       </ViewWrapper>
       <Modal
                 title="Xác nhận"
@@ -326,7 +329,7 @@ export default function() {
       >
         <FormWrapper>
           <Form form={form} name="basic" layout="vertical" hideRequiredMark>
-            <Form.Item label="Tên nhân viên" name="name">
+            <Form.Item label="Tên nhân viên" name="name" rules={[{ required: true }]}>
               <Input
                 onChange={(e) => {
                   setName(e.target.value);

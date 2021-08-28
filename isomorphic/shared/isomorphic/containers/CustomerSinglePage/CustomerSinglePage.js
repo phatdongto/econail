@@ -5,9 +5,7 @@
   import EditInvoice from "./EditInvoice";
   import ViewInvoice from "./ViewInvoice";
   import Button from "@iso/ui/Antd/Button/Button";
-  import Loader from "@iso/components/utility/loader";
-  import invoiceActions from "@iso/redux/invoice/actions";
-  import AntTable from "./AntTables/AntTables";
+ import { API_URL } from "../../config/url/url";
   const SingleInvoice = _ => {
     
     const { state } = useLocation();
@@ -27,7 +25,7 @@
     function GetOneUser(id_number) {
       return axios
         .get(
-          `http://econail.localhost/api/g/user/${id_number}`,
+          `${API_URL}/g/user/${id_number}`,
   
         
         )

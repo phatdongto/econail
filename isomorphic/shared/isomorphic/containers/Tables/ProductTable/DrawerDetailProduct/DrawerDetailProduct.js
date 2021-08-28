@@ -15,11 +15,12 @@ import {
 } from "antd";
 import services_1 from "../../services";
 import axios from "axios";
+import { API_URL } from "../../../../config/url/url";
 const {TextArea} =Input;
 const DrawerProduct = (props) => {
   const id_string = props.service.id;
   const id_category = props.service.products_categories_id;
-  const update_url=`http://econail.localhost/api/admin/product/${id_string}`;
+  const update_url=`${API_URL}/admin/product/${id_string}`;
   const [url,setUrl] = useState(update_url);
   const [data, setData] = useState({});
   const [category, setCategory] = useState({});
@@ -44,7 +45,7 @@ const DrawerProduct = (props) => {
   function getCategory(id_category) {
     axios
       .get(
-        `http://econail.localhost/api/admin/product_category/${id_category}`,
+        `${API_URL}/admin/product_category/${id_category}`,
         {
           headers: {
             Authorization: AuthStr,
@@ -61,7 +62,7 @@ const DrawerProduct = (props) => {
   function getOneProduct(id_number) {
     //const id =  id_number.toString();
     axios
-      .get(`http://econail.localhost/api/admin/product/${id_number}`, {
+      .get(`${API_URL}/admin/product/${id_number}`, {
         headers: {
           Authorization: AuthStr,
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -82,7 +83,7 @@ const DrawerProduct = (props) => {
   }, [id_string,url]);
   
   async function UpdateProduct(id_number) {
-    return axios.post(`http://econail.localhost/api/admin/product/${id_number}/update`,
+    return axios.post(`${API_URL}/admin/product/${id_number}/update`,
     {
         "name" : name,
         "price" : parseInt(`${price}`),  

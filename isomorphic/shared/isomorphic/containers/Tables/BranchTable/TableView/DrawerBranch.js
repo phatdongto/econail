@@ -13,7 +13,7 @@ import {
   Button,
   Popconfirm,
 } from "antd";
-
+import { API_URL } from "../../../../config/url/url";
 import axios from "axios";
 const { TextArea } = Input;
 const DrawerBranch = (props) => {
@@ -34,7 +34,7 @@ const DrawerBranch = (props) => {
   function GetOneBranch(id_number) {
     return axios
       .get(
-        `http://econail.localhost/api/admin/tail/${id_number}`,
+        `${API_URL}/admin/tail/${id_number}`,
 
         {
           headers: {
@@ -56,7 +56,7 @@ const DrawerBranch = (props) => {
   async function UpdateBranch(id_number) {
     return axios
       .post(
-        `http://econail.localhost/api/admin/tail/${id_number}/update`,
+        `${API_URL}/admin/tail/${id_number}/update`,
         {
           name: name,
           phone: phone,

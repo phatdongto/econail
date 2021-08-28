@@ -13,6 +13,7 @@ import {
   Button,
   Popconfirm,
 } from "antd";
+import { API_URL } from "../../../../config/url/url";
 import services_1 from "../../services";
 import axios from "axios";
 const {TextArea} =Input;
@@ -35,7 +36,7 @@ const DrawerEmployee = (props) => {
   
   
   async function UpdateEmployee (id_number) {
-    return axios.post(`http://econail.localhost/api/sub_admin/staff/${id_number}/update`,
+    return axios.post(`${API_URL}/sub_admin/staff/${id_number}/update`,
     {
         "name" : `${name}`,
         "note" : "HAy"
