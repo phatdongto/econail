@@ -29,7 +29,8 @@
     "serve:iso-next": "yarn workspace isomorphicnext run serve",
     "serve:iso-boilerplate": "yarn workspace isomorphicnext run serve",
     "serve:hotel": "yarn workspace hotel run serve",
-    "serve:hotel-next": "yarn workspace hotel-next run serve"
+    "serve:hotel-next": "yarn workspace hotel-next run serve",
+    "start" : "yarn workspace hotel run start"
   },
   "husky": {
     "hooks": {
